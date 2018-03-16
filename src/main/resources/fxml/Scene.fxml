@@ -4,14 +4,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 
 <AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.sdu.projectframeworklauncher.FXMLController">
    <children>
-      <ListView fx:id="jfxListview" layoutX="14.0" layoutY="14.0" onMouseClicked="#ocListview" prefHeight="360.0" prefWidth="377.0" />
-      <Button fx:id="btnuni" layoutX="502.0" layoutY="71.0" mnemonicParsing="false" onAction="#btnUninstall" text="Uninstall" />
-      <Button fx:id="btnins" layoutX="440.0" layoutY="71.0" mnemonicParsing="false" onAction="#btnInstall" text="Install" />
-      <Button fx:id="btnsta" layoutX="440.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnStart" text="Start" />
-      <Button fx:id="btnsto" layoutX="507.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnStop" text="Stop" />
-      <Label fx:id="pathLabel" layoutX="406.0" layoutY="26.0" prefHeight="17.0" prefWidth="193.0" text="Label" />
+      <ListView fx:id="jfxListview" layoutX="14.0" layoutY="14.0" onKeyReleased="#listViewKey" onMouseClicked="#ocListview" prefHeight="360.0" prefWidth="349.0" />
+      <Button fx:id="btnuni" layoutX="500.0" layoutY="295.0" mnemonicParsing="false" onAction="#btnUninstall" prefHeight="25.0" prefWidth="75.0" text="Uninstall" />
+      <Button fx:id="btnins" layoutX="387.0" layoutY="295.0" mnemonicParsing="false" onAction="#btnInstall" prefHeight="25.0" prefWidth="75.0" text="Install" />
+      <Button fx:id="btnsta" layoutX="387.0" layoutY="336.0" mnemonicParsing="false" onAction="#btnStart" prefWidth="75.0" text="Start" />
+      <Button fx:id="btnsto" layoutX="500.0" layoutY="336.0" mnemonicParsing="false" onAction="#btnStop" prefWidth="75.0" text="Stop" />
+      <Label fx:id="pathLabel" layoutX="370.0" layoutY="50.0" prefHeight="17.0" prefWidth="223.0" />
+      <Label layoutX="370.0" layoutY="32.0" text="Module Name:" />
+      <Label layoutX="370.0" layoutY="75.0" text="Current State:" />
+      <Label fx:id="stateLabel" layoutX="370.0" layoutY="93.0" prefHeight="17.0" prefWidth="223.0" />
+      <Line endX="100.0" layoutX="481.0" layoutY="275.0" startX="-100.0" stroke="#c6c5c5" />
    </children>
 </AnchorPane>
