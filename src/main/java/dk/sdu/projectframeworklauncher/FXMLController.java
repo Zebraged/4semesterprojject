@@ -68,7 +68,7 @@ public class FXMLController implements Initializable {
         pathLabel.setText(jfxListview.selectionModelProperty().getValue().getSelectedItem().toString());
 
     }
-
+//Bundle bundle = bndlCtxt.installBundle(file.toURI().toString());
     @FXML
     private void btnUninstall(ActionEvent event) {
     }

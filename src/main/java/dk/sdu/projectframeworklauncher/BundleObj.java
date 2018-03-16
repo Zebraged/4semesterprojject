@@ -25,10 +25,8 @@ public class BundleObj {
     
     @Override
     public String toString(){
-        ArrayList<String> ss = new ArrayList<>();
-        String[] s = file.getAbsolutePath().split("\\\\");1
-        String s = 
-        return ;
+        return file.getName();
+        
     }
     
 }

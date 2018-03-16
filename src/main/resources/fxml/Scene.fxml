@@ -5,13 +5,13 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="458.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.sdu.projectframeworklauncher.FXMLController">
+<AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.sdu.projectframeworklauncher.FXMLController">
    <children>
-      <ListView fx:id="jfxListview" layoutX="14.0" layoutY="14.0" onMouseClicked="#ocListview" prefHeight="427.0" prefWidth="223.0" />
-      <Button fx:id="btnuni" layoutX="388.0" layoutY="78.0" mnemonicParsing="false" onAction="#btnUninstall" text="Uninstall" />
-      <Button fx:id="btnins" layoutX="326.0" layoutY="78.0" mnemonicParsing="false" onAction="#btnInstall" text="Install" />
-      <Button fx:id="btnsta" layoutX="326.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnStart" text="Start" />
-      <Button fx:id="btnsto" layoutX="393.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnStop" text="Stop" />
-      <Label fx:id="pathLabel" layoutX="255.0" layoutY="24.0" prefHeight="17.0" prefWidth="193.0" text="Label" />
+      <ListView fx:id="jfxListview" layoutX="14.0" layoutY="14.0" onMouseClicked="#ocListview" prefHeight="360.0" prefWidth="377.0" />
+      <Button fx:id="btnuni" layoutX="502.0" layoutY="71.0" mnemonicParsing="false" onAction="#btnUninstall" text="Uninstall" />
+      <Button fx:id="btnins" layoutX="440.0" layoutY="71.0" mnemonicParsing="false" onAction="#btnInstall" text="Install" />
+      <Button fx:id="btnsta" layoutX="440.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnStart" text="Start" />
+      <Button fx:id="btnsto" layoutX="507.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnStop" text="Stop" />
+      <Label fx:id="pathLabel" layoutX="406.0" layoutY="26.0" prefHeight="17.0" prefWidth="193.0" text="Label" />
    </children>
 </AnchorPane>
