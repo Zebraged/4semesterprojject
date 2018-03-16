@@ -1,7 +1,10 @@
 package dk.sdu.projectframeworklauncher;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
@@ -16,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import org.apache.commons.io.FileUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -43,6 +47,7 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        deleteFelixCache();
         try {
             FrameworkFactory fwFactory
                     = ServiceLoader.load(FrameworkFactory.class)
@@ -50,15 +55,28 @@ public class FXMLController implements Initializable {
             Framework framework = fwFactory.newFramework(null);
             framework.init();
             BundleContext bndlCtxt = framework.getBundleContext();
-            File folder = new File(".");
-            for (File file : folder.listFiles()) {
-                if (file.getName().endsWith(".jar")) {
-                    BundleObj bundleobj = new BundleObj(file, bndlCtxt);
-                    obs.add(bundleobj);
-                }
-            }
-            jfxListview.setItems(obs);
+            File folder = new File("./Bundles/");
 
+            String[] directories = folder.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File current, String name) {
+                    return new File(current, name).isDirectory();
+                }
+            });
+
+            File files = null;
+            for (String projectPath : directories) {
+                files = new File("./Bundles/" + projectPath + "/target");
+
+                for (File file : files.listFiles()) {
+                    if (file.getName().endsWith(".jar")) {
+                        BundleObj bundleobj = new BundleObj(file, bndlCtxt);
+                        obs.add(bundleobj);
+                    }
+                }
+
+                jfxListview.setItems(obs);
+            }
             framework.start();
         } catch (BundleException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,6 +86,17 @@ public class FXMLController implements Initializable {
     @FXML
     private void ocListview(MouseEvent event) {
         updateText();
+    }
+
+    private void deleteFelixCache() {
+        File dir = new File("./felix-cache/");
+        System.out.println("Wipe Felix cache Folder!");
+        System.out.println("");
+        try {
+            FileUtils.cleanDirectory(dir);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void updateText() {
@@ -81,7 +110,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnUninstall(ActionEvent event) {
         BundleObj current = jfxListview.selectionModelProperty().getValue().getSelectedItem();
-        if (current.getState() == BundleState.INSTALLED) {
+        if (current.getState() == BundleState.INSTALLED && current != null) {
             current.uninstall();
         }
         updateText();
@@ -90,7 +119,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnInstall(ActionEvent event) {
         BundleObj current = jfxListview.selectionModelProperty().getValue().getSelectedItem();
-        if (current.getState() == BundleState.UNINSTALLED || current.getState() == BundleState.ERROR) {
+        if (current.getState() == BundleState.UNINSTALLED || current.getState() == BundleState.ERROR && current != null) {
             current.install();
         }
         updateText();
@@ -99,7 +128,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnStart(ActionEvent event) {
         BundleObj current = jfxListview.selectionModelProperty().getValue().getSelectedItem();
-        if (current.getState() == BundleState.INSTALLED || current.getState() == BundleState.ERROR) {
+        if (current.getState() == BundleState.INSTALLED || current.getState() == BundleState.ERROR && current != null) {
             current.start();
         }
         updateText();
@@ -108,7 +137,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnStop(ActionEvent event) {
         BundleObj current = jfxListview.selectionModelProperty().getValue().getSelectedItem();
-        if (current.getState() == BundleState.ACTIVE) {
+        if (current.getState() == BundleState.ACTIVE && current != null) {
             current.stop();
         }
         updateText();
