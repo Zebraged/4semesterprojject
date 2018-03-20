@@ -71,6 +71,7 @@ public class FXMLController implements Initializable {
                 for (File file : files.listFiles()) {
                     if (file.getName().endsWith(".jar")) {
                         BundleObj bundleobj = new BundleObj(file, bndlCtxt);
+                       // bundleobj.install();
                         obs.add(bundleobj);
                     }
                 }
