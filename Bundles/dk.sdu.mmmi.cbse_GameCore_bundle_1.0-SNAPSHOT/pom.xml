@@ -31,9 +31,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.bundled.libgdx</groupId>
-            <artifactId>gdx</artifactId>
-            <version>1.5.0</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>OSGiLibGDX</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
