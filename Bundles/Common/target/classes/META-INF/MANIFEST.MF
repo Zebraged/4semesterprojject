@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1521538836476
+Build-Jdk: 1.8.0_151
+Built-By: Guest Account
+Bundle-ManifestVersion: 2
+Bundle-Name: Common OSGi Bundle
+Bundle-SymbolicName: dk.sdu.mmmi.cbse.Common
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: dk.sdu.mmmi.cbse.common.data;uses:="dk.sdu.mmmi.cbse.com
+ mon.events";version="1.0.0.SNAPSHOT",dk.sdu.mmmi.cbse.common.events;use
+ s:="dk.sdu.mmmi.cbse.common.data";version="1.0.0.SNAPSHOT",dk.sdu.mmmi.
+ cbse.common.services;uses:="dk.sdu.mmmi.cbse.common.data";version="1.0.
+ 0.SNAPSHOT"
+Tool: Bnd-1.50.0

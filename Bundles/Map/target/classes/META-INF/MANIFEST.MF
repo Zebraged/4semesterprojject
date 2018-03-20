@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1521543209280
+Build-Jdk: 1.8.0_151
+Built-By: Guest Account
+Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
+Bundle-ManifestVersion: 2
+Bundle-Name: Map OSGi Bundle
+Bundle-SymbolicName: dk.sdu.mmmi.cbse.Map
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.osgi.framework;version="[1.6,2)"
+Tool: Bnd-1.50.0
