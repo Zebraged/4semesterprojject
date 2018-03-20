@@ -116,5 +116,10 @@
             <version>2.5</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Player</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
