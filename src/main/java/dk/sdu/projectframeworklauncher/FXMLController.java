@@ -68,12 +68,25 @@ public class FXMLController implements Initializable {
             for (String projectPath : directories) {
                 files = new File("./Bundles/" + projectPath + "/target");
 
+<<<<<<< HEAD
                 for (File file : files.listFiles()) {
                     if (file.getName().endsWith(".jar")) {
                         BundleObj bundleobj = new BundleObj(file, bndlCtxt);
                        // bundleobj.install();
                         obs.add(bundleobj);
+=======
+                try {
+                    for (File file : files.listFiles()) {
+                        if (file.getName().endsWith(".jar")) {
+                            BundleObj bundleobj = new BundleObj(file, bndlCtxt);
+                            obs.add(bundleobj);
+                        }
+>>>>>>> master
                     }
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+
                 }
 
                 jfxListview.setItems(obs);
@@ -95,8 +108,10 @@ public class FXMLController implements Initializable {
         System.out.println("");
         try {
             FileUtils.cleanDirectory(dir);
+
         } catch (IOException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
