@@ -1,3 +1,5 @@
 /target/
 /Bundles/FirstTestBundle/target/
 /Bundles/SecTestBundle/target/
+/Bundles/Common/target/
+/Bundles/OSGiLibGDX/target/
