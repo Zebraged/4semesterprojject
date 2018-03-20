@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
@@ -20,7 +19,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.io.FileUtils;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.launch.Framework;
@@ -72,6 +70,7 @@ public class FXMLController implements Initializable {
                     for (File file : files.listFiles()) {
                         if (file.getName().endsWith(".jar")) {
                             BundleObj bundleobj = new BundleObj(file, bndlCtxt);
+                            bundleobj.install();
                             obs.add(bundleobj);
                         }
                     }
