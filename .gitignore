@@ -1,4 +1,5 @@
-/target/
-/Bundles/FirstTestBundle/target/
-/Bundles/SecTestBundle/target/
+felix-cache/
+target/
 felix-cache/bundle0/bundle.id
+felix-cache/bundle1/bundle.info
+felix-cache/bundle1/version0.0/bundle.jar
