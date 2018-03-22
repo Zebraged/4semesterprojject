@@ -46,13 +46,12 @@ public class Game implements ApplicationListener {
 
     @Override
     public void create() {
-        assetManager = new AssetManager(world, gameData);
         
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         cam.update();
         
-        assetManager = new AssetManager(world, gameData);
+        assetManager = new AssetManager(world, gameData, cam);
         
         pluginTracker = new PluginTracker(context, gameData, world);
         pluginTracker.startPluginTracker();
@@ -81,7 +80,7 @@ public class Game implements ApplicationListener {
     }
 
     private void draw() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         assetManager.loadImages(context);

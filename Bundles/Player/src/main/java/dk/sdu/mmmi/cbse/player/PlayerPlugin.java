@@ -11,7 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-//import java.io.InputStream;
+import java.io.InputStream;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -42,9 +42,8 @@ public class PlayerPlugin implements IGamePluginService{
     
     private Entity createPlayer(GameData gameData, World world){
         Entity player = new Player();
-        //InputStream input = this.getClass().getResourceAsStream("image/Player_idle1.png");
-        //player.add(new AssetGenerator(player, input));
-        player.add(new PositionPart(gameData.getDisplayWidth()/2, gameData.getDisplayHeight()/2, 1));
+        player.add(new AssetGenerator(player, "dk/sdu/mmmi/cbse/player/image/Player_idle1.png"));
+        player.add(new PositionPart(200, 200, 1));
         return player;
     }
     

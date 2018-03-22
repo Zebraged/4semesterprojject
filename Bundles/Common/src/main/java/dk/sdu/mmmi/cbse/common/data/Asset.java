@@ -13,17 +13,17 @@ import java.io.InputStream;
  */
 public class Asset {
     
-    InputStream imagePath;
+    String imagePath;
     
-    public Asset(InputStream path){
+    public Asset(String path){
         this.imagePath = path;
     }
     
-    public void changeImagePath(InputStream path){
+    public void changeImagePath(String path){
         this.imagePath = path;
     }
     
-    public InputStream getImagePath(){
+    public String getImagePath(){
         return imagePath;
     }
 }

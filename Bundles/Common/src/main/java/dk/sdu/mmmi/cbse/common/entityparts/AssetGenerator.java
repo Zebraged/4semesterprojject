@@ -16,10 +16,10 @@ import java.io.InputStream;
  */
 public class AssetGenerator implements EntityPart{
     
-    InputStream imagePath;
+    String imagePath;
     Asset asset;
     
-    public AssetGenerator(Entity source, InputStream imagePath){
+    public AssetGenerator(Entity source, String imagePath){
         this.imagePath = imagePath;
         asset = new Asset(this.imagePath);
         source.setAsset(asset);
@@ -30,7 +30,7 @@ public class AssetGenerator implements EntityPart{
         asset.changeImagePath(imagePath);
     }
     
-    public void addImagePath(InputStream path){
+    public void addImagePath(String path){
         this.imagePath = path;
     }
     
