@@ -5,23 +5,25 @@
  */
 package dk.sdu.mmmi.cbse.common.data;
 
+import java.io.InputStream;
+
 /**
  *
  * @author Marcg
  */
 public class Asset {
     
-    String imagePath;
+    InputStream imagePath;
     
-    public Asset(String path){
+    public Asset(InputStream path){
         this.imagePath = path;
     }
     
-    public void changeImagePath(String path){
+    public void changeImagePath(InputStream path){
         this.imagePath = path;
     }
     
-    public String getImagePath(){
+    public InputStream getImagePath(){
         return imagePath;
     }
 }
