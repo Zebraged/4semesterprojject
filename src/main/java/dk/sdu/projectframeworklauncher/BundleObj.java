@@ -24,7 +24,6 @@ public class BundleObj {
     private BundleState state = BundleState.UNINSTALLED;
 
     public BundleObj(File file, BundleContext bndlCtxt) {
-        //   this.bundle = bundle;
         this.file = file;
         this.bndlCtxt = bndlCtxt;
 
