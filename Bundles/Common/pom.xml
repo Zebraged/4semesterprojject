@@ -38,7 +38,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>dk.sdu.mmmi.cbse.common.data,dk.sdu.mmmi.cbse.common.entityparts,dk.sdu.mmmi.cbse.common.events,dk.sdu.mmmi.cbse.common.services,*</Export-Package>
+                        <Export-Package>dk.sdu.mmmi.cbse.common.data,dk.sdu.mmmi.cbse.common.entityparts,dk.sdu.mmmi.cbse.common.events,dk.sdu.mmmi.cbse.common.services</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
