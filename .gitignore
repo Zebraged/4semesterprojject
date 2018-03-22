@@ -1,4 +1,2 @@
-/target/
-/Bundles/FirstTestBundle/target/
-/Bundles/SecTestBundle/target/
-felix-cache/bundle0/bundle.id
+target/
+felix-cache/
