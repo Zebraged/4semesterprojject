@@ -46,7 +46,7 @@ public class PlayerPlugin implements IGamePluginService{
     
     private Entity createPlayer(GameData gameData, World world){
         Entity player = new Player();
-        player.add(new AssetGenerator(player, "dk/sdu/mmmi/cbse/player/image/Player_idle1.png"));
+        player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(new PositionPart(200, 200, 1));
         return player;
     }

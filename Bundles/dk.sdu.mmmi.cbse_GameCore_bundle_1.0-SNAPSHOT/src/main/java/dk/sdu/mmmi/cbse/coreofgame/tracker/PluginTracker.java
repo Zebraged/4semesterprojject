@@ -8,12 +8,11 @@ package dk.sdu.mmmi.cbse.coreofgame.tracker;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.coreofgame.game.AssetManager;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -27,12 +26,14 @@ public class PluginTracker {
     BundleContext context;
     GameData gameData;
     World world;
+    AssetManager assetManager;
     ExecutorService executor = Executors.newSingleThreadExecutor();
     
-    public PluginTracker(BundleContext context, GameData data, World world){
+    public PluginTracker(BundleContext context, GameData data, World world, AssetManager assetManager){
         this.context = context;
         this.gameData = data;
         this.world = world;
+        this.assetManager = assetManager;
     }
     
     private void loadPlugins(){
@@ -42,6 +43,7 @@ public class PluginTracker {
             if(plugin.getStatus() == false){
                 System.out.println("New plugin detected!");
                 plugin.start(gameData, world, context);
+                gameData.addBundle(reference.getBundle());
             }
         }
     }

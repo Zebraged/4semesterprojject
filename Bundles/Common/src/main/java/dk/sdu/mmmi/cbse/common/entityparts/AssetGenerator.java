@@ -17,21 +17,28 @@ import java.io.InputStream;
 public class AssetGenerator implements EntityPart{
     
     String imagePath;
+    String image;
     Asset asset;
     
-    public AssetGenerator(Entity source, String imagePath){
+    public AssetGenerator(Entity source, String imagePath, String image){
         this.imagePath = imagePath;
-        asset = new Asset(this.imagePath);
+        this.image = image;
+        asset = new Asset(this.imagePath, this.image);
         source.setAsset(asset);
     }
     
     @Override
     public void process(GameData gameData, Entity entity) {
         asset.changeImagePath(imagePath);
+        asset.changeImage(image);
     }
     
     public void addImagePath(String path){
         this.imagePath = path;
+    }
+    
+    public void changeImage(String image){
+        this.image = image;
     }
     
 }

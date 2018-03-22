@@ -12,6 +12,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import java.util.Collection;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -53,7 +54,7 @@ public class Game implements ApplicationListener {
         
         assetManager = new AssetManager(world, gameData, cam);
         
-        pluginTracker = new PluginTracker(context, gameData, world);
+        pluginTracker = new PluginTracker(context, gameData, world, assetManager);
         pluginTracker.startPluginTracker();
         
         Gdx.input.setInputProcessor(
@@ -70,6 +71,11 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
+        for(Bundle bundle : gameData.getBundles()){
+            assetManager.loadAllPluginTextures(bundle);
+            gameData.removeBundle(bundle);
+        }
+        
         IEntityProcessingService process;
         if(processReference() != null){
             for(ServiceReference<IEntityProcessingService> reference : processReference()){
@@ -80,7 +86,7 @@ public class Game implements ApplicationListener {
     }
 
     private void draw() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         assetManager.loadImages(context);

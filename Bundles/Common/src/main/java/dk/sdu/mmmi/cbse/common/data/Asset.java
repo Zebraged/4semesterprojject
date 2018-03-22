@@ -14,16 +14,26 @@ import java.io.InputStream;
 public class Asset {
     
     String imagePath;
+    String image;
     
-    public Asset(String path){
+    public Asset(String path, String image){
         this.imagePath = path;
+        this.image = image;
     }
     
     public void changeImagePath(String path){
         this.imagePath = path;
     }
     
+    public void changeImage(String image){
+        this.image = image;
+    }
+    
     public String getImagePath(){
         return imagePath;
+    }
+    
+    public String getImage(){
+        return this.image;
     }
 }
