@@ -88,11 +88,20 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * updates the text when the list is clicked.
+     *
+     * @param event
+     */
     @FXML
     private void ocListview(MouseEvent event) {
         updateText();
     }
 
+    /**
+     * *
+     * Deletes the Felix server cache, which contain temp files from last run.
+     */
     private void deleteFelixCache() {
         File dir = new File("./felix-cache/");
         System.out.println("Wipe Felix cache Folder!");
@@ -106,6 +115,10 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * *
+     * Updates the text on the gui (modulename and module state)
+     */
     private void updateText() {
         BundleObj obj = jfxListview.selectionModelProperty().getValue().getSelectedItem();
         if (obj != null) {
@@ -150,6 +163,11 @@ public class FXMLController implements Initializable {
         updateText();
     }
 
+    /**
+     * *
+     * updates the text if the user hits the keyboard.
+     * @param event
+     */
     @FXML
     private void listViewKey(KeyEvent event) {
         updateText();

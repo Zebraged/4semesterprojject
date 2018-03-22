@@ -5,9 +5,9 @@
  */
 package dk.sdu.projectframeworklauncher;
 
+import java.awt.Component;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -24,27 +24,35 @@ public class BundleObj {
     private BundleState state = BundleState.UNINSTALLED;
 
     public BundleObj(File file, BundleContext bndlCtxt) {
-        //   this.bundle = bundle;
         this.file = file;
         this.bndlCtxt = bndlCtxt;
 
     }
 
+    /**
+     * *
+     * returns the name of the module, given from the filename.
+     *
+     * @return modulename
+     */
     @Override
     public String toString() {
         return file.getName();
 
     }
 
+    /**
+     * *
+     * Installs the module
+     */
     public void install() {
         try {
             this.bundle = bndlCtxt.installBundle(file.toURI().toString());
             System.out.println(bundle + "Bundle Installed");
             state = BundleState.INSTALLED;
         } catch (BundleException ex) {
-            state = BundleState.ERROR;
-            System.out.println(ex.getMessage());
-            Logger.getLogger(BundleObj.class.getName()).log(Level.SEVERE, null, ex);
+
+            printError(ex);
         }
     }
 
@@ -57,12 +65,15 @@ public class BundleObj {
             System.out.println("Bundle Uninstalled");
             state = BundleState.UNINSTALLED;
         } catch (BundleException ex) {
-            state = BundleState.ERROR;
-            System.out.println(ex.getMessage());
-            Logger.getLogger(BundleObj.class.getName()).log(Level.SEVERE, null, ex);
+
+            printError(ex);
         }
     }
 
+    /**
+     * *
+     * Start the module if no dependency error, otherwise a dialog will show.
+     */
     public void start() {
         try {
             state = BundleState.STARTING;
@@ -70,12 +81,15 @@ public class BundleObj {
             System.out.println("Bundle Started");
             state = BundleState.ACTIVE;
         } catch (BundleException ex) {
-            state = BundleState.ERROR;
-            System.out.println(ex.getMessage());
-            Logger.getLogger(BundleObj.class.getName()).log(Level.SEVERE, null, ex);
+
+            printError(ex);
         }
     }
 
+    /**
+     * *
+     * Stop the module from running
+     */
     public void stop() {
         try {
             state = BundleState.STOPPING;
@@ -83,13 +97,37 @@ public class BundleObj {
             state = BundleState.INSTALLED;
             System.out.println("Bundle stopped");
         } catch (BundleException ex) {
-            state = BundleState.ERROR;
-            System.out.println(ex.getMessage());
-            Logger.getLogger(BundleObj.class.getName()).log(Level.SEVERE, null, ex);
+
+            printError(ex);
         }
     }
 
+    /**
+     * *
+     * return the current state of the module
+     *
+     * @return BundleState Enum
+     */
     public BundleState getState() {
         return state;
+    }
+
+    /**
+     * *
+     * Prints the error from install/uninstall/start/stop commands.
+     *
+     * @param ex the exception catched
+     */
+    private void printError(Exception ex) {
+
+        String error = ex.getMessage(); // receive the error catched
+        String parsedStr = error.replaceAll("(.{80})", "$1\n"); // set newline for every n char
+        parsedStr = parsedStr.substring(0, Math.min(parsedStr.length(), 479)); // set max length of string containing error = 6 lines
+
+        Component frame = null;
+        JOptionPane.showMessageDialog(frame, parsedStr, "Error Catched", JOptionPane.ERROR_MESSAGE); // show a errorbox
+
+        state = BundleState.ERROR;
+
     }
 }
