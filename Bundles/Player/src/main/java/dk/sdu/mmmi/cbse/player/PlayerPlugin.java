@@ -23,8 +23,10 @@ public class PlayerPlugin implements IGamePluginService{
     Boolean status = false;
     Entity player;
     BundleContext context;
+    World world;
 
     public void start(GameData gameData, World world, BundleContext context) {
+        this.world = world;
         this.context = context;
         status = true;
         System.out.println("plugin started");
@@ -33,6 +35,8 @@ public class PlayerPlugin implements IGamePluginService{
     }
 
     public void stop() {
+        status = false;
+        world.removeEntity(player);
         System.out.println("plugin stopped");
     }
 
