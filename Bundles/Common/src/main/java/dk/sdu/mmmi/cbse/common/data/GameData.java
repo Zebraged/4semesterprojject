@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import org.osgi.framework.Bundle;
 
 public class GameData {
 
@@ -13,7 +14,20 @@ public class GameData {
     private int difficulty = 1;
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList();
+    private List<Bundle> pluginAsset = new CopyOnWriteArrayList();
 
+    public void addBundle(Bundle b){
+        pluginAsset.add(b);
+    }
+    
+    public void removeBundle(Bundle b) {
+        pluginAsset.remove(b);
+    }
+
+    public List<Bundle> getBundles() {
+        return pluginAsset;
+    }
+    
     public void addEvent(Event e) {
         events.add(e);
     }

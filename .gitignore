@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 /target/
 /Bundles/FirstTestBundle/target/
 /Bundles/SecTestBundle/target/
 felix-cache/bundle0/bundle.id
+/Bundles/Player/target/
+=======
+target/
+felix-cache/
+>>>>>>> master
