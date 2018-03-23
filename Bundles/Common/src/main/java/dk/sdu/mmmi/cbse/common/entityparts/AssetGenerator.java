@@ -8,7 +8,6 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 import dk.sdu.mmmi.cbse.common.data.Asset;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
