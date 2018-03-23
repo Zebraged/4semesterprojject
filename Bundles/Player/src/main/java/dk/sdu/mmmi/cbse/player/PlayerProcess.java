@@ -25,17 +25,19 @@ public class PlayerProcess implements IEntityProcessingService{
             AssetGenerator assetGenerator = entity.getPart(AssetGenerator.class);
             if(gameData.getKeys().isDown(GameKeys.UP) == true){
                 part.setY(part.getY() + 5);
-                assetGenerator.changeImage("Enemy_Test.png");
+                assetGenerator.nextImage("Walk");
             } else if(gameData.getKeys().isDown(GameKeys.DOWN) == true){
                 part.setY(part.getY() - 5);
-                assetGenerator.changeImage("Player_idle1.png");
+                assetGenerator.nextImage("Walk");
             } else if(gameData.getKeys().isDown(GameKeys.LEFT) == true){
                 part.setX(part.getX() - 5);
-                assetGenerator.changeImage("Player_idle1.png");
+                assetGenerator.nextImage("Walk");
             } else if(gameData.getKeys().isDown(GameKeys.RIGHT) == true){
                 part.setX(part.getX() + 5);
-                assetGenerator.changeImage("Enemy_Test.png");
-            } 
+                assetGenerator.nextImage("Walk");
+            } else {
+                assetGenerator.nextImage("Idle");
+            }
             assetGenerator.process(gameData, entity);
         }
     }

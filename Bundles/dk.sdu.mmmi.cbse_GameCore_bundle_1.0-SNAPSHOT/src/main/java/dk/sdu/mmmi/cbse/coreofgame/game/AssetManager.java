@@ -6,12 +6,8 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGB565;
@@ -30,7 +26,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -63,8 +58,8 @@ public class AssetManager {
             if(entity.getAsset() != null){
                 Sprite sprite = spriteMap.get(entity.getAsset().getImage());
                 PositionPart pos = entity.getPart(PositionPart.class);
-                sprite.setX(pos.getX());
-                sprite.setY(pos.getY());
+                sprite.setX((int)pos.getX());
+                sprite.setY((int)pos.getY());
                 sprite.draw(batch);
                
             }
