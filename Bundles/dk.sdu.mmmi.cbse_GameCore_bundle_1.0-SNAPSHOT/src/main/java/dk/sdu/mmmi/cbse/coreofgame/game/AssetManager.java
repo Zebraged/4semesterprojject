@@ -5,15 +5,28 @@
  */
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
+import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGB565;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-//import dk.sdu.mmmi.cbse.common.data.Asset;
-import java.util.ArrayList;
-import java.util.List;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+
 
 /**
  *
@@ -24,22 +37,64 @@ public class AssetManager {
     private SpriteBatch batch;
     private World world;
     private GameData data;
-    private List<Entity> entities;
+    private ReadWriteLock lock = new ReentrantReadWriteLock();
+    
+    private Map<String, Sprite> spriteMap; 
 
-    public AssetManager(World world, GameData data) {
+    public AssetManager(World world, GameData data, OrthographicCamera cam) {
         this.world = world;
         this.data = data;
-
-        entities = (ArrayList<Entity>) world.getEntities();
+        this.spriteMap = new ConcurrentHashMap();
+        
         this.batch = new SpriteBatch();
-        batch.begin();
+        batch.setProjectionMatrix(cam.combined);
     }
 
-    public void loadImages() {
+    public void loadImages(BundleContext context) {
+        lock.readLock().lock();
+        try{
         batch.begin();
-        for (Entity entity : entities) {
+        for (Entity entity : world.getEntities()) {
+            if(entity.getAsset() != null){
+                Sprite sprite = spriteMap.get(entity.getAsset().getImage());
+                PositionPart pos = entity.getPart(PositionPart.class);
+                sprite.setX((int)pos.getX());
+                sprite.setY((int)pos.getY());
+                sprite.draw(batch);
+               
+            }
         }
-
+        batch.end();
+        } finally {
+            lock.readLock().unlock();
+        }
     }
-
+    
+    public void loadAllPluginTextures(Bundle bundle){
+        lock.writeLock().lock();
+        try{
+            for (Entity entity : world.getEntities()) {
+                if(entity.getAsset() != null){
+                    URL url;
+                    Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
+                    while(urls.hasMoreElements()){
+                        url = urls.nextElement();
+                        Pixmap pixmap = null;
+                        try {
+                            pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGB565));
+                            Texture texture = new Texture(pixmap);
+                            Sprite sprite = new Sprite(texture);
+                            spriteMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), sprite);
+                            System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
+                        } catch (IOException ex) {
+                            System.out.println("input not avaiable");
+                        }
+                    }
+                }
+            }
+        } finally{
+            lock.writeLock().unlock();
+        }
+        
+    }
 }

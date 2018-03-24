@@ -1,21 +1,18 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
+import dk.sdu.mmmi.cbse.coreofgame.tracker.PluginTracker;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -42,51 +39,57 @@ public class Game implements ApplicationListener {
         
 
     private BundleContext context;
+    private AssetManager assetManager;
+    private PluginTracker pluginTracker;
     private static OrthographicCamera cam;
-    private SpriteBatch batch;
-    private BitmapFont font;
     private final GameData gameData = new GameData();
     private World world = new World();
-    private static final List<IEntityProcessingService> entityProcessorList = new CopyOnWriteArrayList();
-    private static List<IPostEntityProcessingService> postEntityProcessorList = new CopyOnWriteArrayList();
 
     @Override
     public void create() {
-        font = new BitmapFont();
         
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         cam.update();
-
-        batch = new SpriteBatch();
-
+        
+        assetManager = new AssetManager(world, gameData, cam);
+        
+        pluginTracker = new PluginTracker(context, gameData, world, assetManager);
+        pluginTracker.startPluginTracker();
+        
         Gdx.input.setInputProcessor(
                 new GameInputProcessor(gameData)
         );
+        
+        
     }
 
     @Override
     public void render() {
-        
-
-
         update();
-
         draw();
-
     }
 
     private void update() {
+        for(Bundle bundle : gameData.getBundles()){
+            assetManager.loadAllPluginTextures(bundle);
+            gameData.removeBundle(bundle);
+        }
         
+        IEntityProcessingService process;
+        if(processReference() != null){
+            for(ServiceReference<IEntityProcessingService> reference : processReference()){
+                process = (IEntityProcessingService) context.getService(reference);
+                process.process(gameData, world);
+            }
+        }
     }
 
     private void draw() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        batch.begin();
-        font.draw(batch, "Oh hi, Marc!", 50, 50);
-        batch.end();
+        assetManager.loadImages(context);
     }
 
     @Override
@@ -103,6 +106,8 @@ public class Game implements ApplicationListener {
 
     @Override
     public void dispose() {
+        pluginTracker.stopPluginTracker();
+        context.ungetService(context.getServiceReference(IEntityProcessingService.class.getName()));
     }
 
     private void postUpdate() {
@@ -111,6 +116,17 @@ public class Game implements ApplicationListener {
     
     public void setContext(BundleContext context){
         this.context = context;
+    }
+    
+    
+    public Collection<ServiceReference<IEntityProcessingService>> processReference() {
+        Collection<ServiceReference<IEntityProcessingService>> collection = null;
+        try {
+            collection = this.context.getServiceReferences(IEntityProcessingService.class, null);
+        } catch (InvalidSyntaxException ex) {
+            System.out.println("Service not availlable!");
+        }
+        return collection;
     }
     
     

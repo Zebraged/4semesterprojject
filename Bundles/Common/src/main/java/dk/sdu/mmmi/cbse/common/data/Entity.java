@@ -44,8 +44,8 @@ public class Entity implements Serializable {
     }
 
     
-    public void setAsset(String path){
-        asset = new Asset(path);
+    public void setAsset(Asset asset){
+        this.asset = asset;
     }
     
     public Asset getAsset(){
