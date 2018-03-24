@@ -77,22 +77,29 @@ public class FXMLController implements Initializable {
         updateText();
     }
 
+    /**
+     * *
+     * Reads the Bundle folder in the project. It check for jar files in the
+     * folder and install them if found.
+     */
     private void checkForBundles() {
         File folder = new File("./Bundles/");
 
-        String[] directories = folder.list(new FilenameFilter() {
+        String[] directories = folder.list(new FilenameFilter() { // Get all folders in the bundle folder. Each folder should be an project.
             @Override
             public boolean accept(File current, String name) {
                 return new File(current, name).isDirectory();
             }
         });
-        ArrayList<String> filenames = new ArrayList();
+
+        ArrayList<String> filenames = new ArrayList(); // Arraylist to save all filenames found for each .jar
         File files = null;
         for (String projectPath : directories) { // loop trougth all folders in the bundles folder.
             files = new File("./Bundles/" + projectPath + "/target");
 
-            try {
-                for (File file : files.listFiles()) { // runs trougth all files in the folder
+            File[] fileslist = files.listFiles();
+            if (fileslist != null) { // dont check for jarfiles if target folder is empty or dont exist
+                for (File file : fileslist) { // runs trougth all files in the folder
                     if (file.getName().endsWith(".jar")) { // ignore other than .jar files 
 
                         filenames.add(file.getName());
@@ -112,15 +119,11 @@ public class FXMLController implements Initializable {
                     }
                 }
 
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-
+                jfxListview.setItems(obs);
             }
-
-            jfxListview.setItems(obs);
         }
 
-        for (BundleObj obj : obs) {
+        for (BundleObj obj : obs) { // check if a moudle has been removed from the folder.
             boolean found = false;
             for (String name : filenames) {
                 if (obj.toString().equals(name)) {

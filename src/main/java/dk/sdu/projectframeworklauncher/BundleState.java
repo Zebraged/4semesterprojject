@@ -10,6 +10,10 @@ package dk.sdu.projectframeworklauncher;
  * @author Jesper
  */
 public enum BundleState {
+
+    /**
+     *
+     */
     INSTALLED("Installed"), UNINSTALLED("Uninstalled"), RESOLVED("Resolved"), STARTING("Starting"), ACTIVE("Active"), STOPPING("Stopping"),ERROR("Error");
     private String name;
 
@@ -17,6 +21,10 @@ public enum BundleState {
         this.name = url;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getState() {
         return name;
     }
