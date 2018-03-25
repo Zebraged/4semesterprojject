@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
@@ -26,6 +27,8 @@ import org.osgi.framework.launch.FrameworkFactory;
 
 public class FXMLController implements Initializable {
 
+    private BundleContext bndlCtxt;
+
     @FXML
     private ListView<BundleObj> jfxListview;
     //  private ArrayList<Bundle> boo = new ArrayList<>(); 
@@ -42,6 +45,8 @@ public class FXMLController implements Initializable {
     private Label pathLabel;
     @FXML
     private Label stateLabel;
+    @FXML
+    private Button refreshButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,36 +57,10 @@ public class FXMLController implements Initializable {
                             .iterator().next();
             Framework framework = fwFactory.newFramework(null);
             framework.init();
-            BundleContext bndlCtxt = framework.getBundleContext();
-            File folder = new File("./Bundles/");
+            bndlCtxt = framework.getBundleContext();
 
-            String[] directories = folder.list(new FilenameFilter() {
-                @Override
-                public boolean accept(File current, String name) {
-                    return new File(current, name).isDirectory();
-                }
-            });
+            checkForBundles();
 
-            File files = null;
-            for (String projectPath : directories) {
-                files = new File("./Bundles/" + projectPath + "/target");
-
-                try {
-                    for (File file : files.listFiles()) {
-                        if (file.getName().endsWith(".jar")) {
-                            BundleObj bundleobj = new BundleObj(file, bndlCtxt);
-                            bundleobj.install();
-                            obs.add(bundleobj);
-                        }
-                    }
-
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-
-                }
-
-                jfxListview.setItems(obs);
-            }
             framework.start();
         } catch (BundleException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,6 +75,66 @@ public class FXMLController implements Initializable {
     @FXML
     private void ocListview(MouseEvent event) {
         updateText();
+    }
+
+    /**
+     * *
+     * Reads the Bundle folder in the project. It check for jar files in the
+     * folder and install them if found.
+     */
+    private void checkForBundles() {
+        File folder = new File("./Bundles/");
+
+        String[] directories = folder.list(new FilenameFilter() { // Get all folders in the bundle folder. Each folder should be an project.
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isDirectory();
+            }
+        });
+
+        ArrayList<String> filenames = new ArrayList(); // Arraylist to save all filenames found for each .jar
+        File files = null;
+        for (String projectPath : directories) { // loop trougth all folders in the bundles folder.
+            files = new File("./Bundles/" + projectPath + "/target");
+
+            File[] fileslist = files.listFiles();
+            if (fileslist != null) { // dont check for jarfiles if target folder is empty or dont exist
+                for (File file : fileslist) { // runs trougth all files in the folder
+                    if (file.getName().endsWith(".jar")) { // ignore other than .jar files 
+
+                        filenames.add(file.getName());
+
+                        boolean existingItem = false;
+                        for (BundleObj bundle : obs) {
+                            if (bundle.toString().equals(file.getName())) { // checks if the module already exist in the list
+                                existingItem = true;
+                            }
+                        }
+
+                        if (!existingItem) { // if the module dont exist in the existing list it will be added.
+                            BundleObj bundleobj = new BundleObj(file, bndlCtxt);
+                            bundleobj.install();
+                            obs.add(bundleobj);
+                        }
+                    }
+                }
+
+                jfxListview.setItems(obs);
+            }
+        }
+
+        for (BundleObj obj : obs) { // check if a moudle has been removed from the folder.
+            boolean found = false;
+            for (String name : filenames) {
+                if (obj.toString().equals(name)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                obs.remove(obj);
+            }
+        }
+
     }
 
     /**
@@ -166,11 +205,17 @@ public class FXMLController implements Initializable {
     /**
      * *
      * updates the text if the user hits the keyboard.
+     *
      * @param event
      */
     @FXML
     private void listViewKey(KeyEvent event) {
         updateText();
 
+    }
+
+    @FXML
+    private void refreshButtonA(ActionEvent event) {
+        checkForBundles();
     }
 }
