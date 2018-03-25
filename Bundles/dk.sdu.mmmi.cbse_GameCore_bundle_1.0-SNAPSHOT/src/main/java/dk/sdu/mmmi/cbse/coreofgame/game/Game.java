@@ -52,6 +52,9 @@ public class Game implements ApplicationListener {
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         cam.update();
         
+        gameData.setDisplayHeight(Gdx.graphics.getHeight());
+        gameData.setDisplayWidth(Gdx.graphics.getWidth());
+        
         assetManager = new AssetManager(world, gameData, cam);
         
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);

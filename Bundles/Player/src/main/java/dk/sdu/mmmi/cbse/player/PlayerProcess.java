@@ -36,7 +36,7 @@ public class PlayerProcess implements IEntityProcessingService{
                 part.setX(part.getX() + 5);
                 assetGenerator.nextImage("Walk");
             } else {
-                assetGenerator.nextImage("Background");
+                assetGenerator.nextImage("Idle");
             }
             assetGenerator.process(gameData, entity);
         }

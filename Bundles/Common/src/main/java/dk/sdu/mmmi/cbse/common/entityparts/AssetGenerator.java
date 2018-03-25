@@ -60,7 +60,10 @@ public class AssetGenerator implements EntityPart{
         Enumeration<URL> urls = FrameworkUtil.getBundle(source.getClass()).findEntries(source.getAsset().getImagePath(), "*.png", true);
         while(urls.hasMoreElements()){
             url = urls.nextElement();
-            String folder = url.getPath().substring(url.getPath().indexOf('/', url.getPath().indexOf('/') + 1) + 1, url.getPath().lastIndexOf('/'));
+            
+            String folder = url.getPath().replace(imagePath, "");
+            folder = folder.substring(1, folder.lastIndexOf('/'));
+            System.out.println(folder);
             String name = url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length());
             if(animation.get(folder) == null){
                 animation.put(folder, new ArrayList<>());
