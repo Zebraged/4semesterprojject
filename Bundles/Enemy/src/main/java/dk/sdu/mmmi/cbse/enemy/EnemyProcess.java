@@ -11,6 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
+import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import java.util.Random;
 
 /**
@@ -18,19 +19,21 @@ import java.util.Random;
  * @author Marcg
  */
 public class EnemyProcess implements IEntityProcessingService{
-
+    
+    
+    
     @Override
     public void process(GameData gameData, World world) {
-        for(Entity entity : world.getEntities(Enemy.class)){
+        for(Entity entity : world.getEntities(TeddyEnemy.class)){
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
             Random rand = new Random();
-            int i = rand.nextInt(1);
+            int i = rand.nextInt(2);
             if(i == 1){
-                assetGen.nextImage("Idle");
+                assetGen.nextImage("Walk", true);
             } else {
-                assetGen.nextImage("Walk");
+                assetGen.nextImage("Walk", false);
             }
-            
+            assetGen.process(gameData, entity);
         }
     }
     

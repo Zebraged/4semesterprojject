@@ -58,6 +58,11 @@ public class AssetManager {
             if(entity.getAsset() != null){
                 Sprite sprite = spriteMap.get(entity.getAsset().getImage());
                 PositionPart pos = entity.getPart(PositionPart.class);
+                if(entity.getAsset().getMirror() == true){
+                    sprite.flip(true, false);
+                } else {
+                    sprite.flip(false, false);
+                }
                 sprite.setX((int)pos.getX());
                 sprite.setY((int)pos.getY());
                 sprite.draw(batch);
