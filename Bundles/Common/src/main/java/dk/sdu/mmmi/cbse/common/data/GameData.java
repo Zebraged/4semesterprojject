@@ -8,7 +8,7 @@ import org.osgi.framework.Bundle;
 
 public class GameData {
 
-    private float delta;
+    private float delta = 1.0f;
     private int displayWidth;
     private int displayHeight;
     private int difficulty = 1;

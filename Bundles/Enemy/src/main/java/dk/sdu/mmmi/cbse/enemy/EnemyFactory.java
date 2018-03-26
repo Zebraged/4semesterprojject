@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.GravityPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.enemy.type.CloudEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
@@ -32,6 +33,7 @@ public class EnemyFactory implements IEntityGenerator {
     private Entity createTeddy(int x, int y){
         Entity entity = new TeddyEnemy();
         entity.add(new PositionPart(x, y));
+        entity.add(new GravityPart());
         entity.add(new AssetGenerator(entity, "image/teddy/", "Enemy_Test.png"));
         return entity;
     }
