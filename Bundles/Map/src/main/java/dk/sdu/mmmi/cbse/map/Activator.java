@@ -1,24 +1,35 @@
 package dk.sdu.mmmi.cbse.map;
 
-import java.io.File;
+import MapServices.MapPlugin;
+import MapServices.MapProcessor;
+import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 public class Activator implements BundleActivator {
 
+    private IGamePluginService plugin = new MapPlugin();
+    private IEntityProcessingService process = new MapProcessor();
 
-
+    /**
+     * Starts the mapbundle
+     * @param context
+     * @throws Exception 
+     */
     public void start(BundleContext context) throws Exception {
-        System.out.println("HelloActivator::start");
-        //context.registerService(Hello.class.getName(), new HelloImpl(), null);
-        System.out.println("HelloActivator::registration of Hello service successful");
-        File file = new File("");
-        System.out.println(file.getAbsoluteFile().getPath()+"\\assets\\Background");
+
+        context.registerService(IGamePluginService.class.getName(), plugin, null);
+        context.registerService(IEntityProcessingService.class.getName(), process, null);
     }
 
+    /**
+     * Stops the mapbundle
+     * @param context
+     * @throws Exception 
+     */
     public void stop(BundleContext context) throws Exception {
-        //context.ungetService(context.getServiceReference(Hello.class.getName()));
-        System.out.println("HelloActivator stopped");
+        context.ungetService(context.getServiceReference(MapPlugin.class.getName()));
     }
 
 }

@@ -12,25 +12,24 @@ import java.io.File;
  *
  * @author Guest Account
  */
-public class MapAssetManager implements MapServices{
+public class MapAssetManager implements MapServices {
+
     File file = new File("");
     boolean isLoadable;
-    
-    
-    
-    public void load(){
+
+    public void load() {
         isLoadable = true;
     }
-    
-    public String findPath(){
+
+    public String findPath() {
         String path = null;
         path = file.getAbsoluteFile().getPath() + "\\assets\\Background";
-         
+
         return path;
     }
-    
-    public void stop(){
+
+    public void stop() {
         isLoadable = false;
     }
-    
+
 }

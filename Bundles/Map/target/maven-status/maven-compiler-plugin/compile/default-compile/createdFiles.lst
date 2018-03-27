@@ -1,3 +1,7 @@
+Map\MapObj.class
+dk\sdu\mmmi\cbse\map\MapServices.class
+Map\Map.class
 dk\sdu\mmmi\cbse\map\Activator.class
 Map\MapAssetManager.class
-Map\Map.class
+MapServices\MapProcessor.class
+MapServices\MapPlugin.class
