@@ -19,7 +19,7 @@ public class GravityPart implements EntityPart{
     float velocity = 0.0f;
     final float FORCE = 10.0f;
     final float MASS = 1.0f;
-    final float MAX_SPEED = 10;
+    final float MAX_SPEED = 8;
    
     @Override
     public void process(GameData gameData, Entity entity) {

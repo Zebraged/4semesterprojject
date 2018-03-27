@@ -39,12 +39,12 @@ public class AssetManager {
     private GameData data;
     private ReadWriteLock lock = new ReentrantReadWriteLock();
     
-    private Map<String, Texture> spriteMap; 
+    private Map<String, Texture> textureMap; 
 
     public AssetManager(World world, GameData data, OrthographicCamera cam) {
         this.world = world;
         this.data = data;
-        this.spriteMap = new ConcurrentHashMap();
+        this.textureMap = new ConcurrentHashMap();
         
         this.batch = new SpriteBatch();
         batch.setProjectionMatrix(cam.combined);
@@ -56,10 +56,9 @@ public class AssetManager {
         batch.begin();
         for (Entity entity : world.getEntities()) {
             if(entity.getAsset() != null){
-                Sprite sprite = new Sprite(spriteMap.get(entity.getAsset().getImage()));
+                Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                 PositionPart pos = entity.getPart(PositionPart.class);
                 if(entity.getAsset().getMirror() == true){
-                    System.out.println("Right");
                     sprite.flip(true, false);
                 } 
                 sprite.setX((int)pos.getX());
@@ -87,7 +86,7 @@ public class AssetManager {
                         try {
                             pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGB565));
                             Texture texture = new Texture(pixmap);
-                            spriteMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
+                            textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
                             System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
                         } catch (IOException ex) {
                             System.out.println("input not avaiable");

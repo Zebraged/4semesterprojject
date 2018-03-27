@@ -93,7 +93,6 @@ public class AssetGenerator implements EntityPart{
             
             String folder = url.getPath().replace(imagePath, "");
             folder = folder.substring(1, folder.lastIndexOf('/'));
-            System.out.println(folder);
             String name = url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length());
             if(animation.get(folder) == null){
                 animation.put(folder, new ArrayList<>());

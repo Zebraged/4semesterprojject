@@ -31,10 +31,10 @@ public class EnemyFactory implements IEntityGenerator {
     
     
     private Entity createTeddy(int x, int y){
-        Entity entity = new TeddyEnemy();
+        Entity entity = new TeddyEnemy(world, data);
         entity.add(new PositionPart(x, y));
         entity.add(new GravityPart());
-        entity.add(new AssetGenerator(entity, "image/teddy/", "Enemy_Test.png"));
+        entity.add(new AssetGenerator(entity, "image/teddy/", "Teddy_Idle1.png"));
         return entity;
     }
     
@@ -52,6 +52,8 @@ public class EnemyFactory implements IEntityGenerator {
 
     @Override
     public void generate(String identifier, int x, int y, World world, GameData data) {
+        this.world = world;
+        this.data = data;
         Entity enemy = null;
         switch(identifier.toLowerCase()){
             case "teddy":
