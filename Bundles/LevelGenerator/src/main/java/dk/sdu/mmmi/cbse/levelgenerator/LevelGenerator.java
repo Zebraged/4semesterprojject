@@ -5,6 +5,10 @@
  */
 package dk.sdu.mmmi.cbse.levelgenerator;
 
+import dk.sdu.mmmi.cbse.levelgenerator.parsers.ISpecificParser;
+import dk.sdu.mmmi.cbse.levelgenerator.parsers.ObjectsParser;
+import dk.sdu.mmmi.cbse.levelgenerator.parsers.SettingsParser;
+import dk.sdu.mmmi.cbse.levelgenerator.parsers.TilePlacementParser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,8 +26,12 @@ public class LevelGenerator {
     private String tileSetPath;
     private String background;
     private Command currentCommand = Command.NONE;
+    private ISpecificParser settingsParser, objectsParser, tilePlacementParser;
 
     public LevelGenerator(String path) {
+        settingsParser = new SettingsParser();
+        objectsParser = new ObjectsParser();
+        tilePlacementParser = new TilePlacementParser();
         this.path = path;
     }
 
@@ -52,11 +60,14 @@ public class LevelGenerator {
 
         switch (currentCommand) {
             case MAP_SETTINGS:
+                settingsParser.parse(line);
                 break;
             case OBJECTS:
+                objectsParser.parse(line);
                 break;
 
             case TILES:
+                tilePlacementParser.parse(line);
                 break;
 
             default:
