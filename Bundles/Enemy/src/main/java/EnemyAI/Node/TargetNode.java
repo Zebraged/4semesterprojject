@@ -9,6 +9,10 @@ package EnemyAI.Node;
  *
  * @author Marcg
  */
-public class TargetNode {
+public class TargetNode extends Node{
+
+    public TargetNode(int x, int y) {
+        super(x, y);
+    }
     
 }

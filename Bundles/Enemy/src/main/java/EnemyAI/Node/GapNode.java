@@ -9,6 +9,10 @@ package EnemyAI.Node;
  *
  * @author Marcg
  */
-public class GapNode {
+public class GapNode extends Node{
+
+    public GapNode(int x, int y) {
+        super(x, y);
+    }
     
 }

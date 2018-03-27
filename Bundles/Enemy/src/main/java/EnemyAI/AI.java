@@ -5,31 +5,50 @@
  */
 package EnemyAI;
 
+import EnemyAI.Node.Node;
+import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
+import java.util.ArrayList;
 
 /**
  *
  * @author Marcg
  */
-public class TeddyAI {
+public class AI {
     
     private World world;
     private GameData data;
     private IPlayerPositionService playerPosition;
     private BundleContext context;
+    private ArrayList<? extends Node> open = new ArrayList();
+    private ArrayList<? extends Node> closed = new ArrayList();
     
     
-    public TeddyAI(World world, GameData data){
+    public AI(World world, GameData data, Entity entity){
         this.world = world;
         this.data = data;
         
         context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
         playerPosition = (IPlayerPositionService) context.getService(reference);
+        PositionPart part = entity.getPart(PositionPart.class);
+        
+        for(int i = 0; i >= data.getDisplayWidth(); i ++){
+            for(int j = 0 ; j >= data.getDisplayWidth(); j++ ){
+                if (i == part.getX() && j == part.getY()){
+                    open.add(new StartNode(part.getX(), part.getY()))
+                }
+            }
+        }
+        
+        
     }
+    
+    
 }

@@ -14,11 +14,14 @@ public class Node {
     
     private int xPos;
     private int yPos;
-    private int Heuristic;
+    private double heuristic;
+    private double distance;
+    private double cost;
     
-    public Node(String type, int x, int y){
+    public Node(int x, int y){
         this.xPos = x;
         this.yPos = y;
+        this.distance = Double.MAX_VALUE;
     }
     
     public Node(){
@@ -44,13 +47,29 @@ public class Node {
         return yPos;
     }
 
-    public int getHeuristic() {
-        return Heuristic;
+    public double getHeuristic() {
+        return heuristic;
     }
 
-    public void setHeuristic(int Heuristic) {
-        this.Heuristic = Heuristic;
+    public void setHeuristic(double heuristic) {
+        this.heuristic = heuristic;
     }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    
+    public double getDistance() {
+        return distance;
+    }
+
+    public double getCost() {
+        cost = heuristic + distance;
+        return cost;
+    }
+    
+    
     
    
 }

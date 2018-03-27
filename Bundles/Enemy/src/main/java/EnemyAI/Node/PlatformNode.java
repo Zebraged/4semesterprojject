@@ -9,6 +9,10 @@ package EnemyAI.Node;
  *
  * @author Marcg
  */
-public class PlatformNode {
+public class PlatformNode extends Node{
+
+    public PlatformNode(int x, int y) {
+        super(x, y);
+    }
     
 }
