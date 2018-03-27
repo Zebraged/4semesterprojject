@@ -6,7 +6,7 @@
 package MapServices;
 
 import Map.Map;
-import Map.MapAssetManager;
+
 import dk.sdu.mmmi.cbse.common.data.Asset;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -20,13 +20,7 @@ import dk.sdu.mmmi.cbse.map.MapServices;
  */
 public class MapProcessor implements IEntityProcessingService {
 
-    MapServices mam = new MapAssetManager();
-
-    private void updateSprite(Entity entity) {
-        Asset map = new Asset(mam.findPath(),"background"); 
-        entity.setAsset(map);
-    }
-
+    
     public void process(GameData gameData, World world) {
 //        for (Entity entity : world.getEntities(Map.class)) {
 //

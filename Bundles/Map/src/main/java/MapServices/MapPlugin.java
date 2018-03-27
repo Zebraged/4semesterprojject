@@ -23,7 +23,6 @@ import org.osgi.framework.BundleContext;
 public class MapPlugin implements IGamePluginService {
 
     private boolean status = false; // status if the bundle has been started or not
-    private HashMap<String, MapObj> maps = new HashMap<String, MapObj>(); // contain all the maps that is in the folder.
 
     public void stop(GameData gameData, World world) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
