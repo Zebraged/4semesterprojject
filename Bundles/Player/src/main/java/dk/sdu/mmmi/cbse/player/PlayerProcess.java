@@ -20,26 +20,8 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 public class PlayerProcess implements IEntityProcessingService{
 
     public void process(GameData gameData, World world) {
-        for(Entity entity : world.getEntities(Player.class)){
-            PositionPart part = entity.getPart(PositionPart.class);
-            AssetGenerator assetGenerator = entity.getPart(AssetGenerator.class);
-            if(gameData.getKeys().isDown(GameKeys.UP) == true){
-                part.setY(part.getY() + 5);
-                assetGenerator.nextImage("Walk");
-            } else if(gameData.getKeys().isDown(GameKeys.DOWN) == true){
-                part.setY(part.getY() - 5);
-                assetGenerator.nextImage("Walk");
-            } else if(gameData.getKeys().isDown(GameKeys.LEFT) == true){
-                part.setX(part.getX() - 5);
-                assetGenerator.nextImage("Walk");
-            } else if(gameData.getKeys().isDown(GameKeys.RIGHT) == true){
-                part.setX(part.getX() + 5);
-                assetGenerator.nextImage("Walk");
-            } else {
-                assetGenerator.nextImage("Background");
-            }
-            assetGenerator.process(gameData, entity);
-        }
+        
+        
     }
     
 }
