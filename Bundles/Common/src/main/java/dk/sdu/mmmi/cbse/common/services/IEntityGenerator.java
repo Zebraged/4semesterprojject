@@ -13,5 +13,6 @@ import dk.sdu.mmmi.cbse.common.data.World;
  * @author Marcg
  */
 public interface IEntityGenerator {
+    
     public void generate(String identifier, int x, int y, World world, GameData data);
 }
