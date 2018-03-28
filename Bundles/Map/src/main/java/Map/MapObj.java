@@ -5,21 +5,16 @@
  */
 package Map;
 
-import java.io.File;
-
 /**
  *
  * @author admin
  */
 public class MapObj {
 
-    private File file = new File("");
+    private final String mapname;
 
-    public String findPath() {
-        String path = null;
-        path = file.getAbsoluteFile().getPath() + "\\assets\\Background";
-
-        return path;
+    public MapObj(String mapname) {
+        this.mapname = mapname;
     }
 
 }
