@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package EnemyAI;
+package dk.sdu.mmmi.cbse.enemy.EnemyAI;
+
 
 import EnemyAI.Node.Node;
-import EnemyAI.Node.StartNode;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
