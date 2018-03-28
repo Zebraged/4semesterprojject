@@ -10,7 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
-import dk.sdu.mmmi.cbse.common.entityparts.GravityPart;
+import dk.sdu.mmmi.cbse.common.entityparts.GravityPart_PLACEHOLDER;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
@@ -29,7 +29,7 @@ public class EnemyProcess implements IEntityProcessingService{
     public void process(GameData gameData, World world) {
         for(Entity entity : world.getEntities(TeddyEnemy.class)){
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
-            GravityPart gravity = entity.getPart(GravityPart.class);
+            GravityPart_PLACEHOLDER gravity = entity.getPart(GravityPart_PLACEHOLDER.class);
             PositionPart position = entity.getPart(PositionPart.class);
             float x = position.getX();
             float y = position.getY();

@@ -12,7 +12,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
  *
  * @author Marcg
  */
-public class GravityPart implements EntityPart{
+public class GravityPart_PLACEHOLDER implements EntityPart{
     
     float entityY;
     double time = 0.0;

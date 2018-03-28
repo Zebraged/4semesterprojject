@@ -6,6 +6,7 @@
 package EnemyAI;
 
 import EnemyAI.Node.Node;
+import EnemyAI.Node.StartNode;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -26,8 +27,8 @@ public class AI {
     private GameData data;
     private IPlayerPositionService playerPosition;
     private BundleContext context;
-    private ArrayList<? extends Node> open = new ArrayList();
-    private ArrayList<? extends Node> closed = new ArrayList();
+    private ArrayList<Node> open = new ArrayList();
+    private ArrayList<Node> closed = new ArrayList();
     
     
     public AI(World world, GameData data, Entity entity){
@@ -42,7 +43,7 @@ public class AI {
         for(int i = 0; i >= data.getDisplayWidth(); i ++){
             for(int j = 0 ; j >= data.getDisplayWidth(); j++ ){
                 if (i == part.getX() && j == part.getY()){
-                    open.add(new StartNode(part.getX(), part.getY()))
+                    //open.add(new StartNode(part.getX(), part.getY()));
                 }
             }
         }
