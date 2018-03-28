@@ -9,6 +9,5 @@ package dk.sdu.mmmi.cbse.common.services;
  *
  * @author Mr. Kinder
  */
-public interface IEnemyGenerator {
-    public void generate(String enemyIdentifier, int x, int y);
+public interface IEnemyGenerator extends IEntityGenerator {
 }

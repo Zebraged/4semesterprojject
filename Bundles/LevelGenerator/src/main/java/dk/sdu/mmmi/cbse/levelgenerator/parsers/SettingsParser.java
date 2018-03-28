@@ -5,14 +5,17 @@
  */
 package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 
+import org.osgi.framework.BundleContext;
+
 /**
  *
  * @author Kristian
  */
 public class SettingsParser implements ISpecificParser {
+    
 
     public void parse(String line) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("LevelGenerator: \n\tSettingsParser not implemented yet.");
     }
     
 }

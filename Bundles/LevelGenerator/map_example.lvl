@@ -19,7 +19,6 @@ tiles:
 1111111111
 
 objects:
-enemy=cloud,5,5
-enemy=cloud,3,3
 enemy=teddy,8,3
-item_collect=meat,3,3
+enemy=teddy,2,2
+

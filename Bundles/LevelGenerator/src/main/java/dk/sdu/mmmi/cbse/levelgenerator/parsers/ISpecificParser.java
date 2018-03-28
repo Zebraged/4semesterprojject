@@ -5,10 +5,13 @@
  */
 package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 
+import org.osgi.framework.BundleContext;
+
 /**
  *
  * @author Kristian
  */
 public interface ISpecificParser {
+
     public void parse(String line);
 }
