@@ -13,9 +13,11 @@ public class Activator implements BundleActivator {
     private IEntityProcessingService process = new MapProcessor();
 
     /**
-     * Starts the mapbundle
+     * Starts the mapbundle, first method to be called when the osgi calls the
+     * bundle.
+     *
      * @param context
-     * @throws Exception 
+     * @throws Exception
      */
     public void start(BundleContext context) throws Exception {
 
@@ -25,8 +27,9 @@ public class Activator implements BundleActivator {
 
     /**
      * Stops the mapbundle
+     *
      * @param context
-     * @throws Exception 
+     * @throws Exception
      */
     public void stop(BundleContext context) throws Exception {
         context.ungetService(context.getServiceReference(MapPlugin.class.getName()));

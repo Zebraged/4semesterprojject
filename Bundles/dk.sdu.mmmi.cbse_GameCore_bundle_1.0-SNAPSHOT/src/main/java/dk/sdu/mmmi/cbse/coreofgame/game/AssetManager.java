@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
-import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGB565;
+import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGBA8888;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -86,7 +86,7 @@ public class AssetManager {
                         url = urls.nextElement();
                         Pixmap pixmap = null;
                         try {
-                            pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGB565));
+                            pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
                             Texture texture = new Texture(pixmap);
                             Sprite sprite = new Sprite(texture);
                             spriteMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), sprite);
