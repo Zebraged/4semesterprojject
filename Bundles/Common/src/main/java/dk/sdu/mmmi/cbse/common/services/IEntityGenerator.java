@@ -14,5 +14,13 @@ import dk.sdu.mmmi.cbse.common.data.World;
  */
 public interface IEntityGenerator {
     
+    /**
+     * Generate a new Entity file based on the identifier. if identifier is invalid no entity will be generated. Factory classes should implement this interface in each plugin.
+     * @param identifier Enemy: "teddy", "cloud", "unicorn"
+     * @param x start position for entity
+     * @param y start position for entity
+     * @param world
+     * @param data
+     */
     public void generate(String identifier, int x, int y, World world, GameData data);
 }

@@ -17,32 +17,60 @@ public class Asset {
     String image;
     boolean mirror = false;
     
+    /**
+     *
+     * @param path
+     * @param image
+     */
     public Asset(String path, String image){
         this.imagePath = path;
         this.image = image;
     }
     
+    /**
+     *
+     * @param mirror
+     */
     public void setMirror(boolean mirror){
         this.mirror = mirror;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean getMirror(){
         return mirror;
     }
     
-    
+    /**
+     *
+     * @param path
+     */
     public void changeImagePath(String path){
         this.imagePath = path;
     }
     
+    /**
+     *
+     * @param image
+     */
     public void changeImage(String image){
         this.image = image;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getImagePath(){
         return imagePath;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getImage(){
         return this.image;
     }

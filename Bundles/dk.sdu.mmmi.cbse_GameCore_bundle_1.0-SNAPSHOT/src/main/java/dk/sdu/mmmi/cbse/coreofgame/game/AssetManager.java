@@ -41,6 +41,12 @@ public class AssetManager {
     
     private Map<String, Texture> textureMap; 
 
+    /**
+     *
+     * @param world
+     * @param data
+     * @param cam
+     */
     public AssetManager(World world, GameData data, OrthographicCamera cam) {
         this.world = world;
         this.data = data;
@@ -50,6 +56,10 @@ public class AssetManager {
         batch.setProjectionMatrix(cam.combined);
     }
 
+    /**
+     *
+     * @param context
+     */
     public void loadImages(BundleContext context) {
         lock.readLock().lock();
         try{
@@ -73,6 +83,10 @@ public class AssetManager {
         }
     }
     
+    /**
+     *
+     * @param bundle
+     */
     public void loadAllPluginTextures(Bundle bundle){
         lock.writeLock().lock();
         try{

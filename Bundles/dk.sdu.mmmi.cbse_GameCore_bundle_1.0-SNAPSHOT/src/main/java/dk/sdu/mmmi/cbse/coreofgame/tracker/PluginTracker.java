@@ -29,6 +29,13 @@ public class PluginTracker {
     AssetManager assetManager;
     ExecutorService executor = Executors.newSingleThreadExecutor();
     
+    /**
+     *
+     * @param context
+     * @param data
+     * @param world
+     * @param assetManager
+     */
     public PluginTracker(BundleContext context, GameData data, World world, AssetManager assetManager){
         this.context = context;
         this.gameData = data;
@@ -59,6 +66,9 @@ public class PluginTracker {
         return collection;
     }
     
+    /**
+     *
+     */
     public void startPluginTracker(){
         active = true;
         executor.execute(()->{
@@ -74,6 +84,9 @@ public class PluginTracker {
         });
     }
     
+    /**
+     *
+     */
     public void stopPluginTracker(){
         active = false;
         context.ungetService(context.getServiceReference(IGamePluginService.class.getName()));

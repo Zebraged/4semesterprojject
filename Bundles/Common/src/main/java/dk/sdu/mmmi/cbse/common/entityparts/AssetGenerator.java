@@ -31,7 +31,7 @@ public class AssetGenerator implements EntityPart{
     private Map<String, ArrayList<String>> animation = new HashMap<>();
     
     /**
-     *  
+     * creates asset generator for each
      * @param source
      * @param imagePath
      * @param image
@@ -44,6 +44,10 @@ public class AssetGenerator implements EntityPart{
         loadAll(source);
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean getMirror(){
         return this.mirror;
     }
@@ -106,6 +110,7 @@ public class AssetGenerator implements EntityPart{
     /**
      *
      * @param type
+     * @param mirror
      */
     public void nextImage(String type, boolean mirror){
         if(delay <= 0){

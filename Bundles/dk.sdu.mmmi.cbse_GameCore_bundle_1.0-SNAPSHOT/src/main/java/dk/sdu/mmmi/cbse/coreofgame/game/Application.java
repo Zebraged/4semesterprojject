@@ -3,10 +3,17 @@ package dk.sdu.mmmi.cbse.coreofgame.game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+/**
+ *
+ * @author Marcg
+ */
 public class Application {
 
     private LwjglApplication application;
     
+    /**
+     *
+     */
     public Application() {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
@@ -20,6 +27,9 @@ public class Application {
 
     }
 
+    /**
+     *
+     */
     public void stop() {
         application.stop();
     }

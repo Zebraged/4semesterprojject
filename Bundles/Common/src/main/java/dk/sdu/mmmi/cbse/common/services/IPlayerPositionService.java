@@ -10,6 +10,16 @@ package dk.sdu.mmmi.cbse.common.services;
  * @author Marcg
  */
 public interface IPlayerPositionService {
+
+    /**
+     * get the x position of the player
+     * @return
+     */
     public float getX();
+
+    /**
+     * get the y position of the player
+     * @return
+     */
     public float getY();
 }

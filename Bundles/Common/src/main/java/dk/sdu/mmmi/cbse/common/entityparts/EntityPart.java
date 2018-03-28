@@ -13,5 +13,11 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
  * @author Alexander
  */
 public interface EntityPart {
+
+    /**
+     *
+     * @param gameData
+     * @param entity
+     */
     void process(GameData gameData, Entity entity);
 }
