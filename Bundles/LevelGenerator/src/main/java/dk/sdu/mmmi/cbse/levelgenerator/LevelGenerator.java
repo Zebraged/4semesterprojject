@@ -32,7 +32,8 @@ public class LevelGenerator implements ILevelGenerator {
     private String tileSetPath;
     private String background;
     private Command currentCommand = Command.NONE;
-    private ISpecificParser settingsParser, objectsParser, tilePlacementParser;
+    private ISpecificParser settingsParser, objectsParser;
+    private TilePlacementParser tilePlacementParser;
     private BundleContext context;
     private GameData data;
     private World world;
@@ -48,13 +49,18 @@ public class LevelGenerator implements ILevelGenerator {
         settingsParser = new SettingsParser();
         
         objectsParser = new ObjectsParser(context, data, world);
-        //tilePlacementParser = new TilePlacementParser((ITileGenerator)context.getService(context.getServiceReference(ITileGenerator.class)), data, world);
+        tilePlacementParser = new TilePlacementParser(context, data, world);
         
     }
     private void inf(String str) {
         System.out.println("LevelGenerator: "+str);
     }
 
+    /**
+     * Generates all map data found in the path specified.
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void generate() throws FileNotFoundException, IOException {
         prepare();
         inf("Beginning generation!..");
@@ -89,7 +95,11 @@ public class LevelGenerator implements ILevelGenerator {
         
         switch (currentCommand) {
             case MAP_SETTINGS:
+                String[] keypair = line.split("=");
                 settingsParser.parse(line);
+                if(keypair[0].equals("tiles_y")) {
+                    tilePlacementParser.setLengthY(Integer.valueOf(keypair[1]));
+                }
                 break;
             case OBJECTS:
                 objectsParser.parse(line);
@@ -105,6 +115,10 @@ public class LevelGenerator implements ILevelGenerator {
         }
     }
 
+    /**
+     * Sets the path to the level file. 
+     * @param path 
+     */
     public void setPath(String path) {
         this.path = path;
     }
