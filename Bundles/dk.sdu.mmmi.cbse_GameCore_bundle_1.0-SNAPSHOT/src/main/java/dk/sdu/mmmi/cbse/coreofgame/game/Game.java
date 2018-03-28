@@ -78,7 +78,7 @@ public class Game implements ApplicationListener {
             assetManager.loadAllPluginTextures(bundle);
             gameData.removeBundle(bundle);
         }
-        
+        System.out.println("running");
         IEntityProcessingService process;
         if(processReference() != null){
             for(ServiceReference<IEntityProcessingService> reference : processReference()){

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1522237595228
+Build-Jdk: 1.8.0_101
+Built-By: Rasmus BG
+Bundle-Activator: dk.sdu.mmmi.cbse.levelgenerator.LevelActivator
+Bundle-ManifestVersion: 2
+Bundle-Name: LevelGenerator OSGi Bundle
+Bundle-SymbolicName: dk.sdu.mmmi.cbse.LevelGenerator
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.osgi.framework;version="[1.6,2)"
+Tool: Bnd-1.50.0
