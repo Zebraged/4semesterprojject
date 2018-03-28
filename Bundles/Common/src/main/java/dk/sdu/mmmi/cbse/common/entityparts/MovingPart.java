@@ -15,52 +15,27 @@ import static java.lang.Math.sqrt;
  *
  * @author Alexander
  */
-public class MovingPart
-        implements EntityPart {
+public class MovingPart implements EntityPart {
 
-    private float dx, dy;
-    private float deceleration, acceleration;
-    private float maxSpeed, rotationSpeed;
+    private float speed;
+    private float gravity, jumpVelocity;
     private boolean left, right, up;
+    private boolean isGrounded;
 
-    public MovingPart(float deceleration, float acceleration, float maxSpeed, float rotationSpeed) {
-        this.deceleration = deceleration;
-        this.acceleration = acceleration;
-        this.maxSpeed = maxSpeed;
-        this.rotationSpeed = rotationSpeed;
-    }
+    /**
+     * Initializes MovingPart and calculates gravity and initial jump-velocity
+     * based on desired jump height and jump length.
+     *
+     * @param speed MovingPart's horizontal speed
+     * @param jumpHeight MovingPart's maximum jump hight
+     * @param jumpLength MovingPart's maximum jump length
+     */
+    public MovingPart(float speed, float jumpHeight, float jumpLength) {
+        this.speed = speed;
 
-    public void setDeceleration(float deceleration) {
-        this.deceleration = deceleration;
-    }
-    
-    public float getDeceleration(){
-        return this.deceleration;
-    }
+        jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-    public void setAcceleration(float acceleration) {
-        this.acceleration = acceleration;
-    }
-    
-    public float getAcceleration(){
-        return this.acceleration;
-    }
-    
-
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-    
-    public float getMaxSpeed(){
-        return this.maxSpeed;
-    }
-
-    public void setRotationSpeed(float rotationSpeed) {
-        this.rotationSpeed = rotationSpeed;
-    }
-    
-    public float getRotationSpeed(){
-        return this.rotationSpeed;
+        gravity = - 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
     }
 
     public void setLeft(boolean left) {
@@ -75,40 +50,30 @@ public class MovingPart
         this.up = up;
     }
 
+    public void setIsGrounded(boolean isGrounded) {
+        this.isGrounded = isGrounded;
+    }
+
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
         float dt = gameData.getDelta();
-        
 
-        // deccelerating
-        float vec = (float) sqrt(dx * dx + dy * dy);
-        if (vec > 0) {
-            dx -= (dx / vec) * deceleration * dt;
-            dy -= (dy / vec) * deceleration * dt;
-        }
-        if (vec > maxSpeed) {
-            dx = (dx / vec) * maxSpeed;
-            dy = (dy / vec) * maxSpeed;
+        if (left) {
+            x += speed * dt;
         }
 
-        // set position
-        x += dx * dt;
-        if (x > gameData.getDisplayWidth()) {
-            x = 0;
-        }
-        else if (x < 0) {
-            x = gameData.getDisplayWidth();
+        if (right) {
+            x -= speed * dt;
         }
 
-        y += dy * dt;
-        if (y > gameData.getDisplayHeight()) {
-            y = 0;
-        }
-        else if (y < 0) {
-            y = gameData.getDisplayHeight();
+        if (up) {
+            isGrounded = false;
+            y += -gravity * dt * dt / 2 + jumpVelocity * dt;
+        } else if (!isGrounded) {
+            y += -gravity * dt * dt / 2;
         }
 
         positionPart.setX(x);
