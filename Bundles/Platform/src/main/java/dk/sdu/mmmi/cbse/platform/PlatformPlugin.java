@@ -12,6 +12,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import java.io.File;
+import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -24,6 +25,7 @@ public class PlatformPlugin implements IGamePluginService {
     Entity platform;
     private BundleContext context;
     World world;
+    private ArrayList<PlatformObj> platforms = new ArrayList();
 
     public void start(GameData gameData, World world, BundleContext context) {
         this.world = world;
@@ -35,9 +37,9 @@ public class PlatformPlugin implements IGamePluginService {
 
     }
     /***
-     * sdfsdf
-     * @param gameData sadfasd
-     * @param world asdfasdf
+     * creates a platform with a picture, and some coordinates.
+     * @param gameData 
+     * @param world 
      */
     private void createPlatform(GameData gameData, World world) {
 
@@ -50,7 +52,7 @@ public class PlatformPlugin implements IGamePluginService {
 
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
-                    // kan tilføje et objeckt af platform
+                    platforms.add(new PlatformObj(file.getName(), 0, 0));
                     platform.add(new AssetGenerator(platform, "image/", file.getName()));
                 }
             }
@@ -58,7 +60,7 @@ public class PlatformPlugin implements IGamePluginService {
             System.out.println("No platforms found in bundle image folder");
         }
 
-        platform.add(new PositionPart(1, 1));
+        platform.add(new PositionPart(platforms.get(0).getxPos(), platforms.get(0).getyPos()));
 
     }
 
