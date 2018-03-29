@@ -7,8 +7,6 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 /**
@@ -80,23 +78,8 @@ public class MovingPart
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
-        float radians = positionPart.getRadians();
         float dt = gameData.getDelta();
-
-        // turning
-        if (left) {
-            radians += rotationSpeed * dt;
-        }
-
-        if (right) {
-            radians -= rotationSpeed * dt;
-        }
-
-        // accelerating            
-        if (up) {
-            dx += cos(radians) * acceleration * dt;
-            dy += sin(radians) * acceleration * dt;
-        }
+        
 
         // deccelerating
         float vec = (float) sqrt(dx * dx + dy * dy);
@@ -129,7 +112,6 @@ public class MovingPart
         positionPart.setX(x);
         positionPart.setY(y);
 
-        positionPart.setRadians(radians);
     }
 
 }

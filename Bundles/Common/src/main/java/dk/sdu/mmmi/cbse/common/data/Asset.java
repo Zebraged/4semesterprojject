@@ -15,11 +15,21 @@ public class Asset {
     
     String imagePath;
     String image;
+    boolean mirror = false;
     
     public Asset(String path, String image){
         this.imagePath = path;
         this.image = image;
     }
+    
+    public void setMirror(boolean mirror){
+        this.mirror = mirror;
+    }
+    
+    public boolean getMirror(){
+        return mirror;
+    }
+    
     
     public void changeImagePath(String path){
         this.imagePath = path;
