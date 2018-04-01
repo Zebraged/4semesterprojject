@@ -30,7 +30,7 @@ public class PluginTracker {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     
     /**
-     *
+     *  used for tracking new plugins being loaded
      * @param context
      * @param data
      * @param world
@@ -43,6 +43,7 @@ public class PluginTracker {
         this.assetManager = assetManager;
     }
     
+    //starts any new plugin that have been loaded
     private void loadPlugins(){
         IGamePluginService plugin;
         for(ServiceReference<IGamePluginService> reference : pluginReference()){
@@ -50,24 +51,25 @@ public class PluginTracker {
             if(plugin.getStatus() == false){
                 System.out.println("New plugin detected!");
                 plugin.start(gameData, world, context);
-                gameData.addBundle(reference.getBundle());
+                gameData.addBundle(reference.getBundle());//adds the new loaded bundle to gameData for imageloading
             }
         }
     }
     
+    //returns a service reference for each plugin available in the program
     private Collection<ServiceReference<IGamePluginService>> pluginReference() {
         Collection<ServiceReference<IGamePluginService>> collection = null;
         try {
             collection = this.context.getServiceReferences(IGamePluginService.class, null);
         } catch (InvalidSyntaxException ex) {
             System.out.println("Service not availlable!");
-            active = false;
+            active = false; //stop thread if service is unavailable
         }
         return collection;
     }
     
     /**
-     *
+     * start a thread that keeps checking for new plugins every 5 seconds
      */
     public void startPluginTracker(){
         active = true;
@@ -85,7 +87,7 @@ public class PluginTracker {
     }
     
     /**
-     *
+     * stop any thread looking for plugins and ungets any pluginService.
      */
     public void stopPluginTracker(){
         active = false;

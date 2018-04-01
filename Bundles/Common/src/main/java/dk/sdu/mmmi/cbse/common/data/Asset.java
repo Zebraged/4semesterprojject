@@ -28,7 +28,7 @@ public class Asset {
     }
     
     /**
-     *
+     * set true if image should change direction (left or right)
      * @param mirror
      */
     public void setMirror(boolean mirror){
@@ -36,7 +36,7 @@ public class Asset {
     }
     
     /**
-     *
+     * returns image direction
      * @return
      */
     public boolean getMirror(){
@@ -44,7 +44,7 @@ public class Asset {
     }
     
     /**
-     *
+     * path to image
      * @param path
      */
     public void changeImagePath(String path){
@@ -52,7 +52,7 @@ public class Asset {
     }
     
     /**
-     *
+     * image name
      * @param image
      */
     public void changeImage(String image){
@@ -60,7 +60,7 @@ public class Asset {
     }
     
     /**
-     *
+     * get path to image
      * @return
      */
     public String getImagePath(){
@@ -68,7 +68,7 @@ public class Asset {
     }
     
     /**
-     *
+     * get image name
      * @return
      */
     public String getImage(){
