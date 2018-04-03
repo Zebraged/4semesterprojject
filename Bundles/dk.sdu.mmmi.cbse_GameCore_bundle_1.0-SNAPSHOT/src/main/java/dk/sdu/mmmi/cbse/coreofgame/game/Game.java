@@ -25,8 +25,8 @@ public class Game implements ApplicationListener {
                 = new LwjglApplicationConfiguration();
         
         cfg.title = "Test";
-        cfg.width = 500;
-        cfg.height = 400;
+        cfg.width = 800;
+        cfg.height = 600;
         cfg.useGL30 = false;
         cfg.resizable = true;
         
@@ -50,8 +50,12 @@ public class Game implements ApplicationListener {
         
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        
         cam.update();
         
+        gameData.setDisplayHeight(Gdx.graphics.getHeight());
+        gameData.setDisplayWidth(Gdx.graphics.getWidth());
+         
         assetManager = new AssetManager(world, gameData, cam);
         
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);

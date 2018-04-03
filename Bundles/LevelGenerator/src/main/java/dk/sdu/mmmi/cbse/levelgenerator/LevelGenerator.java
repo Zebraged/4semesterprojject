@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  *
@@ -42,7 +41,7 @@ public class LevelGenerator {
     
     private void parse(String line) {
         if(line.endsWith(":")) {
-            currentCommand = Command.getCommand(line);
+            currentCommand = Command.getCommand(line.toUpperCase());
         };
         
         switch(currentCommand) {

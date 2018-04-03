@@ -8,6 +8,10 @@ dk\sdu\mmmi\cbse\common\entityparts\EntityPart.class
 dk\sdu\mmmi\cbse\common\data\Entity.class
 dk\sdu\mmmi\cbse\common\events\Event.class
 dk\sdu\mmmi\cbse\common\data\GameData.class
+<<<<<<< HEAD
+=======
 dk\sdu\mmmi\cbse\common\entityparts\AssetGenerator.class
+>>>>>>> master
 dk\sdu\mmmi\cbse\common\entityparts\MovingPart.class
 dk\sdu\mmmi\cbse\common\data\GameKeys.class
+.netbeans_automatic_build

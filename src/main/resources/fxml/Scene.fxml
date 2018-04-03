@@ -17,6 +17,7 @@
       <Label layoutX="370.0" layoutY="32.0" text="Module Name:" />
       <Label layoutX="370.0" layoutY="75.0" text="Current State:" />
       <Label fx:id="stateLabel" layoutX="370.0" layoutY="93.0" prefHeight="17.0" prefWidth="223.0" />
-      <Line endX="100.0" layoutX="481.0" layoutY="275.0" startX="-100.0" stroke="#c6c5c5" />
+      <Line endX="100.0" layoutX="481.0" layoutY="245.0" startX="-100.0" stroke="#c6c5c5" />
+      <Button fx:id="refreshButton" layoutX="443.0" layoutY="257.0" mnemonicParsing="false" onAction="#refreshButtonA" text="Refresh List" />
    </children>
 </AnchorPane>
