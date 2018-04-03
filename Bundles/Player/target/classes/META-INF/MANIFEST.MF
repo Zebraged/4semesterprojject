@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1522151649306
-Build-Jdk: 1.8.0_151
-Built-By: admin
+Bnd-LastModified: 1522746749516
+Build-Jdk: 1.8.0_161
+Built-By: rasmu
 Bundle-Activator: dk.sdu.mmmi.cbse.player.PlayerActivator
 Bundle-ManifestVersion: 2
 Bundle-Name: Player OSGi Bundle
@@ -11,5 +11,4 @@ Created-By: Apache Maven Bundle Plugin
 Import-Package: dk.sdu.mmmi.cbse.common.data;version="[1.0,2)",dk.sdu.mm
  mi.cbse.common.entityparts;version="[1.0,2)",dk.sdu.mmmi.cbse.common.se
  rvices;version="[1.0,2)",org.osgi.framework;version="[1.6,2)"
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
-Tool: Bnd-2.3.0.201405100607
+Tool: Bnd-1.50.0
