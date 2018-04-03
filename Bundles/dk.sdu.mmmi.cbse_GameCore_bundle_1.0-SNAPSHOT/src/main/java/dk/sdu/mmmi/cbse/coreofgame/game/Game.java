@@ -17,9 +17,17 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
+/**
+ *
+ * @author Marcg
+ */
 public class Game implements ApplicationListener {
     
-    
+    /**
+     *
+     * @param context
+     * @return
+     */
     public static LwjglApplication getApp(BundleContext context) {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
@@ -45,6 +53,9 @@ public class Game implements ApplicationListener {
     private final GameData gameData = new GameData();
     private World world = new World();
 
+    /**
+     *
+     */
     @Override
     public void create() {
         
@@ -68,6 +79,9 @@ public class Game implements ApplicationListener {
         
     }
 
+    /**
+     *
+     */
     @Override
     public void render() {
         update();
@@ -96,18 +110,32 @@ public class Game implements ApplicationListener {
         assetManager.loadImages(context);
     }
 
+    /**
+     *
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
     }
 
+    /**
+     *
+     */
     @Override
     public void pause() {
     }
 
+    /**
+     *
+     */
     @Override
     public void resume() {
     }
 
+    /**
+     *
+     */
     @Override
     public void dispose() {
         pluginTracker.stopPluginTracker();
@@ -117,12 +145,18 @@ public class Game implements ApplicationListener {
     private void postUpdate() {
     }
     
-    
+    /**
+     *
+     * @param context
+     */
     public void setContext(BundleContext context){
         this.context = context;
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public Collection<ServiceReference<IEntityProcessingService>> processReference() {
         Collection<ServiceReference<IEntityProcessingService>> collection = null;
         try {

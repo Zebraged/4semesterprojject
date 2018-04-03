@@ -21,6 +21,13 @@ public class MovingPart
     private float maxSpeed, rotationSpeed;
     private boolean left, right, up;
 
+    /**
+     *
+     * @param deceleration
+     * @param acceleration
+     * @param maxSpeed
+     * @param rotationSpeed
+     */
     public MovingPart(float deceleration, float acceleration, float maxSpeed, float rotationSpeed) {
         this.deceleration = deceleration;
         this.acceleration = acceleration;
@@ -28,51 +35,99 @@ public class MovingPart
         this.rotationSpeed = rotationSpeed;
     }
 
+    /**
+     *
+     * @param deceleration
+     */
     public void setDeceleration(float deceleration) {
         this.deceleration = deceleration;
     }
     
+    /**
+     *
+     * @return
+     */
     public float getDeceleration(){
         return this.deceleration;
     }
 
+    /**
+     *
+     * @param acceleration
+     */
     public void setAcceleration(float acceleration) {
         this.acceleration = acceleration;
     }
     
+    /**
+     *
+     * @return
+     */
     public float getAcceleration(){
         return this.acceleration;
     }
     
-
+    /**
+     *
+     * @param maxSpeed
+     */
     public void setMaxSpeed(float maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
     
+    /**
+     *
+     * @return
+     */
     public float getMaxSpeed(){
         return this.maxSpeed;
     }
 
+    /**
+     *
+     * @param rotationSpeed
+     */
     public void setRotationSpeed(float rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
     }
     
+    /**
+     *
+     * @return
+     */
     public float getRotationSpeed(){
         return this.rotationSpeed;
     }
 
+    /**
+     *
+     * @param left
+     */
     public void setLeft(boolean left) {
         this.left = left;
     }
 
+    /**
+     *
+     * @param right
+     */
     public void setRight(boolean right) {
         this.right = right;
     }
 
+    /**
+     *
+     * @param up
+     */
     public void setUp(boolean up) {
         this.up = up;
     }
 
+    /**
+     *
+     * @param gameData
+     * @param entity
+     */
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
