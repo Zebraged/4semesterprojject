@@ -22,7 +22,7 @@ import org.osgi.framework.ServiceReference;
  * @author Marcg
  */
 public class Game implements ApplicationListener {
-    
+
     /**
      *
      * @param context
@@ -31,20 +31,19 @@ public class Game implements ApplicationListener {
     public static LwjglApplication getApp(BundleContext context) {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
-        
+
         cfg.title = "Test";
         cfg.width = 800;
         cfg.height = 600;
         cfg.useGL30 = false;
         cfg.resizable = true;
-        
+
         Game game = new Game();
         LwjglApplication application = new LwjglApplication(game, cfg);
         game.setContext(context);
-        
+
         return application;
     }
-        
 
     private BundleContext context;
     private AssetManager assetManager;
@@ -58,25 +57,24 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void create() {
-        
+
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        
+
         cam.update();
-        
+
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
-         
+
         assetManager = new AssetManager(world, gameData, cam);
-        
+
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);
         pluginTracker.startPluginTracker();
-        
+
         Gdx.input.setInputProcessor(
                 new GameInputProcessor(gameData)
         );
-        
-        
+
     }
 
     /**
@@ -84,19 +82,22 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void render() {
+
+        gameData.setDelta(Gdx.graphics.getDeltaTime());
         update();
         draw();
+        
     }
 
     private void update() {
-        for(Bundle bundle : gameData.getBundles()){
+        for (Bundle bundle : gameData.getBundles()) {
             assetManager.loadAllPluginTextures(bundle);
             gameData.removeBundle(bundle);
         }
-        
+
         IEntityProcessingService process;
-        if(processReference() != null){
-            for(ServiceReference<IEntityProcessingService> reference : processReference()){
+        if (processReference() != null) {
+            for (ServiceReference<IEntityProcessingService> reference : processReference()) {
                 process = (IEntityProcessingService) context.getService(reference);
                 process.process(gameData, world);
             }
@@ -106,7 +107,7 @@ public class Game implements ApplicationListener {
     private void draw() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         assetManager.loadImages(context);
     }
 
@@ -144,15 +145,15 @@ public class Game implements ApplicationListener {
 
     private void postUpdate() {
     }
-    
+
     /**
      *
      * @param context
      */
-    public void setContext(BundleContext context){
+    public void setContext(BundleContext context) {
         this.context = context;
     }
-    
+
     /**
      *
      * @return
@@ -166,6 +167,5 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-    
-    
+
 }
