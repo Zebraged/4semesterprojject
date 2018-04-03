@@ -34,7 +34,6 @@ public class PlayerProcess implements IEntityProcessingService {
 
             if (positionPart.getY() <= gameData.getDisplayHeight() / 2) {
                 movingPart.setIsGrounded(true);
-                positionPart.setY(gameData.getDisplayHeight());
             }
 
             movingPart.process(gameData, player);

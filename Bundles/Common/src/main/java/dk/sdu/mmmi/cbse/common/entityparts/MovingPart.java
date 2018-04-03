@@ -18,6 +18,7 @@ public class MovingPart implements EntityPart {
     private float gravity, jumpVelocity;
     private boolean left, right, up;
     private boolean isGrounded;
+    private float jumpTime;
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -32,7 +33,7 @@ public class MovingPart implements EntityPart {
 
         jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-        gravity = - 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
     }
 
     public void setLeft(boolean left) {
@@ -59,18 +60,23 @@ public class MovingPart implements EntityPart {
         float dt = gameData.getDelta();
 
         if (left) {
-            x += speed * dt;
-        }
-
-        if (right) {
             x -= speed * dt;
         }
 
+        if (right) {
+            x += speed * dt;
+        }
+
         if (up) {
+            if (isGrounded) {
+                jumpTime = 0;
+            }
+            jumpTime += dt;
             isGrounded = false;
-            y += -gravity * dt * dt / 2 + jumpVelocity * dt;
+            y += -gravity * jumpTime * jumpTime / 2 + jumpVelocity * dt;
         } else if (!isGrounded) {
-            y += -gravity * dt * dt / 2;
+            jumpTime += dt;
+            y += -gravity * jumpTime * jumpTime / 2;
         }
 
         positionPart.setX(x);
