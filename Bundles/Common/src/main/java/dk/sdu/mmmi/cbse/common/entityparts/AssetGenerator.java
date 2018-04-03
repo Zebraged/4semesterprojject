@@ -31,10 +31,12 @@ public class AssetGenerator implements EntityPart{
     private Map<String, ArrayList<String>> animation = new HashMap<>();
     
     /**
-     *  
-     * @param source
-     * @param imagePath
-     * @param image
+     * creates asset generator for each each entity that should have an image on the screen.
+     * creates a Map with a key word based on folder path 
+     * and a value with an Arraylist for all pictures located in that folder in key word is based on.
+     * @param source entity in which the generator is connected to
+     * @param imagePath path to the folder called image
+     * @param image path to the first image that should be loaded
      */
     public AssetGenerator(Entity source, String imagePath, String image){
         this.imagePath = imagePath;
@@ -44,13 +46,17 @@ public class AssetGenerator implements EntityPart{
         loadAll(source);
     }
     
+    /**
+     * checks if the image i mirrored or not
+     * @return
+     */
     public boolean getMirror(){
         return this.mirror;
     }
     
     
     /**
-     *
+     * process the generator loading the next image
      * @param gameData
      * @param entity
      */
@@ -62,7 +68,7 @@ public class AssetGenerator implements EntityPart{
     }
     
     /**
-     *
+     * change the base path of the folder containing images
      * @param path
      */
     public void addImagePath(String path){
@@ -70,7 +76,7 @@ public class AssetGenerator implements EntityPart{
     }
     
     /**
-     *
+     * change the image that should be loaded next
      * @param image
      */
     public void changeImage(String image){
@@ -78,13 +84,15 @@ public class AssetGenerator implements EntityPart{
     }
     
     /**
-     *
+     * change delay between image change when multiple images is being loaded
      * @param delay
      */
     public void setImageDelay(int delay){
         this.imageDelay = delay;
     }
     
+    
+    //create a hashmap with all the relevant pictures.
     private void loadAll(Entity source){
         URL url;
         Enumeration<URL> urls = FrameworkUtil.getBundle(source.getClass()).findEntries(source.getAsset().getImagePath(), "*.png", true);
@@ -104,8 +112,9 @@ public class AssetGenerator implements EntityPart{
     }
     
     /**
-     *
+     * choose the next folder that should be loaded.
      * @param type
+     * @param mirror
      */
     public void nextImage(String type, boolean mirror){
         if(delay <= 0){

@@ -9,7 +9,7 @@ package dk.sdu.mmmi.cbse.platform;
  *
  * @author Chris
  */
-public class PlatformObj {
+public class PlatformObj extends Platform {
     
     private String name;
     private int xpos;
