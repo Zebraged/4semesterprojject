@@ -68,7 +68,6 @@ public class EnemyFactory implements IEntityGenerator {
                 world.addEntity(enemy);
                 break;
             default:
-                System.out.println("Unknown enemy type");
                 break;
         }
     }
