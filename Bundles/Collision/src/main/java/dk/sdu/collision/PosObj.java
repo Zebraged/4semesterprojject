@@ -63,9 +63,7 @@ public class PosObj {
         return entity;
     }
 
-    public PositionPart getPos() {
-        return pos;
-    }
+
     
     
 }
