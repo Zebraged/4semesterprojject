@@ -15,6 +15,7 @@ public class Asset {
     
     String imagePath;
     String image;
+    boolean loaded = false;
     boolean mirror = false;
     
     /**
@@ -74,4 +75,14 @@ public class Asset {
     public String getImage(){
         return this.image;
     }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+    
+    
 }

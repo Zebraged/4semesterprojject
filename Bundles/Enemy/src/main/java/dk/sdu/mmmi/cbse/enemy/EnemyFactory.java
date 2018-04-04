@@ -33,7 +33,6 @@ public class EnemyFactory implements IEntityGenerator {
     private Entity createTeddy(int x, int y){
         Entity entity = new TeddyEnemy(world, data);
         entity.add(new PositionPart(x, y));
-        entity.add(new GravityPart_PLACEHOLDER());
         entity.add(new AssetGenerator(entity, "image/teddy/", "Teddy_Idle1.png"));
         return entity;
     }

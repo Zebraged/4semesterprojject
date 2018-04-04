@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
@@ -173,11 +174,14 @@ public class Game implements ApplicationListener {
     
     public void placeCam(){
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
-        IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-        if(playerPosition == null){
+        if(reference == null){
             cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
         } else {
-            cam.lookAt(playerPosition.getX(), playerPosition.getY(), 0);
+            IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
+            System.out.println(playerPosition.getX() + " " + playerPosition.getY());
+            cam.position.x = playerPosition.getX();
+            cam.position.y = playerPosition.getY();
+            cam.update();
         }
     }
     
