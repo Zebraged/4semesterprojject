@@ -92,7 +92,8 @@ public class AssetManager {
         lock.writeLock().lock();
         try{
             for (Entity entity : world.getEntities()) {
-                if(entity.getAsset() != null){
+                if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
+                    System.out.println("Hello");
                     URL url;
                     Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                     while(urls.hasMoreElements()){
@@ -103,6 +104,7 @@ public class AssetManager {
                             Texture texture = new Texture(pixmap);
                             textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
                             System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
+                            entity.getAsset().setLoaded(true);
                         } catch (IOException ex) {
                             System.out.println("input not avaiable");
                         }

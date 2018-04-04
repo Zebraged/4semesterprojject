@@ -12,7 +12,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import java.io.InputStream;
+import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -21,6 +21,8 @@ import org.osgi.framework.BundleContext;
  */
 public class PlayerPlugin implements IGamePluginService {
 
+    
+    private IPlayerPositionService position;
     Boolean status = false;
     Entity player;
     BundleContext context;
@@ -33,6 +35,7 @@ public class PlayerPlugin implements IGamePluginService {
         System.out.println("plugin started");
         player = createPlayer(gameData, world);
         world.addEntity(player);
+        context.registerService(IPlayerPositionService.class.getName(), position, null);
     }
 
     public void stop() {
@@ -47,9 +50,13 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
+        PositionPart posPart = new PositionPart(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
+        PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
-        player.add(new PositionPart(70, 128));
-        player.add(new MovingPart(50, 800, 400));
+        player.add(posPart);
+        player.add(new MovingPart(5, 600, 400));
+        playPos.addPositionPart(posPart);
+        position = playPos;
         return player;
     }
 
