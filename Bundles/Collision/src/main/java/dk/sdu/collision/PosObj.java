@@ -5,6 +5,9 @@
  */
 package dk.sdu.collision;
 
+import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+
 /**
  *
  * @author Jesper
@@ -15,16 +18,54 @@ public class PosObj {
     private float y;
     private int sizex;
     private int sizey;
+    private String ID;
+    private Entity entity;
+    private PositionPart pos;
 
-    public PosObj(float x, float y, int sizex, int sizey) {
-        this.x = x;
-        this.y = y;
+    public String getID() {
+        return ID;
+    }
+
+    public PosObj(Entity e, int sizex, int sizey) {
+        entity = e;
+        pos = e.getPart(PositionPart.class);
+        this.x = pos.getX();
+        this.y = pos.getY();
         this.sizex = sizex;
         this.sizey = sizey;
+        this.ID = e.getID();
     }
 
-    PosObj(float x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updatePos(Entity e){
+        PositionPart pos = e.getPart(PositionPart.class);
+        this.x = pos.getX();
+        this.y = pos.getY();
+        
     }
 
+    public float getX1() {
+        return x;
+    }
+
+    public float getY1() {
+        return y;
+    }
+
+    public float getX2() {
+        return x + sizex;
+    }
+
+    public float getY2() {
+        return y + sizey;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public PositionPart getPos() {
+        return pos;
+    }
+    
+    
 }

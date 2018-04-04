@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\PositionPart.java
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\World.java
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityProcessingService.java
@@ -15,40 +14,3 @@ C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\d
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\AssetGenerator.java
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameData.java
 C:\Users\admin\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\GravityPart_PLACEHOLDER.java
-=======
-<<<<<<< HEAD
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameData.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\EntityPart.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\Entity.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IGamePluginService.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IPostEntityProcessingService.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\events\Event.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IPlayerPositionService.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\AssetGenerator.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\GravityPart_PLACEHOLDER.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\World.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameKeys.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\Asset.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\MovingPart.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\PositionPart.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityGenerator.java
-C:\Users\Chris\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityProcessingService.java
-=======
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IPostEntityProcessingService.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\EntityPart.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IGamePluginService.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\AssetGenerator.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\PositionPart.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\events\Event.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\World.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityProcessingService.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\Entity.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\MovingPart.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityGenerator.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameData.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameKeys.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\GravityPart_PLACEHOLDER.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\Asset.java
-C:\Users\rasmu\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IPlayerPositionService.java
->>>>>>> NewPlayer
->>>>>>> master

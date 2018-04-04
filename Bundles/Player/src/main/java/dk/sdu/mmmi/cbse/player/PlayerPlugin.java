@@ -48,8 +48,8 @@ public class PlayerPlugin implements IGamePluginService {
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
-        player.add(new PositionPart(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2));
-        player.add(new MovingPart(100, 800, 400));
+        player.add(new PositionPart(70, 128));
+        player.add(new MovingPart(50, 800, 400));
         return player;
     }
 
