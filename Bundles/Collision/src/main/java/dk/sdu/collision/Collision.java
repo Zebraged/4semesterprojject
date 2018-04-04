@@ -8,14 +8,9 @@ package dk.sdu.collision;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.entityparts.EntityPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-//import dk.sdu.mmmi.cbse.enemy.EnemyPlugin;
-//import dk.sdu.mmmi.cbse.enemy.type.Enemy;
-//import dk.sdu.mmmi.cbse.platform.Platform;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,13 +40,13 @@ public class Collision implements IEntityProcessingService {
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*")) {
 
                 addObj(EnemyObj, entity); // ads the Enemy as an position obj.
-                
+
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.CloudEnemy.*")) {
-                
+
                 addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy.*")) {
-                
+
                 addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.platform.Platform.*")) {
@@ -60,45 +55,18 @@ public class Collision implements IEntityProcessingService {
             }
         }
         //CheckPlayerPlatformCollision();
-        CheckEnemyPlatformCollision(PlayerObj, PlatformObj);
-        CheckEnemyPlatformCollision(EnemyObj, PlatformObj);
+        CheckPlayerEnemyPlatformCollision(PlayerObj, PlatformObj);
+        CheckPlayerEnemyPlatformCollision(EnemyObj, PlatformObj);
     }
 
-//    private void CheckPlayerPlatformCollision() {
-//        Iterator<Map.Entry<String, PosObj>> playerObj = PlayerObj.entrySet().iterator(); // go through all players found 
-//        Iterator<Map.Entry<String, PosObj>> platformObj = PlatformObj.entrySet().iterator(); // go through all platforms
-//
-//        while (playerObj.hasNext()) { // iterate over all players found
-//            Map.Entry<String, PosObj> playerobj = playerObj.next();
-//            PosObj playerPos = playerobj.getValue(); // player obj
-//
-//            while (platformObj.hasNext()) { // check for collision with all platforms
-//                Map.Entry<String, PosObj> platform = platformObj.next();
-//                PosObj platformPos = platform.getValue(); // player obj
-//
-//                if (checkCollision(playerPos, platformPos)) { // if collision.
-//
-//                    Entity playerE = playerPos.getEntity();
-//                    Entity platformE = platformPos.getEntity();
-//
-//                    PositionPart playerP = playerE.getPart(PositionPart.class);
-//                    PositionPart platformP = platformE.getPart(PositionPart.class);
-//                    MovingPart playerM = playerE.getPart(MovingPart.class);
-//
-//                    playerP.setY(platformP.getY() + 32);
-//                    playerM.setIsGrounded(true);
-//                }
-//
-//            }
-//
-//        }
-//    }
-        /**
-         * If player or enemy stand on a platform, it will use the y-value as the player or enemies y-value.
-         * @param collection1 Player or enemy Hashmap
-         * @param collection2 Platform Hashmap
-         */
-        private void CheckEnemyPlatformCollision(HashMap collection1,HashMap collection2) {
+    /**
+     * If player or enemy stand on a platform, it will use the y-value as the
+     * players or enemies new y-value.
+     *
+     * @param collection1 Player or enemy Hashmap
+     * @param collection2 Platform Hashmap
+     */
+    private void CheckPlayerEnemyPlatformCollision(HashMap collection1, HashMap collection2) {
         Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
         Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
 
@@ -121,15 +89,12 @@ public class Collision implements IEntityProcessingService {
 
                     firstP.setY(platformP.getY() + 32);
                     firstM.setIsGrounded(true);
-                }
-
+                } 
             }
 
         }
     }
-    
-    
-    
+
     /**
      * Checks for a collision between two shapes.
      *
