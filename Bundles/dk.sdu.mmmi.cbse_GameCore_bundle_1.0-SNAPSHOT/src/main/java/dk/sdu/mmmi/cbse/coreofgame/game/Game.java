@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import java.util.Collection;
 import org.osgi.framework.Bundle;
@@ -89,6 +91,7 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
+        
         for(Bundle bundle : gameData.getBundles()){
             assetManager.loadAllPluginTextures(bundle);
             gameData.removeBundle(bundle);
@@ -101,6 +104,7 @@ public class Game implements ApplicationListener {
                 process.process(gameData, world);
             }
         }
+        placeCam();
     }
 
     private void draw() {
@@ -167,5 +171,10 @@ public class Game implements ApplicationListener {
         return collection;
     }
     
+    public void placeCam(){
+        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
+        cam.lookAt(playerPosition.getX(), playerPosition.getY(), 0);
+    }
     
 }
