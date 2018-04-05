@@ -65,31 +65,11 @@ public class MapPlugin implements IGamePluginService {
      * @return Entity obj that holds the background images.
      */
     private void createMap(GameData gameData, World world) {
-
         map = new Map();
-
-        /**
-         * **
-         * Finds all the backgrounds in the image/idle folder and adds them to
-         * the entity
-         */
-        File files = null;
-        files = new File("./Bundles/Map/src/main/resources/image/Idle/");
-        File[] fileslist = files.listFiles();
-        if (fileslist != null) {
-
-            for (File file : fileslist) {
-                if (file.getName().endsWith(".png")) {
-                    maps.add(new MapObj(file.getName()));
-                    map.add(new AssetGenerator(map, "image/", file.getName()));
-                }
-            }
-        } else {
-            System.out.println("No backgrounds found in bundle image folder");
-        }
-
+        AssetGenerator generator = new AssetGenerator(map, "image/", "Map1.png");
+        generator.toggleAsBackground(true);
+        map.add(generator);
         map.add(new PositionPart(0, 0));
-
     }
 
     @Override

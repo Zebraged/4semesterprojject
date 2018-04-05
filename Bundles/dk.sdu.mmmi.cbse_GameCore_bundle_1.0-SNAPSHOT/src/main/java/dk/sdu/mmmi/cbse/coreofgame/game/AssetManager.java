@@ -36,8 +36,10 @@ public class AssetManager {
 
     private SpriteBatch batch;
     private World world;
+    private OrthographicCamera cam;
     private GameData data;
     private ReadWriteLock lock = new ReentrantReadWriteLock();
+    private Texture background = null;
     
     private Map<String, Texture> textureMap; 
 
@@ -51,9 +53,8 @@ public class AssetManager {
         this.world = world;
         this.data = data;
         this.textureMap = new ConcurrentHashMap();
-        
+        this. cam = cam;
         this.batch = new SpriteBatch();
-        batch.setProjectionMatrix(cam.combined);
     }
 
     /**
@@ -63,19 +64,24 @@ public class AssetManager {
      */
     public void loadImages(BundleContext context) {
         lock.readLock().lock();
+        batch.setProjectionMatrix(cam.combined);
         try{
         batch.begin();
+        loadBackground();
         for (Entity entity : world.getEntities()) {
             if(entity.getAsset() != null){
-                Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
-                PositionPart pos = entity.getPart(PositionPart.class);
-                if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
-                    sprite.flip(true, false);
-                } 
-                sprite.setX((int)pos.getX()); //change x and y position of image based on position part
-                sprite.setY((int)pos.getY());
-                sprite.draw(batch);
-               
+                if(entity.getAsset().isBackground() == true){
+                    background = textureMap.get(entity.getAsset().getImage());
+                } else {
+                    Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
+                    PositionPart pos = entity.getPart(PositionPart.class);
+                    if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
+                        sprite.flip(true, false);
+                    } 
+                    sprite.setX((int)pos.getX()); //change x and y position of image based on position part
+                    sprite.setY((int)pos.getY());
+                    sprite.draw(batch);  
+                }
             }
         }
         batch.end();
@@ -93,7 +99,6 @@ public class AssetManager {
         try{
             for (Entity entity : world.getEntities()) {
                 if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
-                    System.out.println("Hello");
                     URL url;
                     Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                     while(urls.hasMoreElements()){
@@ -115,5 +120,14 @@ public class AssetManager {
             lock.writeLock().unlock();
         }
         
+    }
+    
+    public void loadBackground(){
+        if(background != null){
+            Sprite sprite = new Sprite(background);
+            sprite.setX(0);
+            sprite.setY(0);
+            sprite.draw(batch);
+        } 
     }
 }

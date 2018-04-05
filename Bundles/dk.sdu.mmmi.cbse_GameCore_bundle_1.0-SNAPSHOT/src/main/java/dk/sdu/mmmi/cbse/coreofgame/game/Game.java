@@ -178,7 +178,6 @@ public class Game implements ApplicationListener {
             cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-            System.out.println(playerPosition.getX() + " " + playerPosition.getY());
             cam.position.x = playerPosition.getX();
             cam.position.y = playerPosition.getY();
             cam.update();

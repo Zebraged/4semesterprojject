@@ -130,4 +130,8 @@ public class AssetGenerator implements EntityPart{
         }
     }
     
+    public void toggleAsBackground(boolean bool){
+        asset.setBackground(bool);
+    }
+    
 }
