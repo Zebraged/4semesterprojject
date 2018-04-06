@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1523008255598
+Bnd-LastModified: 1523011512774
 Build-Jdk: 1.8.0_161
 Built-By: Mr. Kinder
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
@@ -8,7 +8,7 @@ Bundle-Name: Map OSGi Bundle
 Bundle-SymbolicName: dk.sdu.mmmi.cbse.Map
 Bundle-Version: 1.0.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Import-Package: dk.sdu.mmmi.cbse.common.data,dk.sdu.mmmi.cbse.common.ent
- ityparts,dk.sdu.mmmi.cbse.common.services,org.osgi.framework;version="[
- 1.6,2)"
+Import-Package: dk.sdu.mmmi.cbse.common.data;version="[1.0,2)",dk.sdu.mm
+ mi.cbse.common.entityparts;version="[1.0,2)",dk.sdu.mmmi.cbse.common.se
+ rvices;version="[1.0,2)",org.osgi.framework;version="[1.6,2)"
 Tool: Bnd-1.50.0
