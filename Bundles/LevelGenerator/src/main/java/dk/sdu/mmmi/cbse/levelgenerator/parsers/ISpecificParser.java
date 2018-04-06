@@ -5,6 +5,8 @@
  */
 package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 
+import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
+import java.util.Collection;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -13,5 +15,5 @@ import org.osgi.framework.BundleContext;
  */
 public interface ISpecificParser {
 
-    public void parse(String line);
+    public void parse(Collection<IEntityGenerator> generators, String line);
 }

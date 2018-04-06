@@ -8,7 +8,9 @@ package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEnemyGenerator;
+import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.common.services.ITileGenerator;
+import java.util.Collection;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
@@ -25,16 +27,12 @@ public class TilePlacementParser implements ISpecificParser {
         this.currentPosY = lengthY;
         this.lengthY = lengthY;
     }
-    private ITileGenerator gen;
+    private IEntityGenerator gen;
     private World world;
     private GameData data;
     private int lengthY, currentPosY;
 
-    public TilePlacementParser(BundleContext context, GameData data, World world) {
-        ServiceReference reference = context.getServiceReference(ITileGenerator.class);
-        if (reference != null) {
-            this.gen = (ITileGenerator) context.getService(context.getServiceReference(ITileGenerator.class));
-        }
+    public TilePlacementParser(GameData data, World world) {
         this.data = data;
         this.world = world;
     }
@@ -50,6 +48,13 @@ public class TilePlacementParser implements ISpecificParser {
             currentPosY--;
         } else {
             System.out.println("Warning: Generator was not found for Tile Placement!");
+        }
+    }
+
+    public void parse(Collection<IEntityGenerator> generators, String line) {
+        for (IEntityGenerator gens : generators) {
+            this.gen = gens;
+            parse(line);
         }
     }
 

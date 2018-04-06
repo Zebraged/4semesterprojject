@@ -5,6 +5,8 @@
  */
 package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 
+import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
+import java.util.Collection;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -14,8 +16,7 @@ import org.osgi.framework.BundleContext;
 public class SettingsParser implements ISpecificParser {
     
 
-    public void parse(String line) {
-        System.out.println("LevelGenerator: \n\tSettingsParser not implemented yet.");
+    public void parse(Collection<IEntityGenerator> generators, String line) {
     }
     
 }

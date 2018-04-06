@@ -11,12 +11,12 @@ public class EnemyActivator implements BundleActivator {
 
     private IGamePluginService plugin = new EnemyPlugin();
     private IEntityProcessingService process = new EnemyProcess();
-    private IEnemyGenerator factory = new EnemyFactory();
+    private IEntityGenerator factory = new EnemyFactory();
     
     public void start(BundleContext context) throws Exception {
         context.registerService(IGamePluginService.class.getName(), plugin, null);
         context.registerService(IEntityProcessingService.class.getName(), process, null);
-        context.registerService(IEnemyGenerator.class.getName(), factory, null);
+        context.registerService(IEntityGenerator.class.getName(), factory, null);
     }
 
     public void stop(BundleContext context) throws Exception {

@@ -8,6 +8,8 @@ package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEnemyGenerator;
+import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
+import java.util.Collection;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
@@ -17,15 +19,11 @@ import org.osgi.framework.ServiceReference;
  */
 public class ObjectsParser implements ISpecificParser {
 
-    private IEnemyGenerator gen;
+    private IEntityGenerator gen;
     private World world;
     private GameData data;
 
-    public ObjectsParser(BundleContext context, GameData data, World world) {
-        ServiceReference reference = context.getServiceReference(IEnemyGenerator.class);
-        if (reference != null) {
-            this.gen = (IEnemyGenerator) context.getService(context.getServiceReference(IEnemyGenerator.class));
-        }
+    public ObjectsParser(GameData data, World world) {
         this.world = world;
         this.data = data;
     }
@@ -44,6 +42,13 @@ public class ObjectsParser implements ISpecificParser {
 
         } else {
             System.out.println("Warning: Generator was not found for Object Placement!");
+        }
+    }
+
+    public void parse(Collection<IEntityGenerator> generators, String line) {
+        for(IEntityGenerator gens : generators) {
+            this.gen = gens;
+            parse(line);
         }
     }
 

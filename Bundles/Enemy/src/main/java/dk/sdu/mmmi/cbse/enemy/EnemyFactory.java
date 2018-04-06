@@ -11,7 +11,6 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.GravityPart_PLACEHOLDER;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.services.IEnemyGenerator;
 import dk.sdu.mmmi.cbse.enemy.type.CloudEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy;
@@ -21,7 +20,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
  *
  * @author Marcg
  */
-public class EnemyFactory implements IEnemyGenerator {
+public class EnemyFactory implements IEntityGenerator {
 
     private GameData data;
     private World world;

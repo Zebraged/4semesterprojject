@@ -31,7 +31,7 @@ public class EnemyPlugin implements IGamePluginService{
         this.world = world;
         this.data = gameData;
         
-        ServiceReference service = context.getServiceReference(IEnemyGenerator.class);
+        ServiceReference service = context.getServiceReference(IEntityGenerator.class);
         IEntityGenerator enemyGen = (IEntityGenerator) context.getService(service);
     }
 
