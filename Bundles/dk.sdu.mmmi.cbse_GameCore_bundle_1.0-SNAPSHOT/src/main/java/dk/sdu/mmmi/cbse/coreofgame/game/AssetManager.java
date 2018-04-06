@@ -78,6 +78,7 @@ public class AssetManager {
         try{
             for (Entity entity : world.getEntities()) {
                 if(entity.getAsset() != null){
+                    System.out.println("Asset path: "+entity.getAsset().getImagePath());
                     URL url;
                     Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                     while(urls.hasMoreElements()){

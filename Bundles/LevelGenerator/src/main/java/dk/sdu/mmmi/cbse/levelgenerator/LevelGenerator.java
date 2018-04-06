@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+<<<<<<< HEAD
+=======
+>>>>>>> ef2416003df6ebb96ced24b3e7cdc01b48a2787c
 
 /**
  *
@@ -25,7 +28,6 @@ public class LevelGenerator {
     public LevelGenerator(String path) {
         this.path = path;
     }
-    
     public void generate() throws FileNotFoundException, IOException {
         prepareAssets();
         BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
@@ -40,11 +42,13 @@ public class LevelGenerator {
     }
     
     private void parse(String line) {
+<<<<<<< HEAD
         if(line.endsWith(":")) {
             currentCommand = Command.getCommand(line.toUpperCase());
         };
+=======
+>>>>>>> ef2416003df6ebb96ced24b3e7cdc01b48a2787c
         
-        switch(currentCommand) {
             case MAP_SETTINGS:
                 
                 break;
