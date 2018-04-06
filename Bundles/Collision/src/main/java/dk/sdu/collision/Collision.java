@@ -8,14 +8,9 @@ package dk.sdu.collision;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.entityparts.EntityPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-//import dk.sdu.mmmi.cbse.enemy.EnemyPlugin;
-//import dk.sdu.mmmi.cbse.enemy.type.Enemy;
-//import dk.sdu.mmmi.cbse.platform.Platform;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,59 +20,78 @@ import java.util.Map;
  * @author Jesper
  */
 public class Collision implements IEntityProcessingService {
-    
+
     void start() {
-        
+
     }
-    
-    private final static HashMap<String, PosObj> PlatformObj = new HashMap<String, PosObj>();
-    private final static HashMap<String, PosObj> PlayerObj = new HashMap<String, PosObj>();
-    
+
+    private final static HashMap<String, PosObj> PlatformObj = new HashMap<String, PosObj>(); //saves all platforms for collision detection.
+    private final static HashMap<String, PosObj> PlayerObj = new HashMap<String, PosObj>(); // saves all players for collision detection.
+    private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
+
     public void process(GameData gameData, World world) {
 
-        //  ArrayList<PosObj> posObjects = new ArrayList();
-        // System.out.println("Im runnging!!");
         for (Entity entity : world.getEntities()) {
-            
+
             if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
-                // System.out.println("player found -> " + entity.getSource().toString());
 
                 addObj(PlayerObj, entity); // ads the player as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*")) {
-                // System.out.println("Teddy found -> " + entity.getSource().toString());
+
+                addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.CloudEnemy.*")) {
-                // System.out.println("Cloud found -> " + entity.getSource().toString());
+
+                addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy.*")) {
-                // System.out.println("Unicorn found -> " + entity.getSource().toString());
+
+                addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.platform.Platform.*")) {
-                // System.out.println("Platform found -> " + entity.getSource().toString());
 
-                addObj(PlatformObj, entity); // ads the player as an position obj.
+                addObj(PlatformObj, entity); // adds the player as an position obj.
             }
         }
-        
-        Iterator<Map.Entry<String, PosObj>> playerObj = PlayerObj.entrySet().iterator();
-        Iterator<Map.Entry<String, PosObj>> platformObj = PlatformObj.entrySet().iterator();
-        while (playerObj.hasNext()) { // iterate over all players found
-            Map.Entry<String, PosObj> playerobj = playerObj.next();
-            PosObj playerPos = playerobj.getValue(); // player obj
+        //CheckPlayerPlatformCollision();
+        CheckPlayerEnemyPlatformCollision(PlayerObj, PlatformObj);
+        CheckPlayerEnemyPlatformCollision(EnemyObj, PlatformObj);
+    }
 
-            while (platformObj.hasNext()) { // check if player has collision with platform.
-                Map.Entry<String, PosObj> platform = platformObj.next();
+    /**
+     * If player or enemy stand on a platform, it will use the y-value as the
+     * players or enemies new y-value.
+     *
+     * @param collection1 Player or enemy Hashmap
+     * @param collection2 Platform Hashmap
+     */
+    private void CheckPlayerEnemyPlatformCollision(HashMap collection1, HashMap collection2) {
+        Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
+        Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
+
+        while (firstColObj.hasNext()) { // iterate over all players found
+            Map.Entry<String, PosObj> firstObj = firstColObj.next();
+            PosObj firstPosObj = firstObj.getValue(); // player obj
+
+            while (secColObj.hasNext()) { // check for collision with all platforms
+                Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // player obj
 
-                if (checkCollision(playerPos, platformPos)) { // if collision.
-                    Entity e = playerPos.getEntity();
-                    MovingPart mov = e.getPart(MovingPart.class);
-                    mov.setIsGrounded(true);
-                }
-                
+                if (checkCollision(firstPosObj, platformPos)) { // if collision.
+
+                    Entity firstE = firstPosObj.getEntity();
+                    Entity platformE = platformPos.getEntity();
+
+                    PositionPart firstP = firstE.getPart(PositionPart.class);
+                    PositionPart platformP = platformE.getPart(PositionPart.class);
+                    MovingPart firstM = firstE.getPart(MovingPart.class);
+
+                    firstP.setY(platformP.getY() + 32);
+                    firstM.setIsGrounded(true);
+                } 
             }
-            
+
         }
     }
 
@@ -94,7 +108,7 @@ public class Collision implements IEntityProcessingService {
         } else {
             return false;
         }
-        
+
     }
 
     /**
@@ -105,16 +119,16 @@ public class Collision implements IEntityProcessingService {
      * @param e the entity
      */
     private void addObj(HashMap collection, Entity e) {
-        
+
         String id = e.getID();
-        
+
         if (!collection.containsKey(id)) {
             collection.put(id, new PosObj(e, 32, 32));
         } else {
             PosObj o = (PosObj) collection.get(id);
             o.updatePos(e); // update pos
         }
-        
+
     }
-    
+
 }

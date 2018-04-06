@@ -66,7 +66,7 @@ public class AssetManager {
         batch.begin();
         loadBackground();
         for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null){
+            if(entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null){
                 if(entity.getAsset().isBackground() == true){
                     System.out.println("Hello");
                     background = textureMap.get(entity.getAsset().getImage());
