@@ -7,7 +7,6 @@ package dk.sdu.mmmi.cbse.levelgenerator.parsers;
 
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.services.IEnemyGenerator;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import java.util.Collection;
 import org.osgi.framework.BundleContext;
