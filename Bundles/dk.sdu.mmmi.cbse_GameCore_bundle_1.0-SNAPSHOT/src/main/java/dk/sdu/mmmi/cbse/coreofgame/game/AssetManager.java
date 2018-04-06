@@ -54,6 +54,7 @@ public class AssetManager {
         this.textureMap = new ConcurrentHashMap();
         this. cam = cam;
         this.batch = new SpriteBatch();
+        batch.setProjectionMatrix(cam.combined);
     }
 
     /**
@@ -62,13 +63,11 @@ public class AssetManager {
      * @param context
      */
     public void loadImages(BundleContext context) {
-        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         loadBackground();
         for (Entity entity : world.getEntities()) {
             if(entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null){
                 if(entity.getAsset().isBackground() == true){
-                    System.out.println("Hello");
                     background = textureMap.get(entity.getAsset().getImage());
                 } else {
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
@@ -91,7 +90,7 @@ public class AssetManager {
      */
     public void loadAllPluginTextures(Bundle bundle){
         for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
+            if(entity.getAsset() != null && imageExist(entity.getAsset().getImage()) != true){
                 URL url;
                 Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                 while(urls.hasMoreElements()){
@@ -118,5 +117,14 @@ public class AssetManager {
             sprite.setY(0);
             sprite.draw(batch);
         } 
+    }
+    
+    public boolean imageExist(String image){
+        for(String string : textureMap.keySet()){
+            if(string.equals(image)){
+                return true;
+            }
+        }
+        return false;
     }
 }
