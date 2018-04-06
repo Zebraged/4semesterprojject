@@ -38,7 +38,6 @@ public class AssetManager {
     private World world;
     private OrthographicCamera cam;
     private GameData data;
-    private ReadWriteLock lock = new ReentrantReadWriteLock();
     private Texture background = null;
     
     private Map<String, Texture> textureMap; 
@@ -63,9 +62,7 @@ public class AssetManager {
      * @param context
      */
     public void loadImages(BundleContext context) {
-        lock.readLock().lock();
         batch.setProjectionMatrix(cam.combined);
-        try{
         batch.begin();
         loadBackground();
         for (Entity entity : world.getEntities()) {
@@ -85,9 +82,6 @@ public class AssetManager {
             }
         }
         batch.end();
-        } finally {
-            lock.readLock().unlock();
-        }
     }
     
     /**
@@ -95,31 +89,25 @@ public class AssetManager {
      * @param bundle
      */
     public void loadAllPluginTextures(Bundle bundle){
-        lock.writeLock().lock();
-        try{
-            for (Entity entity : world.getEntities()) {
-                if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
-                    URL url;
-                    Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
-                    while(urls.hasMoreElements()){
-                        url = urls.nextElement();
-                        Pixmap pixmap = null;
-                        try {
-                            pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
-                            Texture texture = new Texture(pixmap);
-                            textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
-                            System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
-                            entity.getAsset().setLoaded(true);
-                        } catch (IOException ex) {
-                            System.out.println("input not avaiable");
-                        }
+        for (Entity entity : world.getEntities()) {
+            if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
+                URL url;
+                Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
+                while(urls.hasMoreElements()){
+                    url = urls.nextElement();
+                    Pixmap pixmap = null;
+                    try {
+                        pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
+                        Texture texture = new Texture(pixmap);
+                        textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
+                        System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
+                        entity.getAsset().setLoaded(true);
+                    } catch (IOException ex) {
+                        System.out.println("input not avaiable");
                     }
                 }
             }
-        } finally{
-            lock.writeLock().unlock();
         }
-        
     }
     
     public void loadBackground(){

@@ -179,9 +179,9 @@ public class Game implements ApplicationListener {
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
             cam.position.x = playerPosition.getX();
-            cam.position.y = playerPosition.getY();
-            cam.update();
+            cam.position.y = Gdx.graphics.getHeight();
         }
+        cam.update();
     }
     
 }
