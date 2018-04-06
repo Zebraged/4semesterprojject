@@ -36,7 +36,7 @@ public class EnemyFactory implements IEntityGenerator {
         entity.add(new PositionPart(x, y));
 
         //entity.add(new GravityPart_PLACEHOLDER());
-       // entity.add(new AssetGenerator(entity, "image/teddy/", "Teddy_Idle1.png"));
+  //      entity.add(new AssetGenerator(entity, "image/teddy/", "Teddy_Idle1.png"));
 
         entity = findImage(entity, "teddy");
 
@@ -46,14 +46,15 @@ public class EnemyFactory implements IEntityGenerator {
 
     private Entity findImage(Entity entity, String enemy) {
         File files = null;
-        files = new File("./Bundles/Enemy/src/main/resources/image/" + enemy + "/Idle/");
+        files = new File("./Bundles/Enemy/src/main/resources/image/" + enemy + "/Idle");
         File[] fileslist = files.listFiles();
         if (fileslist != null) {
             boolean foundImage = false;
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
                     if (!foundImage) { // only load first image to entity
-                        entity.add(new AssetGenerator(entity, "image/", file.getName()));
+                        
+                        entity.add(new AssetGenerator(entity, "image/" + enemy + "/", file.getName()));
                         foundImage = true;
                     }
                 }
