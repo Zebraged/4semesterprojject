@@ -68,6 +68,7 @@ public class AssetManager {
         for (Entity entity : world.getEntities()) {
             if(entity.getAsset() != null){
                 if(entity.getAsset().isBackground() == true){
+                    System.out.println("Hello");
                     background = textureMap.get(entity.getAsset().getImage());
                 } else {
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));

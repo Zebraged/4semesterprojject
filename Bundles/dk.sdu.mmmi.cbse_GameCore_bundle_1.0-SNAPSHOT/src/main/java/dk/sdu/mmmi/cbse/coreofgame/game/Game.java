@@ -36,8 +36,8 @@ public class Game implements ApplicationListener {
                 = new LwjglApplicationConfiguration();
         
         cfg.title = "Test";
-        cfg.width = 800;
-        cfg.height = 600;
+        cfg.width = 1280;
+        cfg.height = 720;
         cfg.useGL30 = false;
         cfg.resizable = true;
         
