@@ -18,36 +18,53 @@ import java.io.File;
  * @author Chris
  */
 public class PlatformFactory implements IEntityGenerator {
-    
+
     private GameData data;
     private World world;
-    
-    public PlatformFactory(){
+
+    public PlatformFactory() {
     }
-    
-    private Entity createPlatform(String name, int x, int y){
+
+    private Entity createPlatform(String name, int x, int y) {
         Entity entity = new Platform();
-        entity.add(new AssetGenerator(entity, "image/", "GrassPlatform.png"));
-        entity.add(new PositionPart(x, y));
+        PlatformObj platobj = null;
+
+        File files = null;
+        files = new File("./Bundles/Platform/src/main/resources/image/Idle/");
+        File[] fileslist = files.listFiles();
+        if (fileslist != null) {
+            boolean foundImage = false;
+            for (File file : fileslist) {
+                if (file.getName().endsWith(".png")) {
+                    platobj = new PlatformObj(file.getName(), x, y);
+                    if (!foundImage) { // only load first image to entity
+                        entity.add(new AssetGenerator(entity, "image/", file.getName()));
+                        foundImage = true;
+                    }
+                }
+            }
+        }
+        entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos()));
+
         return entity;
     }
-    
+
     @Override
     public void generate(String identifier, int x, int y, World world, GameData data) {
-        
+
         this.world = world;
         this.data = data;
         Entity platform = null;
-        switch(identifier.toLowerCase()){
+        switch (identifier.toLowerCase()) {
             case "platform":
                 platform = createPlatform(identifier, x, y);
                 world.addEntity(platform);
                 break;
-                default:
+            default:
                 System.out.println("Unknown platform type");
                 break;
-        
+
         }
-        }
-    
+    }
+
 }
