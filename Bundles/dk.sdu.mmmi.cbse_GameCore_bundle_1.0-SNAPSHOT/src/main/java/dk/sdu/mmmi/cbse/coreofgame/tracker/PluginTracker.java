@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -29,6 +31,13 @@ public class PluginTracker {
     AssetManager assetManager;
     ExecutorService executor = Executors.newSingleThreadExecutor();
     
+    /**
+     *  used for tracking new plugins being loaded
+     * @param context
+     * @param data
+     * @param world
+     * @param assetManager
+     */
     public PluginTracker(BundleContext context, GameData data, World world, AssetManager assetManager){
         this.context = context;
         this.gameData = data;
@@ -36,29 +45,35 @@ public class PluginTracker {
         this.assetManager = assetManager;
     }
     
+    //starts any new plugin that have been loaded
     private void loadPlugins(){
         IGamePluginService plugin;
         for(ServiceReference<IGamePluginService> reference : pluginReference()){
             plugin = (IGamePluginService) context.getService(reference);
             if(plugin.getStatus() == false){
                 System.out.println("New plugin detected!");
-                plugin.start(gameData, world, context);
+                
+                plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
                 gameData.addBundle(reference.getBundle());
             }
         }
     }
     
+    //returns a service reference for each plugin available in the program
     private Collection<ServiceReference<IGamePluginService>> pluginReference() {
         Collection<ServiceReference<IGamePluginService>> collection = null;
         try {
             collection = this.context.getServiceReferences(IGamePluginService.class, null);
         } catch (InvalidSyntaxException ex) {
             System.out.println("Service not availlable!");
-            active = false;
+            active = false; //stop thread if service is unavailable
         }
         return collection;
     }
     
+    /**
+     * start a thread that keeps checking for new plugins every 5 seconds
+     */
     public void startPluginTracker(){
         active = true;
         executor.execute(()->{
@@ -74,6 +89,9 @@ public class PluginTracker {
         });
     }
     
+    /**
+     * stop any thread looking for plugins and ungets any pluginService.
+     */
     public void stopPluginTracker(){
         active = false;
         context.ungetService(context.getServiceReference(IGamePluginService.class.getName()));

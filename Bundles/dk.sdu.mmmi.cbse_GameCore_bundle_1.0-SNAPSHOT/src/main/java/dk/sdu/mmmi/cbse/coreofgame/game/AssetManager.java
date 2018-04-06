@@ -41,6 +41,12 @@ public class AssetManager {
     
     private Map<String, Texture> textureMap; 
 
+    /**
+     *  for loading and choosing images for each entity in the game. 
+     * @param world
+     * @param data
+     * @param cam
+     */
     public AssetManager(World world, GameData data, OrthographicCamera cam) {
         this.world = world;
         this.data = data;
@@ -50,18 +56,23 @@ public class AssetManager {
         batch.setProjectionMatrix(cam.combined);
     }
 
+    /**
+     *  load all the sprites based on each entity that have an asset. the textures are preloaded when the plugin is loaded. so all that are needed is a string with the image name.
+     * 
+     * @param context
+     */
     public void loadImages(BundleContext context) {
         lock.readLock().lock();
         try{
         batch.begin();
         for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null){
+            if(entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null){
                 Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                 PositionPart pos = entity.getPart(PositionPart.class);
-                if(entity.getAsset().getMirror() == true){
+                if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
                     sprite.flip(true, false);
                 } 
-                sprite.setX((int)pos.getX());
+                sprite.setX((int)pos.getX()); //change x and y position of image based on position part
                 sprite.setY((int)pos.getY());
                 sprite.draw(batch);
                
@@ -73,12 +84,15 @@ public class AssetManager {
         }
     }
     
+    /**
+     * when a this method is called, will all loaded plugins load their images relevant to the entities created in world.
+     * @param bundle
+     */
     public void loadAllPluginTextures(Bundle bundle){
         lock.writeLock().lock();
         try{
             for (Entity entity : world.getEntities()) {
-                if(entity.getAsset() != null){
-                    System.out.println("Asset path: "+entity.getAsset().getImagePath());
+                if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
                     URL url;
                     Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                     while(urls.hasMoreElements()){
@@ -89,6 +103,7 @@ public class AssetManager {
                             Texture texture = new Texture(pixmap);
                             textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
                             System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
+                            entity.getAsset().setLoaded(true);
                         } catch (IOException ex) {
                             System.out.println("input not avaiable");
                         }

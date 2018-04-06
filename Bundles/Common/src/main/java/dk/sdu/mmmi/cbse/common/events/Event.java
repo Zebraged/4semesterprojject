@@ -10,10 +10,18 @@ import java.io.Serializable;
 public class Event implements Serializable{
     private final Entity source;
 
+    /**
+     *
+     * @param source
+     */
     public Event(Entity source) {
         this.source = source;
     }
 
+    /**
+     *
+     * @return
+     */
     public Entity getSource() {
         return source;
     }

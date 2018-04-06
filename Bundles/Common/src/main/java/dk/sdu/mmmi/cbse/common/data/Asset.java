@@ -15,35 +15,74 @@ public class Asset {
     
     String imagePath;
     String image;
+    boolean loaded = false;
     boolean mirror = false;
     
+    /**
+     *
+     * @param path
+     * @param image
+     */
     public Asset(String path, String image){
         this.imagePath = path;
         this.image = image;
     }
     
+    /**
+     * set true if image should change direction (left or right)
+     * @param mirror
+     */
     public void setMirror(boolean mirror){
         this.mirror = mirror;
     }
     
+    /**
+     * returns image direction
+     * @return
+     */
     public boolean getMirror(){
         return mirror;
     }
     
-    
+    /**
+     * path to image
+     * @param path
+     */
     public void changeImagePath(String path){
         this.imagePath = path;
     }
     
+    /**
+     * image name
+     * @param image
+     */
     public void changeImage(String image){
         this.image = image;
     }
     
+    /**
+     * get path to image
+     * @return
+     */
     public String getImagePath(){
         return imagePath;
     }
     
+    /**
+     * get image name
+     * @return
+     */
     public String getImage(){
         return this.image;
     }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+    
+    
 }

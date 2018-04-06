@@ -10,10 +10,12 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import java.io.File;
 import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -23,17 +25,40 @@ public class PlatformPlugin implements IGamePluginService {
 
     Boolean status = false;
     Entity platform;
+    GameData data;
     private BundleContext context;
     World world;
     private ArrayList<PlatformObj> platforms = new ArrayList();
 
     public void start(GameData gameData, World world, BundleContext context) {
+        status = true;
         this.world = world;
         this.context = context;
-        status = true;
+        
         System.out.println("plugin started");
-        createPlatform(gameData, world);
-        world.addEntity(platform);
+        
+        
+        ServiceReference service = context.getServiceReference(IEntityGenerator.class);
+        IEntityGenerator platformGen = (IEntityGenerator) context.getService(service);
+        platformGen.generate("platform", 1, 1, world, data);
+        platformGen.generate("platform", 1, 2, world, data);
+        platformGen.generate("platform", 1, 3, world, data);
+        platformGen.generate("platform", 2, 1, world, data);
+        platformGen.generate("platform", 3, 1, world, data);
+        platformGen.generate("platform", 4, 1, world, data);
+        platformGen.generate("platform", 5, 1, world, data);
+        platformGen.generate("platform", 6, 1, world, data);
+        platformGen.generate("platform", 7, 1, world, data);
+        platformGen.generate("platform", 8, 1, world, data);
+        platformGen.generate("platform", 9, 1, world, data);
+        platformGen.generate("platform", 10, 2, world, data);
+        platformGen.generate("platform", 11, 2, world, data);
+        platformGen.generate("platform", 12, 3, world, data);
+        platformGen.generate("platform", 13, 4, world, data);
+        platformGen.generate("platform", 14, 5, world, data);
+        platformGen.generate("platform", 15, 5, world, data);
+        platformGen.generate("platform", 15, 6, world, data);
+        platformGen.generate("platform", 15, 7, world, data);
 
     }
     /***
@@ -41,7 +66,7 @@ public class PlatformPlugin implements IGamePluginService {
      * @param gameData 
      * @param world 
      */
-    private void createPlatform(GameData gameData, World world) {
+    /**private void createPlatform(GameData gameData, World world) {
 
         platform = new Platform();
 
@@ -52,8 +77,9 @@ public class PlatformPlugin implements IGamePluginService {
 
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
-                    platforms.add(new PlatformObj(file.getName(), 0, 0));
+                    //platforms.add(new PlatformObj(file.getName(), 0, 0));
                     platform.add(new AssetGenerator(platform, "image/", file.getName()));
+                    
                 }
             }
         } else {
@@ -63,13 +89,16 @@ public class PlatformPlugin implements IGamePluginService {
         platform.add(new PositionPart(platforms.get(0).getxPos(), platforms.get(0).getyPos()));
 
     }
-
+**/
     public void stop() {
-        world.removeEntity(platform);
-        status = false;
+        this.status = false;
+        for(Entity entity : world.getEntities(Platform.class)){
+            world.removeEntity(entity);
+    }
     }
 
-    public boolean getStatus() {
+    @Override
+     public boolean getStatus() {
         return status;
     }
 

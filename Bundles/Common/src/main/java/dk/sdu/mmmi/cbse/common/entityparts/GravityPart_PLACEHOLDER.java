@@ -21,6 +21,11 @@ public class GravityPart_PLACEHOLDER implements EntityPart{
     final float MASS = 1.0f;
     final float MAX_SPEED = 8;
    
+    /**
+     *
+     * @param gameData
+     * @param entity
+     */
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart position = entity.getPart(PositionPart.class);
