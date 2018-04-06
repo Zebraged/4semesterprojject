@@ -36,8 +36,7 @@ public class PlatformPlugin implements IGamePluginService {
         this.context = context;
         
         System.out.println("plugin started");
-        //createPlatform(gameData, world);
-        //world.addEntity(platform);
+        
         
         ServiceReference service = context.getServiceReference(IEntityGenerator.class);
         IEntityGenerator platformGen = (IEntityGenerator) context.getService(service);
@@ -50,16 +49,16 @@ public class PlatformPlugin implements IGamePluginService {
         platformGen.generate("platform", 5, 1, world, data);
         platformGen.generate("platform", 6, 1, world, data);
         platformGen.generate("platform", 7, 1, world, data);
-//        platformGen.generate("platform", 8, 1, world, data);
-//        platformGen.generate("platform", 9, 1, world, data);
-//        platformGen.generate("platform", 10, 2, world, data);
-//        platformGen.generate("platform", 11, 2, world, data);
-//        platformGen.generate("platform", 12, 3, world, data);
-//        platformGen.generate("platform", 13, 4, world, data);
-//        platformGen.generate("platform", 14, 5, world, data);
-//        platformGen.generate("platform", 15, 5, world, data);
-//        platformGen.generate("platform", 15, 6, world, data);
-//        platformGen.generate("platform", 15, 7, world, data);
+        platformGen.generate("platform", 8, 1, world, data);
+        platformGen.generate("platform", 9, 1, world, data);
+        platformGen.generate("platform", 10, 2, world, data);
+        platformGen.generate("platform", 11, 2, world, data);
+        platformGen.generate("platform", 12, 3, world, data);
+        platformGen.generate("platform", 13, 4, world, data);
+        platformGen.generate("platform", 14, 5, world, data);
+        platformGen.generate("platform", 15, 5, world, data);
+        platformGen.generate("platform", 15, 6, world, data);
+        platformGen.generate("platform", 15, 7, world, data);
 
     }
     /***

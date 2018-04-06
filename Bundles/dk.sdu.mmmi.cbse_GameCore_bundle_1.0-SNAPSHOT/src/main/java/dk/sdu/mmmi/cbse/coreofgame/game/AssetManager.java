@@ -66,7 +66,7 @@ public class AssetManager {
         try{
         batch.begin();
         for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null){
+            if(entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null){
                 Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                 PositionPart pos = entity.getPart(PositionPart.class);
                 if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
@@ -93,7 +93,6 @@ public class AssetManager {
         try{
             for (Entity entity : world.getEntities()) {
                 if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
-                    System.out.println("Hello");
                     URL url;
                     Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
                     while(urls.hasMoreElements()){

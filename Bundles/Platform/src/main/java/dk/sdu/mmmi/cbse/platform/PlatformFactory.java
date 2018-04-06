@@ -27,22 +27,8 @@ public class PlatformFactory implements IEntityGenerator {
     
     private Entity createPlatform(String name, int x, int y){
         Entity entity = new Platform();
-        PlatformObj platobj = null;
-        
-        File files = null;
-        files = new File("./Bundles/Platform/src/main/resources/image/Idle/");
-        File[] fileslist = files.listFiles();
-        if (fileslist != null) {
-
-            for (File file : fileslist) {
-                if (file.getName().endsWith(".png")) {
-                    platobj = new PlatformObj(file.getName(), x, y);
-                    entity.add(new AssetGenerator(entity, "image/", file.getName()));
-                }
-            }}
-            entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos()));
-            
-        
+        entity.add(new AssetGenerator(entity, "image/", "GrassPlatform.png"));
+        entity.add(new PositionPart(x, y));
         return entity;
     }
     
@@ -52,7 +38,6 @@ public class PlatformFactory implements IEntityGenerator {
         this.world = world;
         this.data = data;
         Entity platform = null;
-        System.out.println(identifier);
         switch(identifier.toLowerCase()){
             case "platform":
                 platform = createPlatform(identifier, x, y);
