@@ -26,7 +26,7 @@ public class PlayerProcess implements IEntityProcessingService {
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
-            AssetGenerator assetGen = player.getPart(AssetGenerator.class);
+            AssetGenerator assetGenerator = player.getPart(AssetGenerator.class);
 
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
@@ -39,7 +39,7 @@ public class PlayerProcess implements IEntityProcessingService {
 
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
-            assetGen.process(gameData, player);
+            assetGenerator.process(gameData, player);
 
         }
     }

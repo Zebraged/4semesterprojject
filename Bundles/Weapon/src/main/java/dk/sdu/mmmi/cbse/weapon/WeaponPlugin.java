@@ -7,31 +7,47 @@ import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
 
 public class WeaponPlugin implements IGamePluginService {
 
-    public void start(GameData gd, World world, BundleContext bc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Boolean status = false;
+    private Entity weapon;
+    private BundleContext bundleContext;
+    private World world;
+    private IPlayerPositionService iPlayerPositionService;
+
+    public void start(GameData gameData, World world, BundleContext bundleContext) {
+        System.out.println("plugin started");
+
+        this.world = world;
+        this.bundleContext = bundleContext;
+
+        weapon = createWeapon(gameData, world, bundleContext);
+        world.addEntity(weapon);
+
+        status = true;
     }
 
     public void stop() {
-        System.out.println("plugin stopped");
+        world.removeEntity(weapon);
     }
 
     public boolean getStatus() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return status;
     }
-    
-    private Entity createPlayer(GameData gameData, World world) {
-        Entity player = new Weapon();
-        
-        PositionPart posPart = new PositionPart(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
-        player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
-        player.add(posPart);
-        player.add(new MovingPart(5, 600, 400));
-        return player;
+
+    private Entity createWeapon(GameData gameData, World world, BundleContext bundleContext) {
+        Entity weaponObject = new Weapon();
+
+        iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+
+        PositionPart posistionPart = new PositionPart(iPlayerPositionService.getX(), iPlayerPositionService.getY());
+        weaponObject.add(new AssetGenerator(weaponObject, "image/", "Stick.png"));
+        weaponObject.add(posistionPart);
+        weaponObject.add(new MovingPart(5, 600, 400));
+        return weaponObject;
     }
-    
-    
+
 }

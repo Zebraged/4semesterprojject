@@ -21,21 +21,23 @@ import org.osgi.framework.BundleContext;
  */
 public class PlayerPlugin implements IGamePluginService {
 
-    
     private IPlayerPositionService position;
-    Boolean status = false;
-    Entity player;
-    BundleContext context;
-    World world;
+    private Boolean status = false;
+    private Entity player;
+    private BundleContext context;
+    private World world;
 
     public void start(GameData gameData, World world, BundleContext context) {
+        System.out.println("plugin started");
+        
         this.world = world;
         this.context = context;
-        status = true;
-        System.out.println("plugin started");
+        
         player = createPlayer(gameData, world);
         world.addEntity(player);
         context.registerService(IPlayerPositionService.class.getName(), position, null);
+        
+        status = true;
     }
 
     public void stop() {
