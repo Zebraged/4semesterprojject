@@ -23,25 +23,35 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private boolean gotReference = false;
 
-    private BundleContext bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+    private BundleContext bundleContext;
 
-    private IPlayerPositionService iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+    private IPlayerPositionService iPlayerPositionService;
 
     public void process(GameData gameData, World world) {
-        for (Entity weapon : world.getEntities(Weapon.class)) {
-            PositionPart positionPart = weapon.getPart(PositionPart.class);
-            AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
+        try {
+            for (Entity weapon : world.getEntities(Weapon.class)) {
+                PositionPart positionPart = weapon.getPart(PositionPart.class);
+                AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
 
-            positionPart.setX(iPlayerPositionService.getX());
-            positionPart.setY(iPlayerPositionService.getY());
+                if (!gotReference) {
+                    createReference();
+                }
 
-            positionPart.process(gameData, weapon);
-            assetGenerator.process(gameData, weapon);
+                positionPart.setX(iPlayerPositionService.getX());
+                positionPart.setY(iPlayerPositionService.getY());
+
+                positionPart.process(gameData, weapon);
+                assetGenerator.process(gameData, weapon);
+            }
+        } catch (NullPointerException ex) {
+            // no exception message for now
         }
     }
 
     private void createReference() {
         bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+
+        gotReference = true;
     }
 }
