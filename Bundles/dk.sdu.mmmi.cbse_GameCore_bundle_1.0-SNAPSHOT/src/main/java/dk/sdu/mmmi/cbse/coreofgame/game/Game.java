@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
@@ -25,7 +26,7 @@ import org.osgi.framework.ServiceReference;
  * @author Marcg
  */
 public class Game implements ApplicationListener {
-    
+
     /**
      *
      * @param context
@@ -34,20 +35,19 @@ public class Game implements ApplicationListener {
     public static LwjglApplication getApp(BundleContext context) {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
-        
+
         cfg.title = "Test";
         cfg.width = 1280;
         cfg.height = 720;
         cfg.useGL30 = false;
         cfg.resizable = true;
-        
+
         Game game = new Game();
         LwjglApplication application = new LwjglApplication(game, cfg);
         game.setContext(context);
-        
+
         return application;
     }
-        
 
     private BundleContext context;
     private AssetManager assetManager;
@@ -61,25 +61,24 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void create() {
-        
+
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        
+
         cam.update();
-        
+
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
-         
+
         assetManager = new AssetManager(world, gameData, cam);
-        
+
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);
         pluginTracker.startPluginTracker();
-        
+
         Gdx.input.setInputProcessor(
                 new GameInputProcessor(gameData)
         );
-        
-        
+
     }
 
     /**
@@ -92,15 +91,23 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-        
-        for(Bundle bundle : gameData.getBundles()){
+
+        for (Bundle bundle : gameData.getBundles()) {
             assetManager.loadAllPluginTextures(bundle);
             gameData.removeBundle(bundle);
         }
-        
+
+        ICollisionService processCol;
+        if (processCollisionReference() != null) {
+            for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
+                processCol = (ICollisionService) context.getService(reference);
+                processCol.process(gameData, world);
+            }
+        }
+
         IEntityProcessingService process;
-        if(processReference() != null){
-            for(ServiceReference<IEntityProcessingService> reference : processReference()){
+        if (processReference() != null) {
+            for (ServiceReference<IEntityProcessingService> reference : processReference()) {
                 process = (IEntityProcessingService) context.getService(reference);
                 process.process(gameData, world);
             }
@@ -111,7 +118,7 @@ public class Game implements ApplicationListener {
     private void draw() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         assetManager.loadImages(context);
     }
 
@@ -149,15 +156,15 @@ public class Game implements ApplicationListener {
 
     private void postUpdate() {
     }
-    
+
     /**
      *
      * @param context
      */
-    public void setContext(BundleContext context){
+    public void setContext(BundleContext context) {
         this.context = context;
     }
-    
+
     /**
      *
      * @return
@@ -171,10 +178,20 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-    
-    public void placeCam(){
+
+    public Collection<ServiceReference<ICollisionService>> processCollisionReference() {
+        Collection<ServiceReference<ICollisionService>> collection = null;
+        try {
+            collection = this.context.getServiceReferences(ICollisionService.class, null);
+        } catch (InvalidSyntaxException ex) {
+            System.out.println("Service not availlable!");
+        }
+        return collection;
+    }
+
+    public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
-        if(reference == null){
+        if (reference == null) {
             cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
@@ -183,5 +200,5 @@ public class Game implements ApplicationListener {
         }
         cam.update();
     }
-    
+
 }

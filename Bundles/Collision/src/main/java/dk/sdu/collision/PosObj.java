@@ -12,7 +12,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
  *
  * @author Jesper
  */
-public class PosObj {
+public abstract class PosObj {
 
     private float x;
     private float y;
@@ -21,6 +21,7 @@ public class PosObj {
     private String ID;
     private Entity entity;
     private PositionPart pos;
+    private String lastDir = "top";
 
     public String getID() {
         return ID;
@@ -36,11 +37,11 @@ public class PosObj {
         this.ID = e.getID();
     }
 
-    public void updatePos(Entity e){
+    public void updatePos(Entity e) {
         PositionPart pos = e.getPart(PositionPart.class);
         this.x = pos.getX();
         this.y = pos.getY();
-        
+
     }
 
     public float getX1() {
@@ -63,7 +64,20 @@ public class PosObj {
         return entity;
     }
 
+    public String getLastDir() {
+        return lastDir;
+    }
 
-    
-    
+    public void setLastDir(String lastDir) {
+        this.lastDir = lastDir;
+    }
+
+    public float gethysteresis() {
+        if (lastDir.equals("top")) {
+            return 10;
+        } else {
+            return 0;
+        }
+    }
+
 }

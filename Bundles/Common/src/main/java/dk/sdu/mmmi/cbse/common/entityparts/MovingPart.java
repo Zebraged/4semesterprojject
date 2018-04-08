@@ -7,10 +7,11 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 
 /**
  *
- * @author Alexander
+ * @author
  */
 public class MovingPart implements EntityPart {
 
@@ -19,6 +20,7 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
+    private ICollisionService collision;
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -54,22 +56,27 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
+        
+        CollisionPart col = CollisionPart.getInstance();
+        
+
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
         float dt = gameData.getDelta();
 
-        if (left) {
+        if (left && col.isLeftAllowed()) {
             x -= speed * dt;
         }
 
-        if (right) {
+        if (right && col.isRightAllowed()) {
             x += speed * dt;
         }
 
         if (up) {
             if (isGrounded) {
                 jumpTime = 0;
+                
             }
             jumpTime += dt;
             isGrounded = false;

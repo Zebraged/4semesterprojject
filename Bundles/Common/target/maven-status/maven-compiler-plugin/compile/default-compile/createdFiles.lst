@@ -11,8 +11,10 @@ dk\sdu\mmmi\cbse\common\entityparts\EntityPart.class
 dk\sdu\mmmi\cbse\common\data\Entity.class
 dk\sdu\mmmi\cbse\common\events\Event.class
 dk\sdu\mmmi\cbse\common\data\GameData.class
+dk\sdu\mmmi\cbse\common\services\ICollisionService.class
 dk\sdu\mmmi\cbse\common\services\ILevelGenerator.class
 dk\sdu\mmmi\cbse\common\entityparts\AssetGenerator.class
 dk\sdu\mmmi\cbse\common\entityparts\MovingPart.class
 dk\sdu\mmmi\cbse\common\data\GameKeys.class
+dk\sdu\mmmi\cbse\common\entityparts\CollisionPart.class
 dk\sdu\mmmi\cbse\common\services\IPlayerPositionService.class

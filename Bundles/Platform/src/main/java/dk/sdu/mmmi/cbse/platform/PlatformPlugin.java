@@ -47,6 +47,7 @@ public class PlatformPlugin implements IGamePluginService {
         platformGen.generate("platform", 3, 1, world, data);
         platformGen.generate("platform", 4, 1, world, data);
         platformGen.generate("platform", 5, 1, world, data);
+        platformGen.generate("platform", 5, 2, world, data);
         platformGen.generate("platform", 6, 1, world, data);
         platformGen.generate("platform", 7, 1, world, data);
         platformGen.generate("platform", 8, 1, world, data);

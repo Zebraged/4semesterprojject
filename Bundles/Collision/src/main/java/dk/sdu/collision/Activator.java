@@ -1,6 +1,7 @@
 package dk.sdu.collision;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Activator implements BundleActivator {
 
         Collision collision = new Collision();
 
-        context.registerService(IEntityProcessingService.class.getName(), collision, null);
+        context.registerService(ICollisionService.class.getName(), collision, null);
 
         collision.start();
     }
