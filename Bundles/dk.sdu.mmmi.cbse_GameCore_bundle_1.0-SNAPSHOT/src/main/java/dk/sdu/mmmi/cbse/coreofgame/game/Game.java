@@ -36,8 +36,8 @@ public class Game implements ApplicationListener {
                 = new LwjglApplicationConfiguration();
         
         cfg.title = "Test";
-        cfg.width = 800;
-        cfg.height = 600;
+        cfg.width = 1280;
+        cfg.height = 720;
         cfg.useGL30 = false;
         cfg.resizable = true;
         
@@ -178,11 +178,10 @@ public class Game implements ApplicationListener {
             cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-            System.out.println(playerPosition.getX() + " " + playerPosition.getY());
             cam.position.x = playerPosition.getX();
-            cam.position.y = playerPosition.getY();
-            cam.update();
+            cam.position.y = Gdx.graphics.getHeight();
         }
+        cam.update();
     }
     
 }

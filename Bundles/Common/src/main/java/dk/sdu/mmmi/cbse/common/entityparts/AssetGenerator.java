@@ -95,6 +95,7 @@ public class AssetGenerator implements EntityPart{
     //create a hashmap with all the relevant pictures.
     private void loadAll(Entity source){
         URL url;
+        FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         Enumeration<URL> urls = FrameworkUtil.getBundle(source.getClass()).findEntries(source.getAsset().getImagePath(), "*.png", true);
         while(urls.hasMoreElements()){
             url = urls.nextElement();
@@ -128,6 +129,10 @@ public class AssetGenerator implements EntityPart{
         } else {
             delay--;
         }
+    }
+    
+    public void toggleAsBackground(boolean bool){
+        asset.setBackground(bool);
     }
     
 }

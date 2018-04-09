@@ -1,6 +1,6 @@
 package dk.sdu.mmmi.cbse.enemy;
 
-import dk.sdu.mmmi.cbse.common.services.IEnemyGenerator;
+
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import org.osgi.framework.BundleActivator;
