@@ -96,7 +96,7 @@ public class AssetManager {
         lock.writeLock().lock();
         try{
             for (Entity entity : world.getEntities()) {
-                if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
+                if(entity.getAsset() != null && imageExist(entity.getAsset().getImage()) != true){
                     System.out.println("Hello");
                     URL url;
                     Enumeration<URL> urls = FrameworkUtil.getBundle(entity.getClass()).findEntries(entity.getAsset().getImagePath(), "*.png", true);
@@ -119,5 +119,14 @@ public class AssetManager {
             lock.writeLock().unlock();
         }
         
+    }
+    
+    public boolean imageExist(String image){
+        for(String string : textureMap.keySet()){
+            if(string.equals(image)){
+                return true;
+            }
+        }
+        return false;
     }
 }
