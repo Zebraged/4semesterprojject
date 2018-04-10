@@ -22,8 +22,8 @@ public class TilePlacementParser implements ISpecificParser {
      * @param lengthY the lengthY to set
      */
     public void setLengthY(int lengthY) {
-        this.currentPosY = lengthY;
-        this.lengthY = lengthY;
+        this.currentPosY = lengthY-1;
+        this.lengthY = lengthY-1;
     }
     private IEntityGenerator gen;
     private World world;

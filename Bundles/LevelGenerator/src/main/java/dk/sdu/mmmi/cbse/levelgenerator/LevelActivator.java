@@ -28,7 +28,8 @@ public class LevelActivator implements IGamePluginService {
 
     @Override
     public void stop() {
-        //generator = null;
+        generator = null;
+        loaded = false;
     }
 
     @Override
