@@ -8,9 +8,13 @@ C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\d
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameKeys.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IGamePluginService.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\entityparts\PositionPart.java
+<<<<<<< HEAD
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\ITileGenerator.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\events\Event.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\ILevelGenerator.java
+=======
+C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\events\Event.java
+>>>>>>> parent of c74bd0a... tilføjet weapon bundle
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IPostEntityProcessingService.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\services\IEntityProcessingService.java
 C:\Users\Marcg\Documents\GitHub\4semesterprojject\Bundles\Common\src\main\java\dk\sdu\mmmi\cbse\common\data\GameData.java
