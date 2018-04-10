@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.weapon;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.SPACE;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
@@ -37,8 +38,17 @@ public class WeaponSystem implements IEntityProcessingService {
                     createReference();
                 }
 
-                positionPart.setX(iPlayerPositionService.getX());
-                positionPart.setY(iPlayerPositionService.getY());
+                if(gameData.getKeys().isDown(SPACE)){
+                    assetGenerator.changeImage("Stick_Attack.png");
+                positionPart.setX(iPlayerPositionService.getX() + 20);
+                positionPart.setY(iPlayerPositionService.getY() - 12);
+
+                } else{
+                    assetGenerator.changeImage("Stick.png");
+                positionPart.setX(iPlayerPositionService.getX() + 20);
+                positionPart.setY(iPlayerPositionService.getY() + 20);
+                }
+                
 
                 positionPart.process(gameData, weapon);
                 assetGenerator.process(gameData, weapon);
