@@ -114,7 +114,7 @@ public class LevelGenerator implements ILevelGenerator {
                 break;
 
             case TILES:
-                //tilePlacementParser.parse(line);
+                tilePlacementParser.parse(generators, line);
                 break;
 
             default:

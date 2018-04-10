@@ -42,6 +42,8 @@ public class AssetGenerator implements EntityPart{
         this.imagePath = imagePath;
         this.image = image;
         asset = new Asset(this.imagePath, this.image);
+        asset.setBundle(FrameworkUtil.getBundle(source.getClass()));
+        System.out.println("Bundle: "+asset.getBundle());
         source.setAsset(asset);
         loadAll(source);
     }

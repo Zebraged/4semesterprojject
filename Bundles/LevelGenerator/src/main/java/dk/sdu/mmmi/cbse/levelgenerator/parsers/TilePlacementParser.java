@@ -40,7 +40,7 @@ public class TilePlacementParser implements ISpecificParser {
             char[] chars = line.toCharArray();
             int x = 0;
             for (char c : chars) {
-                this.gen.generate("" + c, x * 32, currentPosY * 32, world, data);
+                this.gen.generate("" + c, x, currentPosY, world, data);
                 x++;
             }
             currentPosY--;

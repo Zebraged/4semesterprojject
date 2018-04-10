@@ -55,13 +55,12 @@ public class PlatformFactory implements IEntityGenerator {
         this.world = world;
         this.data = data;
         Entity platform = null;
-        switch (identifier.toLowerCase()) {
-            case "platform":
+        switch (identifier) {
+            case "1":
                 platform = createPlatform(identifier, x, y);
                 world.addEntity(platform);
                 break;
             default:
-                System.out.println("Unknown platform type");
                 break;
 
         }

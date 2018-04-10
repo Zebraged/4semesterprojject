@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1523018535577
-Build-Jdk: 1.8.0_101
-Built-By: Marcg
+Bnd-LastModified: 1523265279551
+Build-Jdk: 1.8.0_161
+Built-By: Mr. Kinder
 Bundle-Activator: dk.sdu.mmmi.cbse.player.PlayerActivator
 Bundle-ManifestVersion: 2
 Bundle-Name: Player OSGi Bundle
