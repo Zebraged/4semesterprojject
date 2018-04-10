@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1523355695338
+Bnd-LastModified: 1523356941624
 Build-Jdk: 1.8.0_161
 Built-By: Mr. Kinder
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
