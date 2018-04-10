@@ -172,12 +172,11 @@ public class Game implements ApplicationListener {
     public void placeCam(){
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
         if(reference == null){
-            //cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
+            
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
             cam.position.x = playerPosition.getX();
             cam.position.y = cam.viewportHeight/2;
-            //cam.position.y = Gdx.graphics.getHeight();
         }
     }
     
