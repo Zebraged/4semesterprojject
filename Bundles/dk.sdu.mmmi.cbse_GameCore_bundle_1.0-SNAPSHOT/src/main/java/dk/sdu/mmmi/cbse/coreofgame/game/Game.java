@@ -25,7 +25,7 @@ import org.osgi.framework.ServiceReference;
  * @author Marcg
  */
 public class Game implements ApplicationListener {
-    
+
     /**
      *
      * @param context
@@ -34,20 +34,19 @@ public class Game implements ApplicationListener {
     public static LwjglApplication getApp(BundleContext context) {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
-        
+
         cfg.title = "Test";
         cfg.width = 1280;
         cfg.height = 720;
         cfg.useGL30 = false;
         cfg.resizable = true;
-        
+
         Game game = new Game();
         LwjglApplication application = new LwjglApplication(game, cfg);
         game.setContext(context);
-        
+
         return application;
     }
-        
 
     private BundleContext context;
     private AssetManager assetManager;
@@ -61,25 +60,24 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void create() {
-        
+
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        
+
         cam.update();
-        
+
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
-         
+
         assetManager = new AssetManager(world, gameData, cam);
-        
+
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);
         pluginTracker.startPluginTracker();
-        
+
         Gdx.input.setInputProcessor(
                 new GameInputProcessor(gameData)
         );
-        
-        
+
     }
 
     /**
@@ -92,22 +90,22 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-        
-        for(Bundle bundle : gameData.getBundles()){
+
+        for (Bundle bundle : gameData.getBundles()) {
             assetManager.loadAllPluginTextures(bundle);
             gameData.removeBundle(bundle);
         }
-        
+
         IEntityProcessingService process;
-        if(processReference() != null){
-            for(ServiceReference<IEntityProcessingService> reference : processReference()){
+        if (processReference() != null) {
+            for (ServiceReference<IEntityProcessingService> reference : processReference()) {
                 process = (IEntityProcessingService) context.getService(reference);
                 process.process(gameData, world);
             }
         }
     }
 
-    private void draw() {       
+    private void draw() {
         placeCam();
         assetManager.loadImages(context);
     }
@@ -146,15 +144,15 @@ public class Game implements ApplicationListener {
 
     private void postUpdate() {
     }
-    
+
     /**
      *
      * @param context
      */
-    public void setContext(BundleContext context){
+    public void setContext(BundleContext context) {
         this.context = context;
     }
-    
+
     /**
      *
      * @return
@@ -168,16 +166,20 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-    
-    public void placeCam(){
+
+    public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
-        if(reference == null){
-            
+        if (reference == null) {
+
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-            cam.position.x = playerPosition.getX();
-            cam.position.y = cam.viewportHeight/2;
+            if (playerPosition.getX() > cam.viewportWidth / 2) {
+                cam.position.x = playerPosition.getX();
+            } else {
+                cam.position.x = cam.viewportWidth / 2;
+            }
+            cam.position.y = cam.viewportHeight / 2;
         }
     }
-    
+
 }
