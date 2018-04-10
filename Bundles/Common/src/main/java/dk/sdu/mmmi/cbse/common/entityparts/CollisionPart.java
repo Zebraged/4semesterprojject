@@ -14,52 +14,41 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
  */
 public class CollisionPart implements EntityPart {
 
-    private boolean leftAllowed = true;
-    private boolean rightAllowed = true;
-    private boolean gravityAllowed = true;
     private static CollisionPart instance = null;
-    private CollisionPart(){
+
+    private CollisionPart() {
         
     }
     
     public static CollisionPart getInstance() {
-      if(instance == null) {
-         instance = new CollisionPart();
-      }
-      return instance;
-   }
-    
+        if (instance == null) {
+            instance = new CollisionPart();
+        }
+        return instance;
+    }
+
+    private float maxX = 0;
+    private float maxY = 0;
+
     @Override
     public void process(GameData gameData, Entity entity) {
-         
+        
+    }
+   
+    public float getMaxX() {
+        return maxX;
     }
 
-    public boolean isLeftAllowed() {
-        return leftAllowed;
+    public void setMaxX(float maxX) {
+        this.maxX = maxX;
     }
 
-    public boolean isRightAllowed() {
-        return rightAllowed;
+    public float getMaxY() {
+        return maxY;
     }
 
-    public void setLeftAllowed(boolean leftAllowed) {
-        this.leftAllowed = leftAllowed;
+    public void setMaxY(float maxY) {
+        this.maxY = maxY;
     }
 
-    public void setRightAllowed(boolean rightAllowed) {
-        this.rightAllowed = rightAllowed;
-    }
-
-    public boolean isGravityAllowed() {
-        return gravityAllowed;
-    }
-
-    public void setGravityAllowed(boolean gravityAllowed) {
-        this.gravityAllowed = gravityAllowed;
-    }
-
-    
-
-    
-    
 }

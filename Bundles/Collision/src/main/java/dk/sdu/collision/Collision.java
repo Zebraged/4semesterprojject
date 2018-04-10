@@ -30,7 +30,7 @@ public class Collision implements ICollisionService {
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
-    private final CollisionPart col = CollisionPart.getInstance();
+    private CollisionPart col = CollisionPart.getInstance();
 
     public void process(GameData gameData, World world) {
 
@@ -80,20 +80,21 @@ public class Collision implements ICollisionService {
 
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
-                PosObj platformPos = platform.getValue(); // player obj
+                PosObj platformPos = platform.getValue(); // platform obj
+                checkCollision(firstPosObj, platformPos, gameData);
 
-                if (checkCollision(firstPosObj, platformPos, gameData)) { // if collision.
-
-                    Entity firstE = firstPosObj.getEntity();
-                    Entity platformE = platformPos.getEntity();
-
-                    PositionPart firstP = firstE.getPart(PositionPart.class);
-                    PositionPart platformP = platformE.getPart(PositionPart.class);
-                    MovingPart firstM = firstE.getPart(MovingPart.class);
-
-                    // firstP.setY(platformP.getY() + 32);
-                    firstM.setIsGrounded(true);
-                }
+//                if (checkCollision(firstPosObj, platformPos, gameData)) { // if collision.
+                //
+                //                    Entity firstE = firstPosObj.getEntity();
+                //                    Entity platformE = platformPos.getEntity();
+                //
+                //                    PositionPart firstP = firstE.getPart(PositionPart.class);
+                //                    PositionPart platformP = platformE.getPart(PositionPart.class);
+                //                    MovingPart firstM = firstE.getPart(MovingPart.class);
+                //
+                //                    // firstP.setY(platformP.getY() + 32);
+                //                    firstM.setIsGrounded(true);
+                //                }
             }
 
         }
@@ -106,49 +107,26 @@ public class Collision implements ICollisionService {
      * @param RectB sec shape
      * @return true if found else false.
      */
-    private boolean checkCollision(PosObj RectA, PosObj RectB, GameData gameData) {
+    private void checkCollision(PosObj RectA, PosObj RectB, GameData gameData) {
 
-        System.out.println(RectA.gethysteresis());
-        
-        if (RectA.getX1() > RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
-           // RectA.setLastDir("right");
-            RectB.setLastDir("right");
-        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() < RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
-          //  RectA.setLastDir("left");
-            RectB.setLastDir("left");
-        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() > RectB.getY2() && RectA.getY2() > RectB.getY1()) {
-            RectB.setLastDir("top");
-          //  RectA.setLastDir("top");
-        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() < RectB.getY1()) {
-          //  RectA.setLastDir("bottom");
-            RectB.setLastDir("bottom");
+        float AposY = RectA.getY1();
+
+        for (float i = 0; i < 8; i++) {
+
+            AposY -= i;
+
+            float dis = AposY - RectB.getY2(); 
+            
+            if (dis < 8 && dis >= 0 && RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1()) {
+                col.setMaxY(RectB.getY2() + dis);
+            }
+
         }
 
-        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
-            System.out.println(RectB.getLastDir());
-
-            if (RectB.getLastDir().equals("left")) {
-
-                col.setRightAllowed(false);
-            } else {
-                col.setRightAllowed(true);
-            }
-            if (RectB.getLastDir().equals("bottom")) {
-
-            }
-
-            if (RectB.getLastDir().equals("right")) {
-                col.setLeftAllowed(false);
-
-            } else {
-                col.setLeftAllowed(true);
-            }
-
-            return true;
-        } else {
-            RectB.setLastDir("none");
-            return false;
-        }
+//        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
+//
+//        }
+        //return true;
     }
 
     /**
@@ -190,3 +168,39 @@ public class Collision implements ICollisionService {
         }
     }
 }
+
+//       System.out.println(RectA.gethysteresis());
+//        
+//        if (RectA.getX1() > RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
+//           // RectA.setLastDir("right");
+//            RectB.setLastDir("right");
+//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() < RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
+//          //  RectA.setLastDir("left");
+//            RectB.setLastDir("left");
+//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() > RectB.getY2() && RectA.getY2() > RectB.getY1()) {
+//            RectB.setLastDir("top");
+//          //  RectA.setLastDir("top");
+//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() < RectB.getY1()) {
+//          //  RectA.setLastDir("bottom");
+//            RectB.setLastDir("bottom");
+//        }
+//
+//        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
+//            System.out.println(RectB.getLastDir());
+//
+//            if (RectB.getLastDir().equals("left")) {
+//
+//                col.setRightAllowed(false);
+//            } else {
+//                col.setRightAllowed(true);
+//            }
+//            if (RectB.getLastDir().equals("bottom")) {
+//
+//            }
+//
+//            if (RectB.getLastDir().equals("right")) {
+//                col.setLeftAllowed(false);
+//
+//            } else {
+//                col.setLeftAllowed(true);
+//            }

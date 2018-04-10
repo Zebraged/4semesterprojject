@@ -21,6 +21,7 @@ public class MovingPart implements EntityPart {
     private boolean isGrounded;
     private float jumpTime;
     private ICollisionService collision;
+    private CollisionPart col = CollisionPart.getInstance();
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -56,27 +57,34 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-        
-        CollisionPart col = CollisionPart.getInstance();
-        
+
+        float maxX = 0;
+        float maxY = 0;
+        boolean jump = false;
+
+        if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
+            maxX = col.getMaxX();
+            maxY = col.getMaxY();
+        }
 
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
         float dt = gameData.getDelta();
 
-        if (left && col.isLeftAllowed()) {
+        if (left) {
             x -= speed * dt;
         }
 
-        if (right && col.isRightAllowed()) {
+        if (right) {
             x += speed * dt;
         }
 
         if (up) {
+            jump = true;
             if (isGrounded) {
                 jumpTime = 0;
-                
+
             }
             jumpTime += dt;
             isGrounded = false;
@@ -84,6 +92,15 @@ public class MovingPart implements EntityPart {
         } else if (!isGrounded) {
             jumpTime += dt;
             y += -gravity * jumpTime * jumpTime / 2;
+        }
+
+        // if player x is bigger than allowed x, change the x value to max.
+        if (maxX > 1 && x < maxX) {
+            x = maxX;
+        }
+
+        if (maxY > 1 && y < maxY && !jump) {
+            y = maxY;
         }
 
         positionPart.setX(x);

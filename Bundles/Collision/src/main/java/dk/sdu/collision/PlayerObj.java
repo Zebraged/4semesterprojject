@@ -6,6 +6,7 @@
 package dk.sdu.collision;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 
 /**
  *
@@ -13,13 +14,14 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  */
 public class PlayerObj extends PosObj {
 
-    private boolean hysteresis = false;
+    private CollisionPart col = CollisionPart.getInstance();
+  
 
     public PlayerObj(Entity e, int sizex, int sizey) {
         super(e, sizex, sizey);
     }
 
-    
-    
-    
+    public CollisionPart getCollisionPart(){
+        return col;
+    }
 }
