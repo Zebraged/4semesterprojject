@@ -6,6 +6,8 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,9 +39,9 @@ public class AssetManager {
 
     private SpriteBatch batch;
     private World world;
-    private OrthographicCamera cam;
     private GameData data;
-    private Texture background = null;
+    private OrthographicCamera cam;
+    private ReadWriteLock lock = new ReentrantReadWriteLock();
     
     private Map<String, Texture> textureMap; 
 
@@ -53,9 +55,8 @@ public class AssetManager {
         this.world = world;
         this.data = data;
         this.textureMap = new ConcurrentHashMap();
-        this. cam = cam;
+        this.cam = cam;
         this.batch = new SpriteBatch();
-        batch.setProjectionMatrix(cam.combined);
     }
 
     /**
@@ -64,68 +65,59 @@ public class AssetManager {
      * @param context
      */
     public void loadImages(BundleContext context) {
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
+
         batch.begin();
-        loadBackground();
         for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null){
-                if(entity.getAsset().isBackground() == true){
-                    background = textureMap.get(entity.getAsset().getImage());
-                } else {
-                    Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
-                    PositionPart pos = entity.getPart(PositionPart.class);
-                    if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
-                        sprite.flip(true, false);
-                    } 
-                    sprite.setX((int)pos.getX()); //change x and y position of image based on position part
-                    sprite.setY((int)pos.getY());
-                    sprite.draw(batch);  
-                }
+            if(entity.getAsset() != null){
+                Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
+                PositionPart pos = entity.getPart(PositionPart.class);
+                if(entity.getAsset().getMirror() == true){//Mirror the image if the value is true
+                    sprite.flip(true, false);
+                } 
+                sprite.setX((int)pos.getX()); //change x and y position of image based on position part
+                sprite.setY((int)pos.getY());
+                sprite.draw(batch);
+               
             }
         }
         batch.end();
     }
+    
     
     /**
      * when a this method is called, will all loaded plugins load their images relevant to the entities created in world.
      * @param bundle
      */
     public void loadAllPluginTextures(Bundle bundle){
-        for (Entity entity : world.getEntities()) {
-            if(entity.getAsset() != null && imageExist(entity.getAsset().getImage()) != true){
-                URL url;
-                Enumeration<URL> urls = FrameworkUtil.getBundle(entity.getClass()).findEntries(entity.getAsset().getImagePath(), "*.png", true);
-                while(urls.hasMoreElements()){
-                    url = urls.nextElement();
-                    Pixmap pixmap = null;
-                    try {
-                        pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
-                        Texture texture = new Texture(pixmap);
-                        textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
-                        System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
-                        entity.getAsset().setLoaded(true);
-                    } catch (IOException ex) {
-                        System.out.println("input not avaiable");
+        lock.writeLock().lock();
+        try{
+            for (Entity entity : world.getEntities()) {
+                if(entity.getAsset() != null && entity.getAsset().isLoaded() == false){
+                    System.out.println("Hello");
+                    URL url;
+                    Enumeration<URL> urls = FrameworkUtil.getBundle(entity.getClass()).findEntries(entity.getAsset().getImagePath(), "*.png", true);
+                    while(urls.hasMoreElements()){
+                        url = urls.nextElement();
+                        Pixmap pixmap = null;
+                        try {
+                            pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
+                            Texture texture = new Texture(pixmap);
+                            textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()), texture);
+                            System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/')+1, url.getPath().length()) + " loaded!");
+                            entity.getAsset().setLoaded(true);
+                        } catch (IOException ex) {
+                            System.out.println("input not avaiable");
+                        }
                     }
                 }
             }
+        } finally{
+            lock.writeLock().unlock();
         }
-    }
-    
-    public void loadBackground(){
-        if(background != null){
-            Sprite sprite = new Sprite(background);
-            sprite.setX(0);
-            sprite.setY(0);
-            sprite.draw(batch);
-        } 
-    }
-    
-    public boolean imageExist(String image){
-        for(String string : textureMap.keySet()){
-            if(string.equals(image)){
-                return true;
-            }
-        }
-        return false;
+        
     }
 }
