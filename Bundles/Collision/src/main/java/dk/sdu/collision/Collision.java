@@ -23,45 +23,45 @@ import java.util.Map;
  * @author Jesper
  */
 public class Collision implements ICollisionService {
-    
+
     void start() {
-        
+
     }
-    
+
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
     private CollisionPart col = CollisionPart.getInstance();
-    
+
     public void process(GameData gameData, World world) {
-        
+
         for (Entity entity : world.getEntities()) {
-            
+
             if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
-                
+
                 addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.TEDDY.url())) {
-                
+
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.CLOUD.url())) {
-                
+
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.UNICORN.url())) {
-                
+
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
-                
+
                 addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
             }
         }
         //CheckPlayerPlatformCollision();
         CheckPlayerEnemyPlatformCollision(PlayerObj, PlatformObj, gameData);
         CheckPlayerEnemyPlatformCollision(EnemyObj, PlatformObj, gameData);
-        
+
     }
 
     /**
@@ -81,13 +81,13 @@ public class Collision implements ICollisionService {
 
             boolean foundY = false;
             ArrayList<Float> yvalue = new ArrayList();
-            
+
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
 
                 Float yval = 0f;
-                
+
                 yvalue.add(checkCollision(firstPosObj, platformPos, gameData, yval));
 
 //                if (checkCollision(firstPosObj, platformPos, gameData)) { // if collision.
@@ -105,11 +105,11 @@ public class Collision implements ICollisionService {
             }
             System.out.println(foundY);
             if (!yvalue.isEmpty()) {
-                
+
                 float higstvalue = 0;
-                
+
                 for (float f : yvalue) {
-                    
+
                     if (higstvalue < f) {
                         higstvalue = f;
                     }
@@ -124,28 +124,29 @@ public class Collision implements ICollisionService {
     /**
      * Checks for a collision between two shapes.
      *
-     * @param RectA first shape
-     * @param RectB sec shape
+     * @param player first shape
+     * @param platform sec shape
      * @return true if found else false.
      */
-    private Float checkCollision(PosObj RectA, PosObj RectB, GameData gameData, Float result) {
-        
-        float AposY = RectA.getY1();
+    private Float checkCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
 
-        //     boolean found = status;
+        float AposY = player.getY1(); // get player pos
+        float playpos = platform.getY2();
+
+      
         for (float i = 0; i < 10; i++) {
-            
+
             AposY -= i;
-            
-            float dis = AposY - RectB.getY2();
-            
-            if (dis < 10 && dis >= 0 && RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1()) {
+
+            float dis = playpos - AposY;   //AposY - RectB.getY2();
+
+            if (dis < 10 && dis >= 0 && player.getX1() < platform.getX2() && player.getX2() > platform.getX1()) {
                 //col.setMaxY(RectB.getY2() + dis + 1);
-                result = (RectB.getY2() + dis + 1);
+                result = (platform.getY2() + 1); //  (RectB.getY2() + dis + 1)
                 //   found = true;
                 break;
             }
-            
+
         }
 
 //        if (found == false){
@@ -167,9 +168,9 @@ public class Collision implements ICollisionService {
      * @param e the entity
      */
     private void addObj(HashMap collection, Entity e, ObjTypes type) {
-        
+
         String id = e.getID();
-        
+
         if (type == ObjTypes.PLAYER) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlayerObj(e, 23, 29));

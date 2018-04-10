@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1523358698205
-Build-Jdk: 1.8.0_144
-Built-By: Jesper
+Bnd-LastModified: 1523372171584
+Build-Jdk: 1.8.0_151
+Built-By: admin
 Bundle-ManifestVersion: 2
 Bundle-Name: Common OSGi Bundle
 Bundle-SymbolicName: dk.sdu.mmmi.cbse.Common
