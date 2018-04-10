@@ -41,6 +41,9 @@ public class PlatformPlugin implements IGamePluginService {
         ServiceReference service = context.getServiceReference(IEntityGenerator.class);
         IEntityGenerator platformGen = (IEntityGenerator) context.getService(service);
         platformGen.generate("platform", 1, 1, world, data);
+        platformGen.generate("platform", 2, 1, world, data);
+        platformGen.generate("platform", 3, 1, world, data);
+        platformGen.generate("platform", 3, 2, world, data);
 
 
 

@@ -54,7 +54,7 @@ public class PlayerPlugin implements IGamePluginService {
         PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(posPart);
-        player.add(new MovingPart(1, 600, 400));
+        player.add(new MovingPart(1, 800, 400));
         playPos.addPositionPart(posPart);
         position = playPos;
         return player;

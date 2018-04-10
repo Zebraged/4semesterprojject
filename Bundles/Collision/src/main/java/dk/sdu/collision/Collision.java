@@ -13,6 +13,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,45 +23,45 @@ import java.util.Map;
  * @author Jesper
  */
 public class Collision implements ICollisionService {
-
+    
     void start() {
-
+        
     }
-
+    
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
     private CollisionPart col = CollisionPart.getInstance();
-
+    
     public void process(GameData gameData, World world) {
-
+        
         for (Entity entity : world.getEntities()) {
-
+            
             if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
-
+                
                 addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.TEDDY.url())) {
-
+                
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.CLOUD.url())) {
-
+                
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.UNICORN.url())) {
-
+                
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
             } else if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
-
+                
                 addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
             }
         }
         //CheckPlayerPlatformCollision();
         CheckPlayerEnemyPlatformCollision(PlayerObj, PlatformObj, gameData);
         CheckPlayerEnemyPlatformCollision(EnemyObj, PlatformObj, gameData);
-
+        
     }
 
     /**
@@ -78,10 +79,16 @@ public class Collision implements ICollisionService {
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
 
+            boolean foundY = false;
+            ArrayList<Float> yvalue = new ArrayList();
+            
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
-                checkCollision(firstPosObj, platformPos, gameData);
+
+                Float yval = 0f;
+                
+                yvalue.add(checkCollision(firstPosObj, platformPos, gameData, yval));
 
 //                if (checkCollision(firstPosObj, platformPos, gameData)) { // if collision.
                 //
@@ -96,7 +103,21 @@ public class Collision implements ICollisionService {
                 //                    firstM.setIsGrounded(true);
                 //                }
             }
-
+            System.out.println(foundY);
+            if (!yvalue.isEmpty()) {
+                
+                float higstvalue = 0;
+                
+                for (float f : yvalue) {
+                    
+                    if (higstvalue < f) {
+                        higstvalue = f;
+                    }
+                }
+                col.setMaxY(higstvalue);
+            } else {
+                col.setMaxY(0);
+            }
         }
     }
 
@@ -107,22 +128,31 @@ public class Collision implements ICollisionService {
      * @param RectB sec shape
      * @return true if found else false.
      */
-    private void checkCollision(PosObj RectA, PosObj RectB, GameData gameData) {
-
+    private Float checkCollision(PosObj RectA, PosObj RectB, GameData gameData, Float result) {
+        
         float AposY = RectA.getY1();
 
-        for (float i = 0; i < 8; i++) {
-
-            AposY -= i;
-
-            float dis = AposY - RectB.getY2(); 
+        //     boolean found = status;
+        for (float i = 0; i < 10; i++) {
             
-            if (dis < 8 && dis >= 0 && RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1()) {
-                col.setMaxY(RectB.getY2() + dis);
+            AposY -= i;
+            
+            float dis = AposY - RectB.getY2();
+            
+            if (dis < 10 && dis >= 0 && RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1()) {
+                //col.setMaxY(RectB.getY2() + dis + 1);
+                result = (RectB.getY2() + dis + 1);
+                //   found = true;
+                break;
             }
-
+            
         }
 
+//        if (found == false){
+//            
+//        }
+        return result;
+        //   return found;
 //        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
 //
 //        }
@@ -137,9 +167,9 @@ public class Collision implements ICollisionService {
      * @param e the entity
      */
     private void addObj(HashMap collection, Entity e, ObjTypes type) {
-
+        
         String id = e.getID();
-
+        
         if (type == ObjTypes.PLAYER) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlayerObj(e, 23, 29));

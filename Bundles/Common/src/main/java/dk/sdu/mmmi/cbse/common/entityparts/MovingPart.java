@@ -60,7 +60,6 @@ public class MovingPart implements EntityPart {
 
         float maxX = 0;
         float maxY = 0;
-        boolean jump = false;
 
         if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
             maxX = col.getMaxX();
@@ -80,11 +79,14 @@ public class MovingPart implements EntityPart {
             x += speed * dt;
         }
 
+        if (maxY >= 0 && y < maxY) {
+            y = maxY;
+            jumpTime = 0;
+        }
+
         if (up) {
-            jump = true;
             if (isGrounded) {
                 jumpTime = 0;
-
             }
             jumpTime += dt;
             isGrounded = false;
@@ -99,10 +101,11 @@ public class MovingPart implements EntityPart {
             x = maxX;
         }
 
-        if (maxY > 1 && y < maxY && !jump) {
-            y = maxY;
-        }
-
+//        if (maxY > 1 && y < maxY && !jump) {
+//            y = maxY;
+//            jumpTime = 0;
+//        }
+        System.out.println(maxY);
         positionPart.setX(x);
         positionPart.setY(y);
 
