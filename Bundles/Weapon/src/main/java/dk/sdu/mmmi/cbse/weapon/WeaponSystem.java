@@ -5,15 +5,9 @@
  */
 package dk.sdu.mmmi.cbse.weapon;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
-import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -21,6 +15,7 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class WeaponSystem implements IEntityProcessingService {
 
+<<<<<<< HEAD
     private boolean gotReference = false;
 
     private BundleContext bundleContext;
@@ -54,4 +49,10 @@ public class WeaponSystem implements IEntityProcessingService {
 
         gotReference = true;
     }
+=======
+    public void process(GameData gd, World world) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+>>>>>>> parent of 316f1cf... Weapon følger player nu
 }

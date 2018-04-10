@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1523018525866
+=======
+Bnd-LastModified: 1522853373033
+>>>>>>> parent of 316f1cf... Weapon følger player nu
 Build-Jdk: 1.8.0_101
 Built-By: Marcg
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator

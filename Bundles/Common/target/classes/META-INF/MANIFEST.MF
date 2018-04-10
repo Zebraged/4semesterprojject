@@ -1,7 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1523018526087
 Build-Jdk: 1.8.0_101
 Built-By: Marcg
+=======
+Bnd-LastModified: 1523007164364
+Build-Jdk: 1.8.0_161
+Built-By: rasmu
+>>>>>>> parent of 316f1cf... Weapon følger player nu
 Bundle-ManifestVersion: 2
 Bundle-Name: Common OSGi Bundle
 Bundle-SymbolicName: dk.sdu.mmmi.cbse.Common

@@ -1,7 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1523018535577
 Build-Jdk: 1.8.0_101
 Built-By: Marcg
+=======
+Bnd-LastModified: 1523008360910
+Build-Jdk: 1.8.0_161
+Built-By: rasmu
+>>>>>>> parent of 316f1cf... Weapon følger player nu
 Bundle-Activator: dk.sdu.mmmi.cbse.player.PlayerActivator
 Bundle-ManifestVersion: 2
 Bundle-Name: Player OSGi Bundle
