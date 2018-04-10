@@ -105,13 +105,10 @@ public class Game implements ApplicationListener {
                 process.process(gameData, world);
             }
         }
-        placeCam();
     }
 
-    private void draw() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+    private void draw() {       
+        placeCam();
         assetManager.loadImages(context);
     }
 
@@ -175,13 +172,13 @@ public class Game implements ApplicationListener {
     public void placeCam(){
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
         if(reference == null){
-            cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
+            //cam.lookAt(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
             cam.position.x = playerPosition.getX();
-            cam.position.y = Gdx.graphics.getHeight();
+            cam.position.y = cam.viewportHeight/2;
+            //cam.position.y = Gdx.graphics.getHeight();
         }
-        cam.update();
     }
     
 }

@@ -6,6 +6,8 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -54,7 +56,6 @@ public class AssetManager {
         this.textureMap = new ConcurrentHashMap();
         this. cam = cam;
         this.batch = new SpriteBatch();
-        batch.setProjectionMatrix(cam.combined);
     }
 
     /**
@@ -63,6 +64,10 @@ public class AssetManager {
      * @param context
      */
     public void loadImages(BundleContext context) {
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         loadBackground();
         for (Entity entity : world.getEntities()) {
