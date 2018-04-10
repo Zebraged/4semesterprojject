@@ -26,6 +26,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -92,7 +93,7 @@ public class AssetManager {
         for (Entity entity : world.getEntities()) {
             if(entity.getAsset() != null && imageExist(entity.getAsset().getImage()) != true){
                 URL url;
-                Enumeration<URL> urls = bundle.findEntries(entity.getAsset().getImagePath(), "*.png", true);
+                Enumeration<URL> urls = FrameworkUtil.getBundle(entity.getClass()).findEntries(entity.getAsset().getImagePath(), "*.png", true);
                 while(urls.hasMoreElements()){
                     url = urls.nextElement();
                     Pixmap pixmap = null;
