@@ -52,7 +52,7 @@ public class LevelGenerator implements ILevelGenerator {
         generators = getGenerators();
         loadedGenerators = new ArrayList();
         
-        path="C:/Users/Mr. Kinder/Documents/NetBeansProjects/4s2/Bundles/LevelGenerator/map_example.lvl";
+        path="./Bundles/LevelGenerator/map_example.lvl";
         this.context = context;
         this.data = data;
         this.world = world;
