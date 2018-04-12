@@ -52,7 +52,7 @@ public class LevelGenerator implements ILevelGenerator {
         generators = getGenerators();
         loadedGenerators = new ArrayList();
         
-        path="C:/Users/Mr. Kinder/Documents/NetBeansProjects/4s2/Bundles/LevelGenerator/map_example.lvl";
+        path="C:/Users/Marcg/Documents/GitHub/4semesterprojject/Bundles/LevelGenerator/map_example.lvl";
         this.context = context;
         this.data = data;
         this.world = world;
@@ -146,7 +146,7 @@ public class LevelGenerator implements ILevelGenerator {
         Collection<IEntityGenerator> generators = new ArrayList(); 
         for(ServiceReference<IEntityGenerator> reference : getGeneratorReferences()){
             gen = (IEntityGenerator) context.getService(reference);
-            generators.add(context.getService(reference));
+            generators.add(gen);
         }
         return generators;
     }

@@ -15,6 +15,7 @@ import dk.sdu.mmmi.cbse.enemy.type.CloudEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
+import dk.sdu.mmmi.cbse.enemy.type.Enemy;
 import java.io.File;
 
 /**
@@ -31,14 +32,10 @@ public class EnemyFactory implements IEntityGenerator {
     }
 
     private Entity createTeddy(int x, int y) {
-        Entity entity = new TeddyEnemy(world, data);
+        Entity entity = new Enemy();
         entity.add(new PositionPart(x, y));
-
-
-
         entity = findImage(entity, "teddy");
-
-        entity.add(new MovingPart(50, 800, 400));
+        entity.add(new MovingPart(1, 800, 400));
         return entity;
     }
 
@@ -51,7 +48,6 @@ public class EnemyFactory implements IEntityGenerator {
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
                     if (!foundImage) { // only load first image to entity
-                        
                         entity.add(new AssetGenerator(entity, "image/" + enemy + "/", file.getName()));
                         foundImage = true;
                     }

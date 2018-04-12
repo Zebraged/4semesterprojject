@@ -32,12 +32,11 @@ public class Collision implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
 
         for (Entity entity : world.getEntities()) {
-
             if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
 
                 addObj(PlayerObj, entity); // ads the player as an position obj.
 
-            } else if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*")) {
+            } else if (entity.getSource().getClass().getName().equals("dk.sdu.mmmi.cbse.enemy.type.Enemy")) {
 
                 addObj(EnemyObj, entity); // ads the Enemy as an position obj.
 
