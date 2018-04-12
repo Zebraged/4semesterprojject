@@ -33,17 +33,16 @@ public class WeaponSystem implements IEntityProcessingService {
                     createReference();
                 }
 
-                if(gameData.getKeys().isDown(SPACE)){
+                if (gameData.getKeys().isDown(SPACE)) {
                     assetGenerator.changeImage("Stick_Attack.png");
-                positionPart.setX(iPlayerPositionService.getX() + 20);
-                positionPart.setY(iPlayerPositionService.getY() - 12);
+                    positionPart.setX(iPlayerPositionService.getX() + 20);
+                    positionPart.setY(iPlayerPositionService.getY() - 17);
 
-                } else{
+                } else {
                     assetGenerator.changeImage("Stick.png");
-                positionPart.setX(iPlayerPositionService.getX() + 20);
-                positionPart.setY(iPlayerPositionService.getY() + 20);
+                    positionPart.setX(iPlayerPositionService.getX() + 20);
+                    positionPart.setY(iPlayerPositionService.getY() + 15);
                 }
-                
 
                 positionPart.process(gameData, weapon);
                 assetGenerator.process(gameData, weapon);
@@ -57,6 +56,6 @@ public class WeaponSystem implements IEntityProcessingService {
         bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
 
-gotReference = true;
+        gotReference = true;
     }
 }
