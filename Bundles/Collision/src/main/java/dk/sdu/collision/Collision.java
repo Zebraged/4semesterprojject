@@ -10,6 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -122,7 +123,12 @@ public class Collision implements IEntityProcessingService {
         String id = e.getID();
 
         if (!collection.containsKey(id)) {
-            collection.put(id, new PosObj(e, 32, 32));
+            SizePart size = e.getPart(SizePart.class);
+            if(size == null){
+                collection.put(id, new PosObj(e, 32, 32));
+            } else {
+                collection.put(id, new PosObj(e, size.getHeight(), size.getWidth()));
+            }
         } else {
             PosObj o = (PosObj) collection.get(id);
             o.updatePos(e); // update pos

@@ -14,12 +14,14 @@ import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGBA8888;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import dk.sdu.mmmi.cbse.common.data.BundleObj;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,6 +42,7 @@ public class AssetManager {
     private OrthographicCamera cam;
     private GameData data;
     private Texture background = null;
+    private ArrayList<Bundle> loadedBundles = new ArrayList();
 
     private Map<String, Texture> textureMap;
 
@@ -97,12 +100,14 @@ public class AssetManager {
      *
      * @param bundle
      */
-    public void loadAllPluginTextures(Bundle bundle) {
-        for (Entity entity : world.getEntities()) {
-            if (entity.getAsset() != null && imageExist(entity.getAsset().getImage()) != true) {
+    public void loadAllPluginTextures() {
+        for (BundleObj obj : data.getBundles()) {
+            if (obj.getAssetPath() != null && imageExist(obj.getBundle()) == false) {
+            System.out.println(obj.getAssetPath());
                 URL url;
-                Enumeration<URL> urls = FrameworkUtil.getBundle(entity.getClass()).findEntries(entity.getAsset().getImagePath(), "*.png", true);
+                Enumeration<URL> urls = obj.getBundle().findEntries(obj.getAssetPath(), "*.png", true);
                 while (urls.hasMoreElements()) {
+                    System.out.println("Hello2");
                     url = urls.nextElement();
                     Pixmap pixmap = null;
                     try {
@@ -110,7 +115,7 @@ public class AssetManager {
                         Texture texture = new Texture(pixmap);
                         textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/') + 1, url.getPath().length()), texture);
                         System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/') + 1, url.getPath().length()) + " loaded!");
-                        entity.getAsset().setLoaded(true);
+                        loadedBundles.add(obj.getBundle());
                     } catch (IOException ex) {
                         System.out.println("input not avaiable");
                     }
@@ -128,9 +133,9 @@ public class AssetManager {
         }
     }
 
-    public boolean imageExist(String image) {
-        for (String string : textureMap.keySet()) {
-            if (string.equals(image)) {
+    public boolean imageExist(Bundle bundle) {
+        for (Bundle bund : loadedBundles) {
+            if (bundle.equals(bund)) {
                 return true;
             }
         }

@@ -11,6 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.enemy.type.CloudEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy;
@@ -35,6 +36,7 @@ public class EnemyFactory implements IEntityGenerator {
         Entity entity = new Enemy();
         entity.add(new PositionPart(x, y));
         entity = findImage(entity, "teddy");
+        entity.add(new SizePart(64, 64));
         entity.add(new MovingPart(1, 800, 400));
         return entity;
     }

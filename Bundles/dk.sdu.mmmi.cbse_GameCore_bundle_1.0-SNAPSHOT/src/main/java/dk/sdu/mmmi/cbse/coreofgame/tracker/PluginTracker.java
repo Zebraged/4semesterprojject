@@ -53,8 +53,8 @@ public class PluginTracker {
             if(plugin.getStatus() == false){
                 System.out.println("New plugin detected!");
                 
-                plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
                 gameData.addBundle(reference.getBundle());
+                plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
             }
         }
     }

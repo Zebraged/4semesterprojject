@@ -5,17 +5,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import java.util.Collection;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -91,10 +87,8 @@ public class Game implements ApplicationListener {
 
     private void update() {
 
-        for (Bundle bundle : gameData.getBundles()) {
-            assetManager.loadAllPluginTextures(bundle);
-            gameData.removeBundle(bundle);
-        }
+        assetManager.loadAllPluginTextures();
+        
 
         IEntityProcessingService process;
         if (processReference() != null) {

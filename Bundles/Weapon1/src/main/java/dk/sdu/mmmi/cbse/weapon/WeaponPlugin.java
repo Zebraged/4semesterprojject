@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 public class WeaponPlugin implements IGamePluginService {
 
@@ -22,7 +23,7 @@ public class WeaponPlugin implements IGamePluginService {
 
         this.world = world;
         this.bundleContext = bundleContext;
-
+        gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         weapon = createWeapon(gameData, world, bundleContext);
         world.addEntity(weapon);
 

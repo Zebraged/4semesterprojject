@@ -15,6 +15,7 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import java.io.File;
 import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -29,36 +30,16 @@ public class PlatformPlugin implements IGamePluginService {
     private BundleContext context;
     World world;
     private ArrayList<PlatformObj> platforms = new ArrayList();
+    
 
     public void start(GameData gameData, World world, BundleContext context) {
         status = true;
+        this.data = gameData;
         this.world = world;
         this.context = context;
+        data.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
+        System.out.println("Platform plugin started");
         
-        System.out.println("plugin started");
-        
-        
-        ServiceReference service = context.getServiceReference(IEntityGenerator.class);
-        IEntityGenerator platformGen = (IEntityGenerator) context.getService(service);
-        platformGen.generate("platform", 1, 1, world, data);
-        platformGen.generate("platform", 1, 2, world, data);
-        platformGen.generate("platform", 1, 3, world, data);
-        platformGen.generate("platform", 2, 1, world, data);
-        platformGen.generate("platform", 3, 1, world, data);
-        platformGen.generate("platform", 4, 1, world, data);
-        platformGen.generate("platform", 5, 1, world, data);
-        platformGen.generate("platform", 6, 1, world, data);
-        platformGen.generate("platform", 7, 1, world, data);
-        platformGen.generate("platform", 8, 1, world, data);
-        platformGen.generate("platform", 9, 1, world, data);
-        platformGen.generate("platform", 10, 2, world, data);
-        platformGen.generate("platform", 11, 2, world, data);
-        platformGen.generate("platform", 12, 3, world, data);
-        platformGen.generate("platform", 13, 4, world, data);
-        platformGen.generate("platform", 14, 5, world, data);
-        platformGen.generate("platform", 15, 5, world, data);
-        platformGen.generate("platform", 15, 6, world, data);
-        platformGen.generate("platform", 15, 7, world, data);
 
     }
     /***
