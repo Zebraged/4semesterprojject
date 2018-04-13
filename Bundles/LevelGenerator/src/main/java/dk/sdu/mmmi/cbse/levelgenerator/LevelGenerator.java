@@ -146,7 +146,7 @@ public class LevelGenerator implements ILevelGenerator {
         Collection<IEntityGenerator> generators = new ArrayList(); 
         for(ServiceReference<IEntityGenerator> reference : getGeneratorReferences()){
             gen = (IEntityGenerator) context.getService(reference);
-            generators.add(context.getService(reference));
+            generators.add(gen);
         }
         return generators;
     }

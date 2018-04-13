@@ -39,6 +39,7 @@ public class EnemyFactory implements IEntityGenerator {
         entity = findImage(entity, "teddy");
 
         entity.add(new MovingPart(50, 800, 400));
+        System.out.println("Enemy Generated");
         return entity;
     }
 
