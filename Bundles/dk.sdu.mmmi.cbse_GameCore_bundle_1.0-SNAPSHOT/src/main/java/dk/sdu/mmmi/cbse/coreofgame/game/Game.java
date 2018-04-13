@@ -65,6 +65,7 @@ public class Game implements ApplicationListener {
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
         cam.update();
+        cam.zoom = 0.5f;
 
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
@@ -173,13 +174,14 @@ public class Game implements ApplicationListener {
 
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-            if (playerPosition.getX() > cam.viewportWidth / 2) {
+            if (playerPosition.getX() > cam.viewportWidth / 2*cam.zoom) {
                 cam.position.x = playerPosition.getX();
             } else {
-                cam.position.x = cam.viewportWidth / 2;
+                cam.position.x = cam.viewportWidth / 2*cam.zoom;
             }
-            cam.position.y = cam.viewportHeight / 2;
+            cam.position.y = (cam.viewportHeight / 2)*cam.zoom;
         }
     }
+    
 
 }
