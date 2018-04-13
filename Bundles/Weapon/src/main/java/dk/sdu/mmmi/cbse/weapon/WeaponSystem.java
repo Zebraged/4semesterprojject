@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.sdu.mmmi.cbse.weapon;
 
+import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.SPACE;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  *
- * @author Marcg
+ * @author raglu
  */
 public class WeaponSystem implements IEntityProcessingService {
 
-<<<<<<< HEAD
     private boolean gotReference = false;
 
     private BundleContext bundleContext;
@@ -32,8 +33,16 @@ public class WeaponSystem implements IEntityProcessingService {
                     createReference();
                 }
 
-                positionPart.setX(iPlayerPositionService.getX());
-                positionPart.setY(iPlayerPositionService.getY());
+                if (gameData.getKeys().isDown(SPACE)) {
+                    assetGenerator.changeImage("Stick_Attack.png");
+                    positionPart.setX(iPlayerPositionService.getX() + 20);
+                    positionPart.setY(iPlayerPositionService.getY() - 17);
+
+                } else {
+                    assetGenerator.changeImage("Stick.png");
+                    positionPart.setX(iPlayerPositionService.getX() + 20);
+                    positionPart.setY(iPlayerPositionService.getY() + 15);
+                }
 
                 positionPart.process(gameData, weapon);
                 assetGenerator.process(gameData, weapon);
@@ -49,10 +58,4 @@ public class WeaponSystem implements IEntityProcessingService {
 
         gotReference = true;
     }
-=======
-    public void process(GameData gd, World world) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
->>>>>>> parent of 316f1cf... Weapon følger player nu
 }
