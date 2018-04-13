@@ -6,8 +6,6 @@
 package dk.sdu.mmmi.cbse.enemy.EnemyAI;
 
 
-import EnemyAI.Node.Node;
-import EnemyAI.Node.StartNode;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -16,6 +14,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
+import dk.sdu.mmmi.cbse.enemy.EnemyAI.Node.Node;
+import dk.sdu.mmmi.cbse.enemy.EnemyAI.Node.StartNode;
 import java.util.ArrayList;
 
 /**
@@ -44,7 +44,7 @@ public class AI {
         for(int i = 0; i >= data.getDisplayWidth(); i++){
             for(int j = 0 ; j >= data.getDisplayWidth(); j ++ ){
                 if (i == part.getX() && j == part.getY()){
-                    open.add(new StartNode(part.getX(), part.getY()));
+                    //open.add(new StartNode(part.getX(), part.getY()));
                 }
             }
         }
