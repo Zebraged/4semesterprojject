@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.enemy.EnemyAI;
 
 
 import EnemyAI.Node.Node;
+import EnemyAI.Node.StartNode;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -40,10 +41,10 @@ public class AI {
         playerPosition = (IPlayerPositionService) context.getService(reference);
         PositionPart part = entity.getPart(PositionPart.class);
         
-        for(int i = 0; i >= data.getDisplayWidth(); i ++){
-            for(int j = 0 ; j >= data.getDisplayWidth(); j++ ){
+        for(int i = 0; i >= data.getDisplayWidth(); i++){
+            for(int j = 0 ; j >= data.getDisplayWidth(); j ++ ){
                 if (i == part.getX() && j == part.getY()){
-                    //open.add(new StartNode(part.getX(), part.getY()));
+                    open.add(new StartNode(part.getX(), part.getY()));
                 }
             }
         }

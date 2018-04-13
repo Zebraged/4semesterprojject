@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package EnemyAI.Node;
+package dk.sdu.mmmi.cbse.enemy.EnemyAI.Node;
 
 /**
  *
