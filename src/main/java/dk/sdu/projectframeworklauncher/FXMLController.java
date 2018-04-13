@@ -47,6 +47,8 @@ public class FXMLController implements Initializable {
     private Label stateLabel;
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button btnQuickStart;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -217,5 +219,15 @@ public class FXMLController implements Initializable {
     @FXML
     private void refreshButtonA(ActionEvent event) {
         checkForBundles();
+    }
+
+    @FXML
+    private void onQuickStartPressed(ActionEvent event) {
+        for (BundleObj current : obs) {
+            if (current.getState() == BundleState.INSTALLED || current.getState() == BundleState.ERROR && current != null) {
+                current.start();
+            }
+            updateText();
+        }
     }
 }
