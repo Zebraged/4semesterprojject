@@ -79,31 +79,21 @@ public class Collision implements ICollisionService {
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
 
-            boolean foundY = false;
             ArrayList<Float> yvalue = new ArrayList();
+            ArrayList<Float> xvalue = new ArrayList();
 
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
 
                 Float yval = 0f;
+                Float xval = 0f;
 
-                yvalue.add(checkCollision(firstPosObj, platformPos, gameData, yval));
+                yvalue.add(checkYCollision(firstPosObj, platformPos, gameData, yval));
+                xvalue.add(checkXCollision(firstPosObj, platformPos, gameData, xval));
 
-//                if (checkCollision(firstPosObj, platformPos, gameData)) { // if collision.
-                //
-                //                    Entity firstE = firstPosObj.getEntity();
-                //                    Entity platformE = platformPos.getEntity();
-                //
-                //                    PositionPart firstP = firstE.getPart(PositionPart.class);
-                //                    PositionPart platformP = platformE.getPart(PositionPart.class);
-                //                    MovingPart firstM = firstE.getPart(MovingPart.class);
-                //
-                //                    // firstP.setY(platformP.getY() + 32);
-                //                    firstM.setIsGrounded(true);
-                //                }
             }
-            System.out.println(foundY);
+
             if (!yvalue.isEmpty()) {
 
                 float higstvalue = 0;
@@ -118,6 +108,29 @@ public class Collision implements ICollisionService {
             } else {
                 col.setMaxY(0);
             }
+
+            if (!xvalue.isEmpty()) {
+
+                float higstvalue = 0;
+
+                for (float f : xvalue) {
+
+                    if (higstvalue < f) {
+                        higstvalue = f;
+                    }
+                }
+                
+                if (higstvalue > 1){
+                    higstvalue += 11;
+                }
+                
+                col.setMaxX(higstvalue);
+                //   System.out.println("X -> " + higstvalue);
+            } else {
+     //           System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                col.setMaxX(0);
+            }
+
         }
     }
 
@@ -128,17 +141,17 @@ public class Collision implements ICollisionService {
      * @param platform sec shape
      * @return true if found else false.
      */
-    private Float checkCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+    private Float checkYCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
 
         float AposY = player.getY1(); // get player pos
+
         float playpos = platform.getY2();
 
-      
         for (float i = 0; i < 10; i++) {
 
-            AposY -= i;
+            float playerPosY = AposY - i;
 
-            float dis = playpos - AposY;   //AposY - RectB.getY2();
+            float dis = playpos - playerPosY;   //AposY - RectB.getY2();
 
             if (dis < 10 && dis >= 0 && player.getX1() < platform.getX2() && player.getX2() > platform.getX1()) {
                 //col.setMaxY(RectB.getY2() + dis + 1);
@@ -149,15 +162,36 @@ public class Collision implements ICollisionService {
 
         }
 
-//        if (found == false){
-//            
-//        }
         return result;
-        //   return found;
-//        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
-//
-//        }
-        //return true;
+    }
+
+    private Float checkXCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+
+        float AposY = player.getX2(); // get player pos
+   //     System.out.println("playerPosX2 ->" + AposY);
+        float playpos = platform.getX1();
+  //      System.out.println("PlatformX1 ->" + playpos);
+   //     System.out.println("---");
+
+        for (float i = 0; i < 10; i++) {
+
+            float playerPosX = AposY + i;
+
+            float dis = playpos - playerPosX;   //AposY - RectB.getY2();
+            
+     //       System.out.println("Distance ->" + dis);
+
+            if (dis < 10 && dis >= 0 && player.getY1() < platform.getY2() && player.getY2() > platform.getY1()) {
+                //col.setMaxY(RectB.getY2() + dis + 1);
+                result = (platform.getY1() - 1); //  (RectB.getY2() + dis + 1)
+      //          System.out.println("Hit");
+                break;
+            }
+
+        }
+   //     System.out.println(result);
+   //     System.out.println("---");
+        return result;
     }
 
     /**
@@ -174,7 +208,7 @@ public class Collision implements ICollisionService {
         if (type == ObjTypes.PLAYER) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlayerObj(e, 23, 29));
-                System.out.println("Player made");
+                // System.out.println("Player made");
             } else {
                 PosObj o = (PosObj) collection.get(id);
                 o.updatePos(e); // update pos
@@ -183,7 +217,7 @@ public class Collision implements ICollisionService {
         if (type == ObjTypes.PLATFORM) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlatformObj(e, 32, 32));
-                System.out.println("Platform made");
+                //   System.out.println("Platform made");
             } else {
                 PosObj o = (PosObj) collection.get(id);
                 o.updatePos(e); // update pos

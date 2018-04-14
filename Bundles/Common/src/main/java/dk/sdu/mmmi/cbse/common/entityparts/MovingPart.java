@@ -79,11 +79,6 @@ public class MovingPart implements EntityPart {
             x += speed * dt;
         }
 
-        if (maxY >= 0 && y < maxY) {
-            y = maxY;
-            jumpTime = 0;
-        }
-
         if (up) {
             if (isGrounded) {
                 jumpTime = 0;
@@ -96,16 +91,25 @@ public class MovingPart implements EntityPart {
             y += -gravity * jumpTime * jumpTime / 2;
         }
 
-        // if player x is bigger than allowed x, change the x value to max.
-        if (maxX > 1 && x < maxX) {
+        if (maxX > 1 && x > maxX) {
             x = maxX;
         }
 
+        if (maxY >= 0 && y < maxY) {
+            y = maxY;
+            jumpTime = 0;
+        }
+
+        // if player x is bigger than allowed x, change the x value to max.
 //        if (maxY > 1 && y < maxY && !jump) {
 //            y = maxY;
 //            jumpTime = 0;
 //        }
-        System.out.println(maxY);
+//        System.out.println(maxY);
+        System.out.println("max X ->" + maxX);
+        System.out.println("PlayerX ->" + x);
+        System.out.println("-----");
+
         positionPart.setX(x);
         positionPart.setY(y);
 
