@@ -2,6 +2,7 @@ package dk.sdu.mmmi.cbse.weapon;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.SHIFT;
 import static dk.sdu.mmmi.cbse.common.data.GameKeys.SPACE;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
@@ -23,6 +24,10 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private IPlayerPositionService iPlayerPositionService;
 
+    private String[] weapons = {"Stick", "Sword"};
+    private int equiped = 0;
+    private boolean changing = false;
+
     public void process(GameData gameData, World world) {
         try {
             for (Entity weapon : world.getEntities(Weapon.class)) {
@@ -33,13 +38,23 @@ public class WeaponSystem implements IEntityProcessingService {
                     createReference();
                 }
 
+                if (gameData.getKeys().isDown(SHIFT) && !changing) {
+                    equiped++;
+                    equiped = equiped % weapons.length;
+                    System.out.println(equiped);
+                    assetGenerator.addImagePath("image/" + weapons[equiped] + "/");
+                    changing = true;
+                } else {
+                    changing = false;
+                }
+
                 if (gameData.getKeys().isDown(SPACE)) {
-                    assetGenerator.changeImage("Stick_Attack.png");
+                    assetGenerator.changeImage("Attack.png");
                     positionPart.setX(iPlayerPositionService.getX() + 20);
                     positionPart.setY(iPlayerPositionService.getY() - 17);
 
                 } else {
-                    assetGenerator.changeImage("Stick.png");
+                    assetGenerator.changeImage("Idle.png");
                     positionPart.setX(iPlayerPositionService.getX() + 20);
                     positionPart.setY(iPlayerPositionService.getY() + 15);
                 }
