@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
@@ -97,6 +98,14 @@ public class Game implements ApplicationListener {
             gameData.removeBundle(bundle);
         }
 
+        ICollisionService processCol;
+        if (processCollisionReference() != null) {
+            for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
+                processCol = (ICollisionService) context.getService(reference);
+                processCol.process(gameData, world);
+            }
+        }
+
         IEntityProcessingService process;
         if (processReference() != null) {
             for (ServiceReference<IEntityProcessingService> reference : processReference()) {
@@ -168,20 +177,29 @@ public class Game implements ApplicationListener {
         return collection;
     }
 
+    public Collection<ServiceReference<ICollisionService>> processCollisionReference() {
+        Collection<ServiceReference<ICollisionService>> collection = null;
+        try {
+            collection = this.context.getServiceReferences(ICollisionService.class, null);
+        } catch (InvalidSyntaxException ex) {
+            System.out.println("Service not availlable!");
+        }
+        return collection;
+    }
+
     public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
         if (reference == null) {
 
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
-            if (playerPosition.getX() > cam.viewportWidth / 2*cam.zoom) {
+            if (playerPosition.getX() > cam.viewportWidth / 2 * cam.zoom) {
                 cam.position.x = playerPosition.getX();
             } else {
-                cam.position.x = cam.viewportWidth / 2*cam.zoom;
+                cam.position.x = cam.viewportWidth / 2 * cam.zoom;
             }
-            cam.position.y = (cam.viewportHeight / 2)*cam.zoom;
+            cam.position.y = (cam.viewportHeight / 2) * cam.zoom;
         }
     }
-    
 
 }
