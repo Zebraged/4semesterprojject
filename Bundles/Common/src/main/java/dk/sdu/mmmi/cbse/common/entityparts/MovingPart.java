@@ -58,11 +58,15 @@ public class MovingPart implements EntityPart {
     @Override
     public void process(GameData gameData, Entity entity) {
 
+        float minX = 0;
         float maxX = 0;
+        float minY = 0;
         float maxY = 0;
 
         if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
             maxX = col.getMaxX();
+            minY = col.getMinY();
+            minX = col.getMinX();
             maxY = col.getMaxY();
         }
 
@@ -95,9 +99,18 @@ public class MovingPart implements EntityPart {
             x = maxX;
         }
 
-        if (maxY >= 0 && y < maxY) {
-            y = maxY;
+        if (minX > 1 && x < minX) {
+            x = minX;
+        }
+
+        if (minY > 1 && y < minY) {
+            y = minY;
             jumpTime = 0;
+        }
+
+        if (maxY > 1 && y > maxY) {
+            y = maxY;
+       
         }
 
         // if player x is bigger than allowed x, change the x value to max.
@@ -108,6 +121,7 @@ public class MovingPart implements EntityPart {
 //        System.out.println(maxY);
         System.out.println("max X ->" + maxX);
         System.out.println("PlayerX ->" + x);
+        System.out.println("PlayerY ->" + y);
         System.out.println("-----");
 
         positionPart.setX(x);

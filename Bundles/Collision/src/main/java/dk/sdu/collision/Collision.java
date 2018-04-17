@@ -58,9 +58,8 @@ public class Collision implements ICollisionService {
                 addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
             }
         }
-        //CheckPlayerPlatformCollision();
-        CheckPlayerEnemyPlatformCollision(PlayerObj, PlatformObj, gameData);
-        CheckPlayerEnemyPlatformCollision(EnemyObj, PlatformObj, gameData);
+
+        CheckPlayerPlatformCollision(PlayerObj, PlatformObj, gameData);
 
     }
 
@@ -71,7 +70,7 @@ public class Collision implements ICollisionService {
      * @param collection1 Player or enemy Hashmap
      * @param collection2 Platform Hashmap
      */
-    private void CheckPlayerEnemyPlatformCollision(HashMap collection1, HashMap collection2, GameData gameData) {
+    private void CheckPlayerPlatformCollision(HashMap collection1, HashMap collection2, GameData gameData) {
         Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
         Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
 
@@ -79,56 +78,73 @@ public class Collision implements ICollisionService {
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
 
-            ArrayList<Float> yvalue = new ArrayList();
-            ArrayList<Float> xvalue = new ArrayList();
+            ArrayList<Float> yBvalue = new ArrayList();
+            ArrayList<Float> yTvalue = new ArrayList();
+            ArrayList<Float> xRvalue = new ArrayList();
+            ArrayList<Float> xLvalue = new ArrayList();
 
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
 
-                Float yval = 0f;
-                Float xval = 0f;
+                Float yBval = 0f;
+                Float yTval = 0f;
+                Float xRval = 0f;
+                Float xLval = 0f;
 
-                yvalue.add(checkYCollision(firstPosObj, platformPos, gameData, yval));
-                xvalue.add(checkXCollision(firstPosObj, platformPos, gameData, xval));
-
+                yBvalue.add(checkYBCollision(firstPosObj, platformPos, gameData, yBval));
+                yTvalue.add(checkYTCollision(firstPosObj, platformPos, gameData, yTval));
+                xRvalue.add(checkXRCollision(firstPosObj, platformPos, gameData, xRval));
+                xLvalue.add(checkXLCollision(firstPosObj, platformPos, gameData, xLval));
+                //       System.out.println(xLvalue);
             }
 
-            if (!yvalue.isEmpty()) {
+            /**
+             * Set the max/min value
+             */
+            SetMaxvalue(yBvalue, "down");
+            SetMaxvalue(xLvalue, "left");
+            SetMaxvalue(xRvalue, "right");
+            SetMaxvalue(yTvalue, "top");
 
-                float higstvalue = 0;
+        }
+    }
 
-                for (float f : yvalue) {
+    private void SetMaxvalue(ArrayList<Float> value, String dir) {
 
-                    if (higstvalue < f) {
-                        higstvalue = f;
-                    }
+        if (!value.isEmpty()) {
+
+            float higstvalue = 0;
+
+            for (float f : value) {
+
+                if (higstvalue < f) {
+                    higstvalue = f;
                 }
-                col.setMaxY(higstvalue);
-            } else {
-                col.setMaxY(0);
             }
 
-            if (!xvalue.isEmpty()) {
-
-                float higstvalue = 0;
-
-                for (float f : xvalue) {
-
-                    if (higstvalue < f) {
-                        higstvalue = f;
-                    }
-                }
-
-                if (higstvalue > 1) {
-                    higstvalue -= 23; //replace
-                }
-
+            if (dir.equals("down")) {
+                col.setMinY(higstvalue);
+            }
+            if (dir.equals("left")) {
+                col.setMinX(higstvalue);
+            }
+            if (dir.equals("right")) {
                 col.setMaxX(higstvalue);
-                //   System.out.println("X -> " + higstvalue);
-            } else {
-                //           System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+            if (dir.equals("top")) {
+                col.setMaxY(higstvalue);
+            }
+
+        } else {
+            if (dir.equals("down")) {
+                col.setMinY(0);
+            } else if (dir.equals("left")) {
+                col.setMinX(0);
+            } else if (dir.equals("right")) {
                 col.setMaxX(0);
+            } else if (dir.equals("top")) {
+                col.setMaxY(0);
             }
 
         }
@@ -141,9 +157,9 @@ public class Collision implements ICollisionService {
      * @param platform sec shape
      * @return true if found else false.
      */
-    private Float checkYCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+    private Float checkYBCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
 
-        float AposY = player.getY1(); // get player pos
+        float AposY = player.getY1();
 
         float playpos = platform.getY2();
 
@@ -151,45 +167,86 @@ public class Collision implements ICollisionService {
 
             float playerPosY = AposY - i;
 
-            float dis = playpos - playerPosY;   //AposY - RectB.getY2();
+            float dis = playpos - playerPosY;
 
             if (dis < 10 && dis >= 0 && player.getX1() < platform.getX2() && player.getX2() > platform.getX1()) {
-                //col.setMaxY(RectB.getY2() + dis + 1);
-                result = (platform.getY2() + 1); //  (RectB.getY2() + dis + 1)
-                //   found = true;
+
+                result = (platform.getY2() + 1);
+
                 break;
             }
 
         }
-
         return result;
     }
 
-    private Float checkXCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+    private Float checkYTCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
 
-        float AposY = player.getX2(); // get player pos
-        //     System.out.println("playerPosX2 ->" + AposY);
+        float AposY = player.getY2();
+
+        float playpos = platform.getY1();
+
+        for (float i = 0; i < 10; i++) {
+
+            float playerPosY = AposY - i;
+
+            float dis = playpos - playerPosY;
+
+            if (dis > -10 && dis < 0 && player.getX1() < platform.getX2() && player.getX2() > platform.getX1()) {
+
+                result = (platform.getY1() - 31);
+
+                break;
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * Checks if the player hit to the right.
+     *
+     * @param player
+     * @param platform
+     * @param gameData
+     * @param result
+     * @return
+     */
+    private Float checkXRCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+
+        float AposY = player.getX2();
         float playpos = platform.getX1();
-        //      System.out.println("PlatformX1 ->" + playpos);
-        //     System.out.println("---");
 
         for (float i = 0; i < 10; i++) {
 
             float playerPosX = AposY + i;
 
-            float dis = playpos - playerPosX;   //AposY - RectB.getY2();
-
-            //       System.out.println("Distance ->" + dis);
-            if (dis < 10 && dis >= 0 && player.getY1() < platform.getY2() && player.getY2() > platform.getY1()) {
-                //col.setMaxY(RectB.getY2() + dis + 1);
-                result = (platform.getX1() - 2); //  (RectB.getY2() + dis + 1)
-                //          System.out.println("Hit");
+            float dis = playpos - playerPosX;
+            if (dis < 10 && dis > 0 && player.getY1() < platform.getY2() && player.getY2() > platform.getY1()) {
+                result = (platform.getX1() - 25);
                 break;
             }
 
         }
-        //     System.out.println(result);
-        //     System.out.println("---");
+        return result;
+    }
+
+    private Float checkXLCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+
+        float AposY = player.getX1();
+        float playpos = platform.getX2();
+
+        for (float i = 0; i < 10; i++) {
+
+            float playerPosX = AposY + i;
+            float dis = playpos - playerPosX;
+
+            if (dis > -10 && dis < 0 && player.getY1() < platform.getY2() && player.getY2() > platform.getY1()) {
+                result = (platform.getX2());
+
+                break;
+            }
+        }
         return result;
     }
 
@@ -224,47 +281,10 @@ public class Collision implements ICollisionService {
         }
         if (type == ObjTypes.ENEMY) {
             if (!collection.containsKey(id)) {
-                //  collection.put(id, new PlayerObj(e, 32, 32));
+
             } else {
-//                PosObj o = (PosObj) collection.get(id);
-//                o.updatePos(e); // update pos
+
             }
         }
     }
 }
-
-//       System.out.println(RectA.gethysteresis());
-//        
-//        if (RectA.getX1() > RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
-//           // RectA.setLastDir("right");
-//            RectB.setLastDir("right");
-//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() < RectB.getX1() && RectA.getY1() < RectB.getY2() - RectB.gethysteresis() && RectA.getY2() > RectB.getY1()) {
-//          //  RectA.setLastDir("left");
-//            RectB.setLastDir("left");
-//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() > RectB.getY2() && RectA.getY2() > RectB.getY1()) {
-//            RectB.setLastDir("top");
-//          //  RectA.setLastDir("top");
-//        } else if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() < RectB.getY1()) {
-//          //  RectA.setLastDir("bottom");
-//            RectB.setLastDir("bottom");
-//        }
-//
-//        if (RectA.getX1() < RectB.getX2() && RectA.getX2() > RectB.getX1() && RectA.getY1() < RectB.getY2() && RectA.getY2() > RectB.getY1()) {
-//            System.out.println(RectB.getLastDir());
-//
-//            if (RectB.getLastDir().equals("left")) {
-//
-//                col.setRightAllowed(false);
-//            } else {
-//                col.setRightAllowed(true);
-//            }
-//            if (RectB.getLastDir().equals("bottom")) {
-//
-//            }
-//
-//            if (RectB.getLastDir().equals("right")) {
-//                col.setLeftAllowed(false);
-//
-//            } else {
-//                col.setLeftAllowed(true);
-//            }
