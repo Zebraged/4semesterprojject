@@ -119,15 +119,15 @@ public class Collision implements ICollisionService {
                         higstvalue = f;
                     }
                 }
-                
-                if (higstvalue > 1){
-                    higstvalue += 11;
+
+                if (higstvalue > 1) {
+                    higstvalue -= 23; //replace
                 }
-                
+
                 col.setMaxX(higstvalue);
                 //   System.out.println("X -> " + higstvalue);
             } else {
-     //           System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //           System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 col.setMaxX(0);
             }
 
@@ -168,29 +168,28 @@ public class Collision implements ICollisionService {
     private Float checkXCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
 
         float AposY = player.getX2(); // get player pos
-   //     System.out.println("playerPosX2 ->" + AposY);
+        //     System.out.println("playerPosX2 ->" + AposY);
         float playpos = platform.getX1();
-  //      System.out.println("PlatformX1 ->" + playpos);
-   //     System.out.println("---");
+        //      System.out.println("PlatformX1 ->" + playpos);
+        //     System.out.println("---");
 
         for (float i = 0; i < 10; i++) {
 
             float playerPosX = AposY + i;
 
             float dis = playpos - playerPosX;   //AposY - RectB.getY2();
-            
-     //       System.out.println("Distance ->" + dis);
 
+            //       System.out.println("Distance ->" + dis);
             if (dis < 10 && dis >= 0 && player.getY1() < platform.getY2() && player.getY2() > platform.getY1()) {
                 //col.setMaxY(RectB.getY2() + dis + 1);
-                result = (platform.getY1() - 1); //  (RectB.getY2() + dis + 1)
-      //          System.out.println("Hit");
+                result = (platform.getX1() - 2); //  (RectB.getY2() + dis + 1)
+                //          System.out.println("Hit");
                 break;
             }
 
         }
-   //     System.out.println(result);
-   //     System.out.println("---");
+        //     System.out.println(result);
+        //     System.out.println("---");
         return result;
     }
 
