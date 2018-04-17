@@ -24,9 +24,8 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private IPlayerPositionService iPlayerPositionService;
 
-    private String[] weapons = {"Stick", "Sword"};
-    private int equiped = 0;
-    private boolean changing = false;
+    private String[] weaponNames = {"Stick", "Sword"};
+    private int currentWeaponNum = 0;
 
     public void process(GameData gameData, World world) {
         try {
@@ -38,23 +37,18 @@ public class WeaponSystem implements IEntityProcessingService {
                     createReference();
                 }
 
-                if (gameData.getKeys().isDown(SHIFT) && !changing) {
-                    equiped++;
-                    equiped = equiped % weapons.length;
-                    System.out.println(equiped);
-                    assetGenerator.addImagePath("image/" + weapons[equiped] + "/");
-                    changing = true;
-                } else {
-                    changing = false;
+                if (gameData.getKeys().isPressed(SHIFT)) {
+                    currentWeaponNum++;
+                    currentWeaponNum = currentWeaponNum % weaponNames.length;
                 }
 
                 if (gameData.getKeys().isDown(SPACE)) {
-                    assetGenerator.changeImage("Attack.png");
+                    assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
                     positionPart.setX(iPlayerPositionService.getX() + 20);
                     positionPart.setY(iPlayerPositionService.getY() - 17);
 
                 } else {
-                    assetGenerator.changeImage("Idle.png");
+                    assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
                     positionPart.setX(iPlayerPositionService.getX() + 20);
                     positionPart.setY(iPlayerPositionService.getY() + 15);
                 }
@@ -63,6 +57,7 @@ public class WeaponSystem implements IEntityProcessingService {
                 assetGenerator.process(gameData, weapon);
             }
         } catch (NullPointerException ex) {
+            // IPlayerPostionService is not registered
             // no exception message for now
         }
     }

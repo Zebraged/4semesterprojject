@@ -41,7 +41,7 @@ public class WeaponPlugin implements IGamePluginService {
         Entity weaponObject = new Weapon();
 
         PositionPart posistionPart = new PositionPart(0,0);
-        weaponObject.add(new AssetGenerator(weaponObject, "image/", "Idle.png"));
+        weaponObject.add(new AssetGenerator(weaponObject, "image/", "Stick_Idle.png"));
         weaponObject.add(posistionPart);
         weaponObject.add(new MovingPart(5, 600, 400));
         return weaponObject;
