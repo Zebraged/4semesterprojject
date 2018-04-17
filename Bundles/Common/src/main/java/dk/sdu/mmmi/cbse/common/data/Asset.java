@@ -6,6 +6,7 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 import java.io.InputStream;
+import org.osgi.framework.Bundle;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Asset {
     boolean loaded = false;
     boolean mirror = false;
     boolean background = false;
+    private Bundle bundle; 
     
     /**
      *
@@ -91,6 +93,20 @@ public class Asset {
 
     public void setBackground(boolean background) {
         this.background = background;
+    }
+
+    /**
+     * @return the bundle
+     */
+    public Bundle getBundle() {
+        return bundle;
+    }
+
+    /**
+     * @param bundle the bundle to set
+     */
+    public void setBundle(Bundle bundle) {
+        this.bundle = bundle;
     }
     
     

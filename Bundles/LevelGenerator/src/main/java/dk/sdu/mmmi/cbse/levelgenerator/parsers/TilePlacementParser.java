@@ -22,8 +22,8 @@ public class TilePlacementParser implements ISpecificParser {
      * @param lengthY the lengthY to set
      */
     public void setLengthY(int lengthY) {
-        this.currentPosY = lengthY;
-        this.lengthY = lengthY;
+        this.currentPosY = lengthY - 1;
+        this.lengthY = lengthY - 1;
     }
     private IEntityGenerator gen;
     private World world;
@@ -40,10 +40,10 @@ public class TilePlacementParser implements ISpecificParser {
             char[] chars = line.toCharArray();
             int x = 0;
             for (char c : chars) {
-                this.gen.generate("" + c, x * 32, currentPosY * 32, world, data);
+                //If the char is not a number:
+                this.gen.generate("" + c, x, currentPosY, world, data);
                 x++;
             }
-            currentPosY--;
         } else {
             System.out.println("Warning: Generator was not found for Tile Placement!");
         }
@@ -54,6 +54,7 @@ public class TilePlacementParser implements ISpecificParser {
             this.gen = gens;
             parse(line);
         }
+        currentPosY--;
     }
 
 }

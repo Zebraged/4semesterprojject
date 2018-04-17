@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -43,12 +45,14 @@ public class LevelGenerator implements ILevelGenerator {
     private GameData data;
     private World world;
     private Collection<IEntityGenerator> generators;
+    private Collection<IEntityGenerator> loadedGenerators;
 
     public LevelGenerator(BundleContext context, GameData data, World world) {
         this.context = context;
         generators = getGenerators();
+        loadedGenerators = new ArrayList();
         
-        path="C:/Users/Mr. Kinder/Documents/NetBeansProjects/4s2/Bundles/LevelGenerator/map_example.lvl";
+        path="./Bundles/LevelGenerator/map_example.lvl";
         this.context = context;
         this.data = data;
         this.world = world;
@@ -70,6 +74,7 @@ public class LevelGenerator implements ILevelGenerator {
      * @throws IOException 
      */
     public void generate() throws FileNotFoundException, IOException {
+        loadedGenerators.addAll(generators);
         prepare();
         inf("Beginning generation!..");
         BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
@@ -83,6 +88,7 @@ public class LevelGenerator implements ILevelGenerator {
             parse(line);
         }
         inf("Generation done..");
+        reader.close();
     }
 
     private void prepare() {
@@ -114,7 +120,7 @@ public class LevelGenerator implements ILevelGenerator {
                 break;
 
             case TILES:
-                //tilePlacementParser.parse(line);
+                tilePlacementParser.parse(generators, line);
                 break;
 
             default:
@@ -140,7 +146,7 @@ public class LevelGenerator implements ILevelGenerator {
         Collection<IEntityGenerator> generators = new ArrayList(); 
         for(ServiceReference<IEntityGenerator> reference : getGeneratorReferences()){
             gen = (IEntityGenerator) context.getService(reference);
-            generators.add(context.getService(reference));
+            generators.add(gen);
         }
         return generators;
     }
@@ -153,6 +159,22 @@ public class LevelGenerator implements ILevelGenerator {
             System.out.println("Exception: \t"+ex);
         }
         return collection;
+    }
+    
+    /**
+     * Listens for new generators and starts the generator if needed.
+     * @throws InterruptedException
+     * @throws IOException 
+     */
+    public void checkNewGeneratorsAndGenerate() throws InterruptedException, IOException {
+        Collection<IEntityGenerator> newGens = getGenerators();
+        
+        newGens.removeAll(loadedGenerators);
+        
+        if(!newGens.isEmpty()) {
+            generators = newGens;
+            generate();
+        }
     }
 }
 

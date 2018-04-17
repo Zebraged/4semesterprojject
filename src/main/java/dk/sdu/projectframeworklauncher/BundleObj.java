@@ -78,7 +78,7 @@ public class BundleObj {
         try {
             state = BundleState.STARTING;
             this.bundle.start();
-            System.out.println("Bundle Started");
+            System.out.println("Bundle Started: "+this.bundle.getSymbolicName());
             state = BundleState.ACTIVE;
         } catch (BundleException ex) {
 
