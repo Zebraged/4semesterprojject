@@ -7,11 +7,8 @@ package dk.sdu.collision;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import static dk.sdu.mmmi.cbse.common.data.GameKeys.UP;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
-import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
-import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,15 +84,10 @@ public class Collision implements ICollisionService {
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
 
-                Float yBval = 0f;
-                Float yTval = 0f;
-                Float xRval = 0f;
-                Float xLval = 0f;
-
-                yBvalue.add(checkYBCollision(firstPosObj, platformPos, gameData, yBval));
-                yTvalue.add(checkYTCollision(firstPosObj, platformPos, gameData, yTval));
-                xRvalue.add(checkXRCollision(firstPosObj, platformPos, gameData, xRval));
-                xLvalue.add(checkXLCollision(firstPosObj, platformPos, gameData, xLval));
+                yBvalue.add(checkYBCollision(firstPosObj, platformPos));
+                yTvalue.add(checkYTCollision(firstPosObj, platformPos));
+                xRvalue.add(checkXRCollision(firstPosObj, platformPos));
+                xLvalue.add(checkXLCollision(firstPosObj, platformPos));
                 //       System.out.println(xLvalue);
             }
 
@@ -157,8 +149,9 @@ public class Collision implements ICollisionService {
      * @param platform sec shape
      * @return true if found else false.
      */
-    private Float checkYBCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
+    private Float checkYBCollision(PosObj player, PosObj platform) {
 
+        Float result = 0f;
         float AposY = player.getY1();
 
         float playpos = platform.getY2();
@@ -180,8 +173,8 @@ public class Collision implements ICollisionService {
         return result;
     }
 
-    private Float checkYTCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
-
+    private Float checkYTCollision(PosObj player, PosObj platform) {
+        Float result = 0f;
         float AposY = player.getY2();
 
         float playpos = platform.getY1();
@@ -212,8 +205,8 @@ public class Collision implements ICollisionService {
      * @param result
      * @return
      */
-    private Float checkXRCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
-
+    private Float checkXRCollision(PosObj player, PosObj platform) {
+        Float result = 0f;
         float AposY = player.getX2();
         float playpos = platform.getX1();
 
@@ -231,8 +224,8 @@ public class Collision implements ICollisionService {
         return result;
     }
 
-    private Float checkXLCollision(PosObj player, PosObj platform, GameData gameData, Float result) {
-
+    private Float checkXLCollision(PosObj player, PosObj platform) {
+        Float result = 0f;
         float AposY = player.getX1();
         float playpos = platform.getX2();
 

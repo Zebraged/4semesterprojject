@@ -20,7 +20,6 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
-    private ICollisionService collision;
     private CollisionPart col = CollisionPart.getInstance();
 
     /**
@@ -110,19 +109,8 @@ public class MovingPart implements EntityPart {
 
         if (maxY > 1 && y > maxY) {
             y = maxY;
-       
-        }
 
-        // if player x is bigger than allowed x, change the x value to max.
-//        if (maxY > 1 && y < maxY && !jump) {
-//            y = maxY;
-//            jumpTime = 0;
-//        }
-//        System.out.println(maxY);
-        System.out.println("max X ->" + maxX);
-        System.out.println("PlayerX ->" + x);
-        System.out.println("PlayerY ->" + y);
-        System.out.println("-----");
+        }
 
         positionPart.setX(x);
         positionPart.setY(y);

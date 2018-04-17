@@ -1,12 +1,6 @@
 package dk.sdu.collision;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
