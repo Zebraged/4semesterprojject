@@ -3,6 +3,7 @@
 file:/C:/Users/Marcg/Documents/GitHub/4semesterprojject/./Bundles/Platform/target/Platform-1.0-SNAPSHOT.jar
 32
 1
+<<<<<<< HEAD
 1523616010402
 =======
 file:/C:/Users/Jesper/Documents/GitHub/4semesterprojject/./Bundles/OSGiLibGDX/target/OSGiLibGDX-1.0-SNAPSHOT.jar
@@ -10,4 +11,7 @@ file:/C:/Users/Jesper/Documents/GitHub/4semesterprojject/./Bundles/OSGiLibGDX/ta
 1
 1523618998823
 >>>>>>> master
+=======
+1524221798802
+>>>>>>> Music-Player
 0
