@@ -1,13 +1,7 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Bnd-LastModified: 1523614690262
-Build-Jdk: 1.8.0_101
-Built-By: Marcg
-=======
-Bnd-LastModified: 1524222597461
+Bnd-LastModified: 1524224885477
 Build-Jdk: 1.8.0_161
 Built-By: Mr. Kinder
->>>>>>> Music-Player
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
 Bundle-ManifestVersion: 2
 Bundle-Name: Map OSGi Bundle

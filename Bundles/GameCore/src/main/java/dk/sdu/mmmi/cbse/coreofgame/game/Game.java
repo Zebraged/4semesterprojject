@@ -7,14 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import dk.sdu.mmmi.cbse.common.data.BundleObj;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
-<<<<<<< HEAD:Bundles/dk.sdu.mmmi.cbse_GameCore_bundle_1.0-SNAPSHOT/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/Game.java
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
-=======
 import dk.sdu.mmmi.cbse.common.music.MusicPlayer;
->>>>>>> Music-Player:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/Game.java
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
@@ -96,10 +94,8 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-<<<<<<< HEAD:Bundles/dk.sdu.mmmi.cbse_GameCore_bundle_1.0-SNAPSHOT/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/Game.java
 
         assetManager.loadAllPluginTextures();
-        
 
         ICollisionService processCol;
         if (processCollisionReference() != null) {
@@ -107,21 +103,20 @@ public class Game implements ApplicationListener {
                 processCol = (ICollisionService) context.getService(reference);
                 processCol.process(gameData, world);
             }
-=======
-        gameData.setDelta(Gdx.graphics.getDeltaTime());
-        for (Bundle bundle : gameData.getBundles()) {
-            assetManager.loadAllPluginTextures(bundle);
-            gameData.removeBundle(bundle);
->>>>>>> Music-Player:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/Game.java
-        }
-        
-        musicCore.update(gameData.getDelta());
+            gameData.setDelta(Gdx.graphics.getDeltaTime());
+            for (BundleObj bundle : gameData.getBundles()) {
+                assetManager.loadAllPluginTextures();
+                //gameData.removeBundle(bundle.getBundle());
+            }
 
-        IEntityProcessingService process;
-        if (processReference() != null) {
-            for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                process = (IEntityProcessingService) context.getService(reference);
-                process.process(gameData, world);
+            musicCore.update(gameData.getDelta());
+
+            IEntityProcessingService process;
+            if (processReference() != null) {
+                for (ServiceReference<IEntityProcessingService> reference : processReference()) {
+                    process = (IEntityProcessingService) context.getService(reference);
+                    process.process(gameData, world);
+                }
             }
         }
     }
