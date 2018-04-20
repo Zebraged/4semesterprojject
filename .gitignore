@@ -8,3 +8,4 @@ felix-cache/bundle0/bundle.id
 target/
 felix-cache/
 >>>>>>> master
+*.jar
