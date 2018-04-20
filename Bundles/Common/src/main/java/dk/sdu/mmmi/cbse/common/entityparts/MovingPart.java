@@ -7,11 +7,10 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 
 /**
  *
- * @author
+ * @author Shrek
  */
 public class MovingPart implements EntityPart {
 
@@ -19,7 +18,7 @@ public class MovingPart implements EntityPart {
     private float gravity, jumpVelocity;
     private boolean left, right, up;
     private boolean isGrounded;
-    private float jumpTime;
+    private float jumpTime; //used for calculating gravitational acceleration
     private CollisionPart col = CollisionPart.getInstance();
 
     /**
@@ -33,9 +32,20 @@ public class MovingPart implements EntityPart {
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
         this.speed = speed;
 
-        jumpVelocity = 2 * jumpHeight * speed / jumpLength;
+        this.jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+        this.gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+    }
+
+    /**
+     * Initializes MovingPart without any gravity
+     *
+     * @param speed MovingPart's horizontal speed
+     */
+    public MovingPart(float speed) {
+        this.speed = speed;
+        this.jumpVelocity = 0;
+        this.gravity = 0;
     }
 
     public void setLeft(boolean left) {

@@ -87,6 +87,8 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void render() {
+        gameData.setDelta(Gdx.graphics.getDeltaTime());
+
         update();
         draw();
     }

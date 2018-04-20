@@ -21,7 +21,6 @@ import org.osgi.framework.BundleContext;
  */
 public class PlayerPlugin implements IGamePluginService {
 
-    
     private IPlayerPositionService position;
     Boolean status = false;
     Entity player;
@@ -50,13 +49,15 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
-        PositionPart posPart = new PositionPart(48,125);
-        PlayerPosition playPos = new PlayerPosition();
-        player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
-        player.add(posPart);
-        player.add(new MovingPart(1, 800, 400));
-        playPos.addPositionPart(posPart);
-        position = playPos;
+        
+        PlayerPosition playerPostition = new PlayerPosition();
+        PositionPart positionPart = new PositionPart(48, 125);
+        
+        player.add(new AssetGenerator(player, "image/", "Player_Idle.png"));
+        player.add(positionPart);
+        player.add(new MovingPart(100, 800, 400));
+        playerPostition.addPositionPart(positionPart);
+        position = playerPostition;
         return player;
     }
 
