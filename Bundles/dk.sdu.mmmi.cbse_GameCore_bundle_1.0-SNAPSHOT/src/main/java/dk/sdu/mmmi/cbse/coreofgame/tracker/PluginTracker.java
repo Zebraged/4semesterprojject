@@ -51,7 +51,7 @@ public class PluginTracker {
         for(ServiceReference<IGamePluginService> reference : pluginReference()){
             plugin = (IGamePluginService) context.getService(reference);
             if(plugin.getStatus() == false){
-                System.out.println("New plugin detected!");
+                System.out.println("New plugin detected! "+plugin.getClass().toString());
                 
                 gameData.addBundle(reference.getBundle());
                 plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
