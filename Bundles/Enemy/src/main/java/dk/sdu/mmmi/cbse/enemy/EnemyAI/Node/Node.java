@@ -12,35 +12,44 @@ package dk.sdu.mmmi.cbse.enemy.EnemyAI.Node;
 public class Node {
     
     
-    private int xPos;
+    private int x;
+    private int y;
+    private int jumpHeight;
     private int yPos;
+    private int width = 32;
+    private int height = 32;
     private double heuristic;
     private double distance;
     private double cost;
     
     public Node(int x, int y){
-        this.xPos = x;
-        this.yPos = y;
+        this.x = x;
+        this.y = y;
         this.distance = Double.MAX_VALUE;
     }
     
     public Node(){
         
     }
-    
-    
 
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
-    }
-
-
-    public int getxPos() {
-        return xPos;
     }
 
     public int getyPos() {
@@ -67,6 +76,14 @@ public class Node {
     public double getCost() {
         cost = heuristic + distance;
         return cost;
+    }
+
+    public int getJumpHeight() {
+        return jumpHeight;
+    }
+
+    public void setJumpHeight(int jumpHeight) {
+        this.jumpHeight = jumpHeight;
     }
     
     

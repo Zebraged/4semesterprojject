@@ -1,3 +1,5 @@
-dk\sdu\mmmi\cbse\player\PlayerPosition.class
 dk\sdu\mmmi\cbse\player\PlayerProcess.class
 dk\sdu\mmmi\cbse\player\Player.class
+dk\sdu\mmmi\cbse\player\PlayerPosition.class
+dk\sdu\mmmi\cbse\player\PlayerPlugin.class
+dk\sdu\mmmi\cbse\player\PlayerActivator.class

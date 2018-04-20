@@ -8,7 +8,7 @@ package dk.sdu.mmmi.cbse.coreofgame.tracker;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.coreofgame.game.AssetManager;
+import dk.sdu.mmmi.cbse.coreofgame.managers.AssetManager;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

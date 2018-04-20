@@ -16,6 +16,7 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -43,6 +44,8 @@ public class PlayerPlugin implements IGamePluginService {
 
     public void stop() {
         status = false;
+        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        context.ungetService(reference);
         world.removeEntity(player);
         System.out.println("plugin stopped");
     }

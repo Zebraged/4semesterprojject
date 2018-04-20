@@ -19,6 +19,7 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
+    private float fallspeed;
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -34,6 +35,8 @@ public class MovingPart implements EntityPart {
         jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
         gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+        
+        fallspeed = gravity - (gravity/7);
     }
 
     public void setLeft(boolean left) {
@@ -84,4 +87,23 @@ public class MovingPart implements EntityPart {
 
     }
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public float getJumpVelocity() {
+        return jumpVelocity;
+    }
+
+    public float getFallspeed() {
+        return fallspeed;
+    }
+    
+    
+    
+    
 }

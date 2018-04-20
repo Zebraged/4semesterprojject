@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
+import dk.sdu.mmmi.cbse.coreofgame.managers.AssetManager;
 import dk.sdu.mmmi.cbse.coreofgame.tracker.PluginTracker;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

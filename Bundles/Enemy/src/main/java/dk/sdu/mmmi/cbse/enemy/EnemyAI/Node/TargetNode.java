@@ -14,5 +14,4 @@ public class TargetNode extends Node{
     public TargetNode(int x, int y) {
         super(x, y);
     }
-    
 }
