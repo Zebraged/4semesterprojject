@@ -32,18 +32,10 @@ public class EnemyFactory implements IEntityGenerator {
 
     }
 
-<<<<<<< HEAD
+
     private Entity createTeddy(int x, int y, int z) {
-        Entity entity = new TeddyEnemy(world, data);
-        entity.add(new PositionPart(x, y, z));
-
-
-
-=======
-    private Entity createTeddy(int x, int y) {
         Entity entity = new Enemy();
-        entity.add(new PositionPart(x, y));
->>>>>>> master
+        entity.add(new PositionPart(x, y, z));
         entity = findImage(entity, "teddy");
         entity.add(new SizePart(64, 64));
         entity.add(new MovingPart(1, 800, 400));

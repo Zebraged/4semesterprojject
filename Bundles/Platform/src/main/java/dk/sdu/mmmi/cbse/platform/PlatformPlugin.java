@@ -37,7 +37,7 @@ public class PlatformPlugin implements IGamePluginService {
         this.data = gameData;
         this.world = world;
         this.context = context;
-<<<<<<< HEAD
+
         
         System.out.println("plugin started");
         
@@ -63,11 +63,11 @@ public class PlatformPlugin implements IGamePluginService {
         platformGen.generate("platform", 15, 5,3, world, data);
         platformGen.generate("platform", 15, 6,3, world, data);
         platformGen.generate("platform", 15, 7,3, world, data);
-=======
+
         data.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         System.out.println("Platform plugin started");
 
->>>>>>> master
+
 
     }
 

@@ -56,11 +56,7 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
-<<<<<<< HEAD
-        PositionPart posPart = new PositionPart(70,128,3);
-=======
-        PositionPart posPart = new PositionPart(48,125);
->>>>>>> master
+        PositionPart posPart = new PositionPart(48,125,3);
         PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(posPart);

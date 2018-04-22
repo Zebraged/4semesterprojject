@@ -20,9 +20,9 @@ tiles:
 1111111111111111111111111111111111111111
 
 objects:
-<<<<<<< HEAD
+
 enemy=teddy,8,3,3
-=======
-enemy=teddy,18,2
-enemy=teddy,28,2
->>>>>>> master
+
+enemy=teddy,18,2,3
+enemy=teddy,28,2,3
+

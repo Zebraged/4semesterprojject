@@ -22,11 +22,10 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-<<<<<<< HEAD:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/AssetManager.java
+//<<<<<<< HEAD:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/AssetManager.java
 import java.util.Collections;
 import java.util.Comparator;
-=======
->>>>>>> master:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/managers/AssetManager.java
+//>>>>>>> master:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/managers/AssetManager.java
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -73,14 +72,13 @@ public class AssetManager {
      */
     public void loadImages(BundleContext context) {
 
-        //Skal laves om til int depend
+      
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-<<<<<<< HEAD:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/game/AssetManager.java
-        //loadBackground();
+
         for (Entity entity :sortEntities() ){
             if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null) {
                 //if (entity.getAsset().isBackground() == true) {
@@ -96,27 +94,7 @@ public class AssetManager {
                 ;
                 sprite.draw(batch);
                 //}
-=======
-        loadBackground();
-        for (Entity entity : world.getEntities()) {
-            if (entity.getAsset() != null && entity.getAsset().getImage() != null) {
-                if (textureMap.get(entity.getAsset().getImage()) != null) {
-                    if (entity.getAsset().isBackground() == true) {
-                        background = textureMap.get(entity.getAsset().getImage());
-                    } else {
-                        
-                        Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
-                        PositionPart pos = entity.getPart(PositionPart.class);
-                        if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
-                            sprite.flip(true, false);
-                        }
-                        sprite.setX((int) pos.getX()); //change x and y position of image based on position part
-                        sprite.setY((int) pos.getY());
-                        sprite.draw(batch);
-                    }
-                }
 
->>>>>>> master:Bundles/GameCore/src/main/java/dk/sdu/mmmi/cbse/coreofgame/managers/AssetManager.java
             }
         }
         batch.end();
