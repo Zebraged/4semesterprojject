@@ -15,6 +15,7 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import java.io.File;
 import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -29,11 +30,14 @@ public class PlatformPlugin implements IGamePluginService {
     private BundleContext context;
     World world;
     private ArrayList<PlatformObj> platforms = new ArrayList();
+    
 
     public void start(GameData gameData, World world, BundleContext context) {
         status = true;
+        this.data = gameData;
         this.world = world;
         this.context = context;
+<<<<<<< HEAD
         
         System.out.println("plugin started");
         
@@ -59,46 +63,54 @@ public class PlatformPlugin implements IGamePluginService {
         platformGen.generate("platform", 15, 5,3, world, data);
         platformGen.generate("platform", 15, 6,3, world, data);
         platformGen.generate("platform", 15, 7,3, world, data);
+=======
+        data.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
+        System.out.println("Platform plugin started");
+
+>>>>>>> master
 
     }
-    /***
+
+    /**
+     * *
      * creates a platform with a picture, and some coordinates.
-     * @param gameData 
-     * @param world 
+     *
+     * @param gameData
+     * @param world
      */
-    /**private void createPlatform(GameData gameData, World world) {
-
-        platform = new Platform();
-
-        File files = null;
-        files = new File("./Bundles/Platform/src/main/resources/image/Idle/");
-        File[] fileslist = files.listFiles();
-        if (fileslist != null) {
-
-            for (File file : fileslist) {
-                if (file.getName().endsWith(".png")) {
-                    //platforms.add(new PlatformObj(file.getName(), 0, 0));
-                    platform.add(new AssetGenerator(platform, "image/", file.getName()));
-                    
-                }
-            }
-        } else {
-            System.out.println("No platforms found in bundle image folder");
-        }
-
-        platform.add(new PositionPart(platforms.get(0).getxPos(), platforms.get(0).getyPos()));
-
-    }
-**/
+    /**
+     * private void createPlatform(GameData gameData, World world) {
+     *
+     * platform = new Platform();
+     *
+     * File files = null; files = new
+     * File("./Bundles/Platform/src/main/resources/image/Idle/"); File[]
+     * fileslist = files.listFiles(); if (fileslist != null) {
+     *
+     * for (File file : fileslist) { if (file.getName().endsWith(".png")) {
+     * //platforms.add(new PlatformObj(file.getName(), 0, 0)); platform.add(new
+     * AssetGenerator(platform, "image/", file.getName()));
+     *
+     * }
+     * }
+     * } else { System.out.println("No platforms found in bundle image folder");
+     * }
+     *
+     * platform.add(new PositionPart(platforms.get(0).getxPos(),
+     * platforms.get(0).getyPos()));
+     *
+     * }
+     *
+     */
     public void stop() {
         this.status = false;
-        for(Entity entity : world.getEntities(Platform.class)){
+        for (Entity entity : world.getEntities(Platform.class)) {
             world.removeEntity(entity);
-    }
+        }
     }
 
     @Override
-     public boolean getStatus() {
+    public boolean getStatus() {
         return status;
     }
 

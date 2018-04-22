@@ -11,9 +11,12 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -33,6 +36,7 @@ public class PlayerPlugin implements IGamePluginService {
         this.context = context;
         status = true;
         System.out.println("plugin started");
+        gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         player = createPlayer(gameData, world);
         world.addEntity(player);
         context.registerService(IPlayerPositionService.class.getName(), position, null);
@@ -40,6 +44,8 @@ public class PlayerPlugin implements IGamePluginService {
 
     public void stop() {
         status = false;
+        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        context.ungetService(reference);
         world.removeEntity(player);
         System.out.println("plugin stopped");
     }
@@ -50,10 +56,15 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
+<<<<<<< HEAD
         PositionPart posPart = new PositionPart(70,128,3);
+=======
+        PositionPart posPart = new PositionPart(48,125);
+>>>>>>> master
         PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(posPart);
+        player.add(new SizePart(32, 32));
         player.add(new MovingPart(5, 600, 400));
         playPos.addPositionPart(posPart);
         position = playPos;

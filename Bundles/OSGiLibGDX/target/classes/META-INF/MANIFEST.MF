@@ -1,7 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1524225670524
 Build-Jdk: 1.8.0_101
 Built-By: Chris
+=======
+Bnd-LastModified: 1524224919712
+Build-Jdk: 1.8.0_161
+Built-By: Mr. Kinder
+>>>>>>> master
 Bundle-ClassPath: .,org.osgi.core-4.3.1.jar,gdx-1.9.6.jar,gdx-platform-1
  .9.6.jar,gdx-backend-lwjgl-1.9.6.jar,lwjgl-2.9.2.jar,lwjgl-platform-2.9
  .2-natives-windows.jar,lwjgl-platform-2.9.2-natives-linux.jar,lwjgl-pla
