@@ -20,7 +20,11 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -66,26 +70,29 @@ public class AssetManager {
      * @param context
      */
     public void loadImages(BundleContext context) {
+
+        //Skal laves om til int depend
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-        loadBackground();
-        for (Entity entity : world.getEntities()) {
+        //loadBackground();
+        for (Entity entity :sortEntities() ){
             if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null) {
-                if (entity.getAsset().isBackground() == true) {
-                    background = textureMap.get(entity.getAsset().getImage());
-                } else {
-                    Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
-                    PositionPart pos = entity.getPart(PositionPart.class);
-                    if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
-                        sprite.flip(true, false);
-                    }
-                    sprite.setX((int) pos.getX()); //change x and y position of image based on position part
-                    sprite.setY((int) pos.getY());
-                    sprite.draw(batch);
+                //if (entity.getAsset().isBackground() == true) {
+                //    background = textureMap.get(entity.getAsset().getImage());
+                //} else {
+                Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
+                PositionPart pos = entity.getPart(PositionPart.class);
+                if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
+                    sprite.flip(true, false);
                 }
+                sprite.setX((int) pos.getX()); //change x and y position of image based on position part
+                sprite.setY((int) pos.getY());
+                ;
+                sprite.draw(batch);
+                //}
             }
         }
         batch.end();
@@ -119,14 +126,14 @@ public class AssetManager {
         }
     }
 
-    public void loadBackground() {
+    /*public void loadBackground() {
         if (background != null) {
             Sprite sprite = new Sprite(background);
             sprite.setX(0);
             sprite.setY(0);
             sprite.draw(batch);
         }
-    }
+    }*/
 
     public boolean imageExist(String image) {
         for (String string : textureMap.keySet()) {
@@ -135,5 +142,23 @@ public class AssetManager {
             }
         }
         return false;
+    }
+
+    private List<Entity> sortEntities() {
+        List<Entity> sortedentitiesList = new ArrayList();
+        for (Entity entity : world.getEntities()) {
+            sortedentitiesList.add(entity);
+        }
+        Collections.sort(sortedentitiesList, new Comparator<Entity>() {
+            @Override
+            public int compare(Entity e1, Entity e2) {
+                PositionPart pos1 = e1.getPart(PositionPart.class);
+                PositionPart pos2 = e2.getPart(PositionPart.class);
+                return Float.compare(pos1.getZ(), pos2.getZ());
+        
+                
+            }
+});
+      return sortedentitiesList;  
     }
 }

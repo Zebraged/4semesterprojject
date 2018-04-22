@@ -36,7 +36,7 @@ public class PlatformFactory implements IEntityGenerator {
             boolean foundImage = false;
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
-                    platobj = new PlatformObj(file.getName(), x, y);
+                    platobj = new PlatformObj(file.getName(), x, y, 4);
                     if (!foundImage) { // only load first image to entity
                         entity.add(new AssetGenerator(entity, "image/", file.getName()));
                         foundImage = true;
@@ -44,13 +44,13 @@ public class PlatformFactory implements IEntityGenerator {
                 }
             }
         }
-        entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos()));
+        entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos(),platobj.getzPos()));
         System.out.println("Platform generated");
         return entity;
     }
 
     @Override
-    public void generate(String identifier, int x, int y, World world, GameData data) {
+    public void generate(String identifier, int x, int y,int z,  World world, GameData data) {
 
         this.world = world;
         this.data = data;
