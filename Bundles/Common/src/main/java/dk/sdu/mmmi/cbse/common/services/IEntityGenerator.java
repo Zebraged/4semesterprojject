@@ -19,9 +19,8 @@ public interface IEntityGenerator {
      * @param identifier Enemy: "teddy", "cloud", "unicorn"
      * @param x start position for entity
      * @param y start position for entity
-     * @param z
      * @param world
      * @param data
      */
-    public void generate(String identifier, int x, int y, int z, World world, GameData data);
+    public void generate(String identifier, int x, int y, World world, GameData data);
 }

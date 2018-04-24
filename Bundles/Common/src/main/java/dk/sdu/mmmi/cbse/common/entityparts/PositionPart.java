@@ -16,17 +16,15 @@ public class PositionPart implements EntityPart {
 
     private float x;
     private float y;
-    private float z;
 
     /**
      *
      * @param x
      * @param y
      */
-    public PositionPart(float x, float y, float z) {
+    public PositionPart(float x, float y) {
         this.x = x;
         this.y = y;
-        this.z = z;
     }
 
     /**
@@ -44,10 +42,6 @@ public class PositionPart implements EntityPart {
     public float getY() {
         return y;
     }
-    
-    public float getZ(){
-        return z;
-    }
 
     /**
      *
@@ -64,19 +58,15 @@ public class PositionPart implements EntityPart {
     public void setY(float newY) {
         this.y = newY;
     }
-    public void setZ(float newZ){
-        this.z = newZ;
-    }
 
     /**
      *
      * @param newX
      * @param newY
      */
-    public void setPosition(float newX, float newY, float newZ) {
+    public void setPosition(float newX, float newY) {
         this.x = newX;
         this.y = newY;
-        this.z = newZ;
     }
 
     /**

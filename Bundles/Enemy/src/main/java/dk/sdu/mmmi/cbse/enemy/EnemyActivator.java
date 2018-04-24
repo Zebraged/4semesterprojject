@@ -20,7 +20,7 @@ public class EnemyActivator implements BundleActivator {
     }
 
     public void stop(BundleContext context) throws Exception {
-        plugin.stop();
+        // TODO add deactivation code here
     }
 
 }

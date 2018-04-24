@@ -15,7 +15,6 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * The mapbundle is the background in the game.
@@ -40,7 +39,6 @@ public class MapPlugin implements IGamePluginService {
      */
     public void start(GameData gameData, World world, BundleContext context) {
         this.world = world;
-        gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         createMap(gameData, world); // create the map and its configuration
         this.id = map.getID();
         world.addEntity(map);
@@ -68,8 +66,9 @@ public class MapPlugin implements IGamePluginService {
     private void createMap(GameData gameData, World world) {
         map = new Map();
         AssetGenerator generator = new AssetGenerator(map, "image/", "Map1.png");
+        generator.toggleAsBackground(true);
         map.add(generator);
-        map.add(new PositionPart(0, 0, 1));
+        map.add(new PositionPart(0, 0));
     }
 
     @Override

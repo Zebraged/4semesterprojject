@@ -14,7 +14,7 @@ import dk.sdu.mmmi.cbse.enemy.type.Enemy;
  * @author Marcg
  */
 public class TeddyEnemy extends Enemy{
-    public TeddyEnemy(){
+    public TeddyEnemy(World world, GameData data){
         
     }
 }

@@ -52,7 +52,6 @@ public class LevelGenerator implements ILevelGenerator {
         generators = getGenerators();
         loadedGenerators = new ArrayList();
         
-
         path="./Bundles/LevelGenerator/map_example.lvl";
         this.context = context;
         this.data = data;

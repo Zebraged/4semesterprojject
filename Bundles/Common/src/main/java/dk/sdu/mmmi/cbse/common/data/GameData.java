@@ -18,15 +18,14 @@ public class GameData {
     private int difficulty = 1;
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList();
-    private List<BundleObj> pluginAsset = new CopyOnWriteArrayList();
+    private List<Bundle> pluginAsset = new CopyOnWriteArrayList();
 
     /**
      *
      * @param b
      */
     public void addBundle(Bundle b){
-        BundleObj bund = new BundleObj(b);
-        pluginAsset.add(bund);
+        pluginAsset.add(b);
     }
     
     /**
@@ -34,36 +33,15 @@ public class GameData {
      * @param b
      */
     public void removeBundle(Bundle b) {
-        for (BundleObj bund : pluginAsset){
-            if(bund.getBundle().getBundleId() == b.getBundleId()){
-                pluginAsset.remove(bund);
-            }
-        }
+        pluginAsset.remove(b);
     }
 
     /**
      *
      * @return
      */
-    public List<BundleObj> getBundles() {
+    public List<Bundle> getBundles() {
         return pluginAsset;
-    }
-    
-    public void setBundleObjAssetPath(Bundle bund, String assetPath){
-        for (BundleObj bundle : pluginAsset){
-            if(bundle.getBundle().getBundleId() == bund.getBundleId()){
-                bundle.setAssetPath(assetPath);
-            }
-        }
-    }
-        
-    public String getBundleObjAssetPath(Bundle bund){
-        for (BundleObj bundle : pluginAsset){
-            if(bundle.getBundle().getBundleId() == bund.getBundleId()){
-                return bundle.getAssetPath();
-            }
-        }
-        return null;
     }
     
     /**

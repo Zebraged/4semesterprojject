@@ -18,6 +18,7 @@ public class Asset {
     String image;
     boolean loaded = false;
     boolean mirror = false;
+    boolean background = false;
     private Bundle bundle; 
     
     /**
@@ -85,6 +86,15 @@ public class Asset {
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
+
+    public boolean isBackground() {
+        return background;
+    }
+
+    public void setBackground(boolean background) {
+        this.background = background;
+    }
+
     /**
      * @return the bundle
      */

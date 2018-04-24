@@ -36,7 +36,7 @@ public class ObjectsParser implements ISpecificParser {
                         + "\tObject=identifier,x,y");
             } else {
                 String[] args = keypair[1].split(",");
-                gen.generate(args[0], Integer.valueOf(args[1]) * 32, Integer.valueOf(args[2]) * 32,Integer.valueOf(args[3]), world, data);
+                gen.generate(args[0], Integer.valueOf(args[1]) * 32, Integer.valueOf(args[2]) * 32, world, data);
             }
 
         } else {
