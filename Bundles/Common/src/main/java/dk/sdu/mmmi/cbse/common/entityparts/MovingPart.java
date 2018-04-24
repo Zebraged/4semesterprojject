@@ -32,13 +32,13 @@ public class MovingPart implements EntityPart {
      * @param jumpLength MovingPart's maximum jump length
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
-        this.speed = speed;
+        this.speed = speed*25;
 
-        jumpVelocity = 2 * jumpHeight * speed / jumpLength;
+        jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
 
-        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
         
-        fallspeed = gravity - (gravity/7);
+        fallspeed = gravity - (gravity/7)*25;
     }
 
     public void setLeft(boolean left) {
