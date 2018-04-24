@@ -15,12 +15,12 @@ public class Node {
     private int x;
     private int y;
     private int jumpHeight;
-    private int yPos;
     private int width = 32;
     private int height = 32;
-    private double heuristic;
-    private double distance;
-    private double cost;
+    private double heuristic = 0;
+    private double distance = 0;
+    private double cost = 0;
+    private Node parent = null;
     
     public Node(int x, int y){
         this.x = x;
@@ -30,6 +30,22 @@ public class Node {
     
     public Node(){
         
+    }
+    
+    public void setParent(Node node){
+        this.parent = node;
+    }
+    
+    public Node getParent(){
+        return this.parent;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public int getWidth() {
@@ -46,14 +62,6 @@ public class Node {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
-    }
-
-    public int getyPos() {
-        return yPos;
     }
 
     public double getHeuristic() {
