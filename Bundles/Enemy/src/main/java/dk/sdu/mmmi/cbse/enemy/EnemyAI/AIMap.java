@@ -33,7 +33,7 @@ public class AIMap {
     private MovingPart movePart;
     private IPlayerPositionService playerPosition;
     private BundleContext context;
-    private List<Node> nodeList = new ArrayList();
+    private List<Node>    nodeList = new ArrayList();
     private ArrayList<Node> closed = new ArrayList();
     private Entity aIEntity;
     private Rectangle aIRect;
