@@ -1,19 +1,7 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-<<<<<<< HEAD
-Bnd-LastModified: 1523953936025
+Bnd-LastModified: 1524574467460
 Build-Jdk: 1.8.0_161
 Built-By: rasmu
-=======
-Bnd-LastModified: 1523371221272
-Build-Jdk: 1.8.0_151
-Built-By: admin
->>>>>>> master
-=======
-Bnd-LastModified: 1524558181302
-Build-Jdk: 1.8.0_161
-Built-By: Mr. Kinder
->>>>>>> master
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
 Bundle-ManifestVersion: 2
 Bundle-Name: Map OSGi Bundle
