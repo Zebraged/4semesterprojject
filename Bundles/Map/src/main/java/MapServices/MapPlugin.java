@@ -68,9 +68,8 @@ public class MapPlugin implements IGamePluginService {
     private void createMap(GameData gameData, World world) {
         map = new Map();
         AssetGenerator generator = new AssetGenerator(map, "image/", "Map1.png");
-        generator.toggleAsBackground(true);
         map.add(generator);
-        map.add(new PositionPart(0, 0));
+        map.add(new PositionPart(0, 0, 1));
     }
 
     @Override

@@ -32,9 +32,10 @@ public class EnemyFactory implements IEntityGenerator {
 
     }
 
-    private Entity createTeddy(int x, int y) {
+
+    private Entity createTeddy(int x, int y, int z) {
         Entity entity = new Enemy();
-        entity.add(new PositionPart(x, y));
+        entity.add(new PositionPart(x, y, z));
         entity = findImage(entity, "teddy");
         entity.add(new SizePart(64, 64));
         entity.add(new MovingPart(1, 800, 400));
@@ -59,39 +60,38 @@ public class EnemyFactory implements IEntityGenerator {
         return entity;
     }
 
-    private Entity createCloud(int x, int y) {
+    private Entity createCloud(int x, int y, int z) {
         Entity entity = new CloudEnemy();
-        entity.add(new PositionPart(x, y));
+        entity.add(new PositionPart(x, y, z));
         return entity;
     }
 
-    private Entity createUnicorn(int x, int y) {
+    private Entity createUnicorn(int x, int y, int z) {
         Entity entity = new UnicornEnemy();
-        entity.add(new PositionPart(x, y));
+        entity.add(new PositionPart(x, y, z ));
         return entity;
     }
 
     @Override
-    public void generate(String identifier, int x, int y, World world, GameData data) {
+    public void generate(String identifier, int x, int y, int z, World world, GameData data) {
         this.world = world;
         this.data = data;
         Entity enemy = null;
         switch (identifier.toLowerCase()) {
             case "teddy":
-                enemy = createTeddy(x, y);
+                enemy = createTeddy(x, y, z);
                 world.addEntity(enemy);
                 break;
             case "cloud":
-                enemy = createCloud(x, y);
+                enemy = createCloud(x, y, z);
                 world.addEntity(enemy);
                 break;
             case "unicorn":
-                enemy = createUnicorn(x, y);
+                enemy = createUnicorn(x, y, z);
                 world.addEntity(enemy);
                 break;
             default:
                 break;
         }
     }
-
 }

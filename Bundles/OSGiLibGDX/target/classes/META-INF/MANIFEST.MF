@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 <<<<<<< HEAD
-Bnd-LastModified: 1523614688387
+Bnd-LastModified: 1524225670524
 Build-Jdk: 1.8.0_101
-Built-By: Marcg
+Built-By: Chris
 =======
-Bnd-LastModified: 1523617401607
+Bnd-LastModified: 1524224919712
 Build-Jdk: 1.8.0_161
 Built-By: Mr. Kinder
 >>>>>>> master

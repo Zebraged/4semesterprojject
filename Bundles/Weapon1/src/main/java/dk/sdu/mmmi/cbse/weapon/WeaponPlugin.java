@@ -41,7 +41,7 @@ public class WeaponPlugin implements IGamePluginService {
     private Entity createWeapon(GameData gameData, World world, BundleContext bundleContext) {
         Entity weaponObject = new Weapon();
 
-        PositionPart posistionPart = new PositionPart(0,0);
+        PositionPart posistionPart = new PositionPart(0,0,3);
         weaponObject.add(new AssetGenerator(weaponObject, "image/", "Stick.png"));
         weaponObject.add(posistionPart);
         weaponObject.add(new MovingPart(5, 600, 400));

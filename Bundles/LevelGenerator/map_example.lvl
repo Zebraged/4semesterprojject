@@ -1,8 +1,9 @@
 map_settings:
 tiles_x=40
 tiles_y=10
-player_start=2,2
-player_finish=9,2
+tiles_z=3
+player_start=2,2,3
+player_finish=9,2,3
 background_image="Path/to/background.png"
 tile_set="path"
 
@@ -19,5 +20,9 @@ tiles:
 1111111111111111111111111111111111111111
 
 objects:
-enemy=teddy,18,2
-enemy=teddy,28,2
+
+enemy=teddy,8,3,3
+
+enemy=teddy,18,2,3
+enemy=teddy,28,2,3
+
