@@ -9,3 +9,4 @@ target/
 felix-cache/
 >>>>>>> master
 *.jar
+*.png

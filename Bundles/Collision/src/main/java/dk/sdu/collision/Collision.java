@@ -37,7 +37,6 @@ public class Collision implements ICollisionService {
             if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
 
                 addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
-
             } else if (entity.getSource().toString().matches(ObjTypes.TEDDY.url())) {
 
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
@@ -253,7 +252,6 @@ public class Collision implements ICollisionService {
     private void addObj(HashMap collection, Entity e, ObjTypes type) {
 
         String id = e.getID();
-
         if (type == ObjTypes.PLAYER) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlayerObj(e, 23, 29));

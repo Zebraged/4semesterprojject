@@ -8,7 +8,7 @@ package dk.sdu.mmmi.cbse.coreofgame.tracker;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.coreofgame.game.AssetManager;
+import dk.sdu.mmmi.cbse.coreofgame.managers.AssetManager;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,8 +53,8 @@ public class PluginTracker {
             if(plugin.getStatus() == false){
                 System.out.println("New plugin detected! "+plugin.getClass().toString());
                 
-                plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
                 gameData.addBundle(reference.getBundle());
+                plugin.start(gameData, world, context);//adds the new loaded bundle to gameData for imageloading
             }
         }
     }

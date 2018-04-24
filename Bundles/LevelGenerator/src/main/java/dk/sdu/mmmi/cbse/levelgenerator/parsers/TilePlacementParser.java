@@ -41,7 +41,7 @@ public class TilePlacementParser implements ISpecificParser {
             int x = 0;
             for (char c : chars) {
                 //If the char is not a number:
-                this.gen.generate("" + c, x, currentPosY, world, data);
+                this.gen.generate("" + c, x,currentPosY,3, world, data);
                 x++;
             }
         } else {

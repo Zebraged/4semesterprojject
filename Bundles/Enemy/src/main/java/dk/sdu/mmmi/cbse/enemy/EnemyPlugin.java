@@ -8,11 +8,10 @@ package dk.sdu.mmmi.cbse.enemy;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -29,9 +28,7 @@ public class EnemyPlugin implements IGamePluginService{
         this.status = true;
         this.world = world;
         this.data = gameData;
-        
-        ServiceReference service = context.getServiceReference(IEntityGenerator.class);
-        IEntityGenerator enemyGen = (IEntityGenerator) context.getService(service);
+        data.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
     }
 
     @Override

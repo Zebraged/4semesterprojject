@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package EnemyAI.Node;
+package dk.sdu.mmmi.cbse.enemy.EnemyAI.Node;
 
 /**
  *
@@ -12,15 +12,19 @@ package EnemyAI.Node;
 public class Node {
     
     
-    private int xPos;
-    private int yPos;
-    private double heuristic;
-    private double distance;
-    private double cost;
+    private int x;
+    private int y;
+    private int jumpHeight;
+    private int width = 32;
+    private int height = 32;
+    private double heuristic = 0;
+    private double distance = 0;
+    private double cost = 0;
+    private Node parent = null;
     
     public Node(int x, int y){
-        this.xPos = x;
-        this.yPos = y;
+        this.x = x;
+        this.y = y;
         this.distance = Double.MAX_VALUE;
     }
     
@@ -28,23 +32,36 @@ public class Node {
         
     }
     
+    public void setParent(Node node){
+        this.parent = node;
+    }
     
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
+    public Node getParent(){
+        return this.parent;
     }
 
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
+    public int getX() {
+        return x;
     }
 
-
-    public int getxPos() {
-        return xPos;
+    public int getY() {
+        return y;
     }
 
-    public int getyPos() {
-        return yPos;
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public double getHeuristic() {
@@ -67,6 +84,14 @@ public class Node {
     public double getCost() {
         cost = heuristic + distance;
         return cost;
+    }
+
+    public int getJumpHeight() {
+        return jumpHeight;
+    }
+
+    public void setJumpHeight(int jumpHeight) {
+        this.jumpHeight = jumpHeight;
     }
     
     

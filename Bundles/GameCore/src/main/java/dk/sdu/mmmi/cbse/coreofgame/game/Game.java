@@ -1,22 +1,23 @@
 package dk.sdu.mmmi.cbse.coreofgame.game;
 
+import dk.sdu.mmmi.cbse.coreofgame.managers.AssetManager;
 import dk.sdu.mmmi.cbse.coreofgame.tracker.PluginTracker;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
+import dk.sdu.mmmi.cbse.common.data.BundleObj;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
+import dk.sdu.mmmi.cbse.common.music.MusicPlayer;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
+import dk.sdu.mmmi.cbse.coreofgame.sound.MusicPlayerCore;
 import java.util.Collection;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -55,13 +56,14 @@ public class Game implements ApplicationListener {
     private static OrthographicCamera cam;
     private final GameData gameData = new GameData();
     private World world = new World();
+    private MusicPlayerCore musicCore;
 
     /**
      *
      */
     @Override
     public void create() {
-
+        this.musicCore = new MusicPlayerCore();
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
@@ -95,10 +97,7 @@ public class Game implements ApplicationListener {
 
     private void update() {
 
-        for (Bundle bundle : gameData.getBundles()) {
-            assetManager.loadAllPluginTextures(bundle);
-            gameData.removeBundle(bundle);
-        }
+        assetManager.loadAllPluginTextures();
 
         ICollisionService processCol;
         if (processCollisionReference() != null) {
@@ -106,13 +105,20 @@ public class Game implements ApplicationListener {
                 processCol = (ICollisionService) context.getService(reference);
                 processCol.process(gameData, world);
             }
-        }
+            gameData.setDelta(Gdx.graphics.getDeltaTime());
+            for (BundleObj bundle : gameData.getBundles()) {
+                assetManager.loadAllPluginTextures();
+                //gameData.removeBundle(bundle.getBundle());
+            }
 
-        IEntityProcessingService process;
-        if (processReference() != null) {
-            for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                process = (IEntityProcessingService) context.getService(reference);
-                process.process(gameData, world);
+            musicCore.update(gameData.getDelta());
+
+            IEntityProcessingService process;
+            if (processReference() != null) {
+                for (ServiceReference<IEntityProcessingService> reference : processReference()) {
+                    process = (IEntityProcessingService) context.getService(reference);
+                    process.process(gameData, world);
+                }
             }
         }
     }
@@ -152,6 +158,7 @@ public class Game implements ApplicationListener {
     public void dispose() {
         pluginTracker.stopPluginTracker();
         context.ungetService(context.getServiceReference(IEntityProcessingService.class.getName()));
+        musicCore.dispose();
     }
 
     private void postUpdate() {
