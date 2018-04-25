@@ -42,8 +42,6 @@ public class MapPlugin implements IGamePluginService {
         this.world = world;
         gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         createMap(gameData, world); // create the map and its configuration
-        this.id = map.getID();
-        world.addEntity(map);
 
         status = true; // set the start status to true
     }
@@ -69,13 +67,24 @@ public class MapPlugin implements IGamePluginService {
         map = new Map();
         AssetGenerator generator = new AssetGenerator(map, "image/", "Map1.png");
         map.add(generator);
-        map.add(new PositionPart(0, 0, 1));
+        map.add(new PositionPart(0, -180, 1));
+        
+        world.addEntity(map);
+        
+        map = new Map();
+        generator = new AssetGenerator(map, "image/", "Map1.png");
+        map.add(generator);
+        map.add(new PositionPart(2880, -180, 1));
+        
+        world.addEntity(map);
     }
 
     @Override
     public void stop() {
         status = false;
-        world.removeEntity(map);
+        for(Entity ent : world.getEntities(Map.class)){
+            world.removeEntity(ent);   
+        }
     }
 
 }
