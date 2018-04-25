@@ -11,7 +11,7 @@ package dk.sdu.collision;
  */
 public enum ObjTypes {
     PLAYER("dk.sdu.mmmi.cbse.player.Player.*"),
-    ENEMY(null),
+    ENEMY("dk.sdu.mmmi.cbse.enemy.type.Enemy.*"),
     PLATFORM("dk.sdu.mmmi.cbse.platform.Platform.*"),
     TEDDY("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*"),
     CLOUD("dk.sdu.mmmi.cbse.enemy.type.CloudEnemy.*"),

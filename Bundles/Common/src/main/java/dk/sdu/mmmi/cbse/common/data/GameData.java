@@ -19,6 +19,8 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList();
     private List<BundleObj> pluginAsset = new CopyOnWriteArrayList();
+    private boolean gameWon = false;
+    private boolean gameLost = false;
 
     /**
      *
@@ -210,4 +212,22 @@ public class GameData {
 
         return r;
     }
+
+    public boolean isGameWon() {
+        return gameWon;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
+    }
+
+    public boolean isGameLost() {
+        return gameLost;
+    }
+
+    public void setGameLost(boolean gameLost) {
+        this.gameLost = gameLost;
+    }
+    
+    
 }

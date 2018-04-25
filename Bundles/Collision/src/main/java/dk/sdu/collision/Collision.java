@@ -37,15 +37,7 @@ public class Collision implements ICollisionService {
             if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
 
                 addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
-            } else if (entity.getSource().toString().matches(ObjTypes.TEDDY.url())) {
-
-                addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
-
-            } else if (entity.getSource().toString().matches(ObjTypes.CLOUD.url())) {
-
-                addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
-
-            } else if (entity.getSource().toString().matches(ObjTypes.UNICORN.url())) {
+            } else if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
 
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 

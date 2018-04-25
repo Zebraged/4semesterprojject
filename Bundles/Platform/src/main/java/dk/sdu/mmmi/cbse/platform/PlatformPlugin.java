@@ -42,28 +42,6 @@ public class PlatformPlugin implements IGamePluginService {
         System.out.println("plugin started");
         
         
-        ServiceReference service = context.getServiceReference(IEntityGenerator.class);
-        IEntityGenerator platformGen = (IEntityGenerator) context.getService(service);
-        platformGen.generate("platform", 1, 1,3, world, data);
-        platformGen.generate("platform", 1, 2,3, world, data);
-        platformGen.generate("platform", 1, 3,3, world, data);
-        platformGen.generate("platform", 2, 1,3, world, data);
-        platformGen.generate("platform", 3, 1,3, world, data);
-        platformGen.generate("platform", 4, 1,3, world, data);
-        platformGen.generate("platform", 5, 1,3, world, data);
-        platformGen.generate("platform", 6, 1,3, world, data);
-        platformGen.generate("platform", 7, 1, 3,world, data);
-        platformGen.generate("platform", 8, 1,3, world, data);
-        platformGen.generate("platform", 9, 1,3, world, data);
-        platformGen.generate("platform", 10, 2,3, world, data);
-        platformGen.generate("platform", 11, 2,3, world, data);
-        platformGen.generate("platform", 12, 3,3, world, data);
-        platformGen.generate("platform", 13, 4,3, world, data);
-        platformGen.generate("platform", 14, 5,3, world, data);
-        platformGen.generate("platform", 15, 5,3, world, data);
-        platformGen.generate("platform", 15, 6,3, world, data);
-        platformGen.generate("platform", 15, 7,3, world, data);
-
         data.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         System.out.println("Platform plugin started");
 

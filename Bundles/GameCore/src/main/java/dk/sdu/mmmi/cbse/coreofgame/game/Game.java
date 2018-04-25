@@ -89,41 +89,41 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void render() {
+
         update();
         draw();
+
     }
 
     private void update() {
+       
+            assetManager.loadAllPluginTextures();
 
-        assetManager.loadAllPluginTextures();
+            ICollisionService processCol;
+            if (processCollisionReference() != null) {
+                for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
+                    processCol = (ICollisionService) context.getService(reference);
+                    processCol.process(gameData, world);
+                }
+                gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        ICollisionService processCol;
-        if (processCollisionReference() != null) {
-            for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
-                processCol = (ICollisionService) context.getService(reference);
-                processCol.process(gameData, world);
-            }
-            gameData.setDelta(Gdx.graphics.getDeltaTime());
-            for (BundleObj bundle : gameData.getBundles()) {
-                assetManager.loadAllPluginTextures();
-                //gameData.removeBundle(bundle.getBundle());
-            }
+                musicCore.update(gameData.getDelta());
 
-            musicCore.update(gameData.getDelta());
-
-            IEntityProcessingService process;
-            if (processReference() != null) {
-                for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                    process = (IEntityProcessingService) context.getService(reference);
-                    process.process(gameData, world);
+                IEntityProcessingService process;
+                if (processReference() != null) {
+                    for (ServiceReference<IEntityProcessingService> reference : processReference()) {
+                        process = (IEntityProcessingService) context.getService(reference);
+                        process.process(gameData, world);
+                    }
                 }
             }
-        }
+
+        
     }
 
     private void draw() {
         placeCam();
-        assetManager.loadImages(context);
+        assetManager.loadImages();
     }
 
     /**

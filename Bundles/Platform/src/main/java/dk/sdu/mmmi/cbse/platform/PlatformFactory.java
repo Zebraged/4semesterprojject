@@ -45,7 +45,6 @@ public class PlatformFactory implements IEntityGenerator {
             }
         }
         entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos(),platobj.getzPos()));
-        System.out.println("Platform generated");
         return entity;
     }
 
