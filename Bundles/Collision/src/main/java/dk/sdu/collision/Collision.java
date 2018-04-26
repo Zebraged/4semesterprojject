@@ -9,12 +9,17 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
+import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -30,26 +35,43 @@ public class Collision implements ICollisionService {
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
     private CollisionPart col = CollisionPart.getInstance();
+    private Rectangle checkRange;
 
     public void process(GameData gameData, World world) {
+        BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+        ServiceReference ref = context.getServiceReference(IPlayerPositionService.class);
+        
+        if (ref != null) {
+            IPlayerPositionService playerPos = (IPlayerPositionService) context.getService(ref);
+            checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), 100, 100);
+            for (Entity entity : world.getEntities()) {
+                PositionPart part = entity.getPart(PositionPart.class);
+                if (checkRange.contains(part.getX(), part.getY())) {
+                    System.out.println("added");
+                    if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
 
-        for (Entity entity : world.getEntities()) {
+                        addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
+                    } else if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
 
-            if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
+                        addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
-                addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
-            } else if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
+                    } else if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
 
-                addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
-
-            } else if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
-
-                addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
+                        addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
+                    }
+                }
             }
-        }
 
-        CheckPlayerPlatformCollision(PlayerObj, PlatformObj, gameData);
+            CheckPlayerPlatformCollision(PlayerObj, PlatformObj, gameData);
+        } else {
+            clearMaps();
+        } 
+    }
 
+    public void clearMaps() {
+        PlatformObj.clear();
+        PlayerObj.clear();
+        EnemyObj.clear();
     }
 
     /**
@@ -62,11 +84,10 @@ public class Collision implements ICollisionService {
     private void CheckPlayerPlatformCollision(HashMap collection1, HashMap collection2, GameData gameData) {
         Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
         Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
-        
+
         while (firstColObj.hasNext()) { // iterate over all players found
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
-            Rectangle checkRange = new Rectangle((int)firstPosObj.getX1(), (int)firstPosObj.getY1(), 200, 200);
 
             ArrayList<Float> yBvalue = new ArrayList();
             ArrayList<Float> yTvalue = new ArrayList();
@@ -76,12 +97,11 @@ public class Collision implements ICollisionService {
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
-                if (checkRange.contains(platformPos.getX1(), platformPos.getY1())){
-                    yBvalue.add(checkYBCollision(firstPosObj, platformPos));
-                    yTvalue.add(checkYTCollision(firstPosObj, platformPos));
-                    xRvalue.add(checkXRCollision(firstPosObj, platformPos));
-                    xLvalue.add(checkXLCollision(firstPosObj, platformPos));
-                }
+                yBvalue.add(checkYBCollision(firstPosObj, platformPos));
+                yTvalue.add(checkYTCollision(firstPosObj, platformPos));
+                xRvalue.add(checkXRCollision(firstPosObj, platformPos));
+                xLvalue.add(checkXLCollision(firstPosObj, platformPos));
+
                 //       System.out.println(xLvalue);
             }
 
@@ -122,17 +142,14 @@ public class Collision implements ICollisionService {
                 col.setMaxY(higstvalue);
             }
 
-        } else {
-            if (dir.equals("down")) {
-                col.setMinY(0);
-            } else if (dir.equals("left")) {
-                col.setMinX(0);
-            } else if (dir.equals("right")) {
-                col.setMaxX(0);
-            } else if (dir.equals("top")) {
-                col.setMaxY(0);
-            }
-
+        } else if (dir.equals("down")) {
+            col.setMinY(0);
+        } else if (dir.equals("left")) {
+            col.setMinX(0);
+        } else if (dir.equals("right")) {
+            col.setMaxX(0);
+        } else if (dir.equals("top")) {
+            col.setMaxY(0);
         }
     }
 

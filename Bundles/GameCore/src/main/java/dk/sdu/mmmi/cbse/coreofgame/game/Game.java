@@ -217,10 +217,10 @@ public class Game implements ApplicationListener {
             } else {
                 cam.position.x = cam.viewportWidth / 2 * cam.zoom;
             }
-            if (playerPosition.getY() < cam.viewportWidth / 2 ) {
+            if (playerPosition.getY() > cam.viewportWidth / 2 ) {
                 cam.position.y = 0;
             } else {
-                cam.position.y = cam.viewportHeight / 2 * cam.zoom;
+                cam.position.y = cam.viewportHeight / 2;
             }
         }
     }
