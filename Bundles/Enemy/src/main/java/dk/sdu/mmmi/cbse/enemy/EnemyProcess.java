@@ -10,7 +10,6 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
-import dk.sdu.mmmi.cbse.common.entityparts.GravityPart_PLACEHOLDER;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
@@ -22,42 +21,36 @@ import java.util.Random;
  *
  * @author Marcg
  */
-public class EnemyProcess implements IEntityProcessingService{
-    
-    
-    
+public class EnemyProcess implements IEntityProcessingService {
+
     @Override
     public void process(GameData gameData, World world) {
-        for(Entity entity : world.getEntities(TeddyEnemy.class)){
+        for (Entity entity : world.getEntities(TeddyEnemy.class)) {
             MovingPart movingPart = entity.getPart(MovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
-            GravityPart_PLACEHOLDER gravity = entity.getPart(GravityPart_PLACEHOLDER.class);
             PositionPart position = entity.getPart(PositionPart.class);
             float x = position.getX();
             float y = position.getY();
             Random rand = new Random();
             int i = rand.nextInt(2);
-            
-            if(i==0){
+
+            if (i == 0) {
                 movingPart.setLeft(false);
                 movingPart.setRight(true);
-            }else if(i==1){
+            } else if (i == 1) {
                 movingPart.setRight(false);
                 movingPart.setLeft(true);
             }
-            
-            if(position.getX() < x){
+
+            if (position.getX() < x) {
                 assetGen.nextImage("Walk", false);
-            } else if(position.getX() > x){
+            } else if (position.getX() > x) {
                 assetGen.nextImage("Walk", true);
-            } else if (position.getX() == x && position.getY() == y){
+            } else if (position.getX() == x && position.getY() == y) {
                 assetGen.nextImage("Idle", true);
             }
             assetGen.process(gameData, entity);
             movingPart.process(gameData, entity);
-            
-            //gravity.process(gameData, entity);
         }
     }
-    
 }

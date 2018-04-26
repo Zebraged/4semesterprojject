@@ -20,77 +20,70 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class WeaponSystem implements IEntityProcessingService {
 
-    private boolean gotReference = false;
-
     private BundleContext bundleContext;
 
     private IPlayerPositionService iPlayerPositionService;
+    private boolean gotReference = false;   // For checking if a IPlayerPositionService-reference is registered 
 
-    private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};
+    private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};     // Current InventorySystem, might need a better solution
     private int currentWeaponNum = 0;
-    private float projectileCooldown = 0;
+
+    private boolean shiftPressed;   //isPressed doesn't work properly
+    private boolean spacePressed;
 
     public void process(GameData gameData, World world) {
+        if (!gotReference) {
+            createReference();
+        } else {
+            processWeapons(gameData, world);
+            processProjectiles(gameData, world);
+        }
+    }
+
+    private void createReference() {
         try {
-            for (Entity weapon : world.getEntities(Weapon.class)) {
-                PositionPart positionPart = weapon.getPart(PositionPart.class);
-                AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
-
-                if (!gotReference) {
-                    createReference();
-                }
-
-                if (gameData.getKeys().isPressed(SHIFT)) {
-                    currentWeaponNum++;
-                    currentWeaponNum = currentWeaponNum % weaponNames.length;
-                }
-
-                if (gameData.getKeys().isPressed(SPACE)) {
-                    if (currentWeaponNum > 1) {
-                        if (projectileCooldown <= 0) {
-                            shootProjectile(weapon, world);
-                            projectileCooldown = 0.1f;
-                        } else {
-                            projectileCooldown -= gameData.getDelta();
-                        }
-                    } else {
-                        assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
-                        positionPart.setX(iPlayerPositionService.getX() + 20);
-                        positionPart.setY(iPlayerPositionService.getY() - 17);
-                    }
-                } else {
-                    assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
-                    positionPart.setX(iPlayerPositionService.getX() + 20);
-                    positionPart.setY(iPlayerPositionService.getY() + 15);
-                }
-
-                positionPart.process(gameData, weapon);
-                assetGenerator.process(gameData, weapon);
-            }
-            for (Entity projectile : world.getEntities(Projectile.class)) {
-                MovingPart movingPart = projectile.getPart(MovingPart.class);
-                TimerPart timerPart = projectile.getPart(TimerPart.class);
-
-                timerPart.reduceExpiration(gameData.getDelta());
-                if (timerPart.getExpiration() <= 0) {
-                    world.removeEntity(projectile);
-                }
-
-                movingPart.process(gameData, projectile);
-            }
+            bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+            iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+            gotReference = true;
         } catch (NullPointerException ex) {
             // IPlayerPostionService is not registered
             // no exception message for now
         }
     }
 
-    private void createReference() {
-        bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
-        gotReference = true;
+    private void processWeapons(GameData gameData, World world) {
+        for (Entity weapon : world.getEntities(Weapon.class)) {
+            PositionPart positionPart = weapon.getPart(PositionPart.class);
+            AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
+
+            if (gameData.getKeys().isPressed(SHIFT) && !shiftPressed) {
+                currentWeaponNum++;
+                currentWeaponNum = currentWeaponNum % weaponNames.length;
+            }
+
+            if (gameData.getKeys().isPressed(SPACE)) {
+                if (currentWeaponNum > 1 && !spacePressed) {
+                    createProjectile(weapon, world);
+                } else {
+                    assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
+                    positionPart.setX(iPlayerPositionService.getX() + 20);
+                    positionPart.setY(iPlayerPositionService.getY() - 19);
+                }
+            } else {
+                assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
+                positionPart.setX(iPlayerPositionService.getX() + 20);
+                positionPart.setY(iPlayerPositionService.getY() + 13);
+            }
+
+            positionPart.process(gameData, weapon);
+            assetGenerator.process(gameData, weapon);
+
+            shiftPressed = gameData.getKeys().isPressed(SHIFT);     //isPressed doesn't work properly
+            spacePressed = gameData.getKeys().isPressed(SPACE);
+        }
     }
 
-    private void shootProjectile(Entity entity, World world) {
+    private void createProjectile(Entity entity, World world) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
@@ -99,11 +92,26 @@ public class WeaponSystem implements IEntityProcessingService {
 
         projectile.add(new AssetGenerator(projectile, "image/", weaponNames[currentWeaponNum] + "_Idle.png"));
         projectile.add(new PositionPart(x, y));
-        projectile.add(new MovingPart(200));
+        projectile.add(new MovingPart(350));
         projectile.add(new TimerPart(2));
 
         MovingPart movingPart = projectile.getPart(MovingPart.class);
 
         movingPart.setRight(true);
+        world.addEntity(projectile);
+    }
+
+    private void processProjectiles(GameData gameData, World world) {
+        for (Entity projectile : world.getEntities(Projectile.class)) {
+            MovingPart movingPart = projectile.getPart(MovingPart.class);
+            TimerPart timerPart = projectile.getPart(TimerPart.class);
+
+            timerPart.reduceExpiration(gameData.getDelta());
+            if (timerPart.getExpiration() <= 0) {
+                world.removeEntity(projectile);
+            }
+
+            movingPart.process(gameData, projectile);
+        }
     }
 }
