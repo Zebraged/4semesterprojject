@@ -21,8 +21,11 @@ import java.util.Map;
  */
 public class Collision implements ICollisionService {
 
-    void start() {
-
+    public void stop() {
+        col.setMaxX(0);
+        col.setMaxY(0);
+        col.setMinX(0);
+        col.setMinY(0);
     }
 
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
@@ -32,19 +35,35 @@ public class Collision implements ICollisionService {
 
     public void process(GameData gameData, World world) {
 
+        boolean playerFound = false;
+        boolean platformFound = false;
+
         for (Entity entity : world.getEntities()) {
 
             if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
-
                 addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
-            } else if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
+                playerFound = true;
+            }
 
+            if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
 
-            } else if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
-
-                addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
             }
+
+            if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
+                addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
+                platformFound = true;
+            }
+        }
+
+        if (!playerFound) { // removes players if module uninstalled.
+            PlayerObj.clear();
+            col.setMaxX(0);
+            col.setMaxY(0);
+            col.setMinX(0);
+            col.setMinY(0);
+        } else if (!platformFound) {
+            PlatformObj.clear();
         }
 
         CheckPlayerPlatformCollision(PlayerObj, PlatformObj, gameData);
