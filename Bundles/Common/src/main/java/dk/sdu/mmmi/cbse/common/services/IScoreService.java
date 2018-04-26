@@ -7,8 +7,12 @@ package dk.sdu.mmmi.cbse.common.services;
 
 /**
  *
- * @author Kristian
+ * @author Marcg
  */
-public interface ITileGenerator extends IEntityGenerator {
-    
+public interface IScoreService {
+    public int getCurrentScore();
+    public int getFinalScore();
+    public int getTimer(float deltaTime);
+    public void addScore(int score);
+    public void reduceScore(int score);
 }

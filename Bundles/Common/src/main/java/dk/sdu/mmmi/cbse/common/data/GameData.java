@@ -20,14 +20,19 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList();
     private List<BundleObj> pluginAsset = new CopyOnWriteArrayList();
+
     private float camX = 0;
     private float camY = 0;
     private float zoom = 0;
+
+    private boolean gameWon = false;
+    private boolean gameLost = false;
 
     /**
      *
      * @param b
      */
+
     public void addBundle(Bundle b) {
         BundleObj bund = new BundleObj(b);
         pluginAsset.add(bund);
@@ -76,9 +81,7 @@ public class GameData {
     public void setZoom(float zoom) {
         this.zoom = zoom;
     }
-    
-    
-    
+
     public void setBundleObjAssetPath(Bundle bund, String assetPath) {
         for (BundleObj bundle : pluginAsset) {
             if (bundle.getBundle().getBundleId() == bund.getBundleId()) {
@@ -239,6 +242,22 @@ public class GameData {
         }
 
         return r;
+    }
+
+    public boolean isGameWon() {
+        return gameWon;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
+    }
+
+    public boolean isGameLost() {
+        return gameLost;
+    }
+
+    public void setGameLost(boolean gameLost) {
+        this.gameLost = gameLost;
     }
 
 }

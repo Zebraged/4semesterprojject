@@ -3,66 +3,60 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dk.sdu.mmmi.cbse.platform;
+package dk.sdu.mmmi.cbse.goalbundle;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import java.io.File;
 
 /**
  *
- * @author Chris
+ * @author Marcg
  */
-public class PlatformFactory implements IEntityGenerator {
+public class GoalFactory implements IEntityGenerator{
 
-    private GameData data;
-    private World world;
-
-    public PlatformFactory() {
+    World world;
+    GameData data;
+    
+    public void generate(String identifier, int x, int y, int z, World world, GameData data) {
+        this.world = world;
+        this.data = data;
+        if(identifier.toLowerCase().equals("goal")){
+            createGoal(x, y);
+        }
     }
-
-    private Entity createPlatform(String name, int x, int y) {
-        Entity entity = new Platform();
-        PlatformObj platobj = null;
-
+    
+    private void createGoal(int x, int y){
+        Entity goal = new Goal();
+        goal.add(new PositionPart(x, y, 3));
+        goal.add(new SizePart(32, 32));
+        goal = findImage(goal);
+        System.out.println("goal created");
+        world.addEntity(goal);
+    }
+    
+    private Entity findImage(Entity entity) {
         File files = null;
-        files = new File("./Bundles/Platform/src/main/resources/image/Idle/");
+        files = new File("./Bundles/GoalBundle/src/main/resources/image/Idle");
         File[] fileslist = files.listFiles();
         if (fileslist != null) {
             boolean foundImage = false;
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
-                    platobj = new PlatformObj(file.getName(), x, y, 4);
                     if (!foundImage) { // only load first image to entity
+                        System.out.println("found: " + file.getName());
                         entity.add(new AssetGenerator(entity, "image/", file.getName()));
                         foundImage = true;
                     }
                 }
             }
         }
-        entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos(),platobj.getzPos()));
         return entity;
     }
-
-    @Override
-    public void generate(String identifier, int x, int y,int z,  World world, GameData data) {
-
-        this.world = world;
-        this.data = data;
-        Entity platform = null;
-        switch (identifier) {
-            case "1":
-                platform = createPlatform(identifier, x, y);
-                world.addEntity(platform);
-                break;
-            default:
-                break;
-
-        }
-    }
-
+    
 }
