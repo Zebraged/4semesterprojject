@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javafx.scene.Camera;
 import org.osgi.framework.Bundle;
 
 /**
@@ -19,23 +20,26 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList();
     private List<BundleObj> pluginAsset = new CopyOnWriteArrayList();
+    private float camX = 0;
+    private float camY = 0;
+    private float zoom = 0;
 
     /**
      *
      * @param b
      */
-    public void addBundle(Bundle b){
+    public void addBundle(Bundle b) {
         BundleObj bund = new BundleObj(b);
         pluginAsset.add(bund);
     }
-    
+
     /**
      *
      * @param b
      */
     public void removeBundle(Bundle b) {
-        for (BundleObj bund : pluginAsset){
-            if(bund.getBundle().getBundleId() == b.getBundleId()){
+        for (BundleObj bund : pluginAsset) {
+            if (bund.getBundle().getBundleId() == b.getBundleId()) {
                 pluginAsset.remove(bund);
             }
         }
@@ -48,24 +52,50 @@ public class GameData {
     public List<BundleObj> getBundles() {
         return pluginAsset;
     }
+
+    public float getCamX() {
+        return camX;
+    }
+
+    public void setCamX(float camX) {
+        this.camX = camX;
+    }
+
+    public float getCamY() {
+        return camY;
+    }
+
+    public void setCamY(float camY) {
+        this.camY = camY;
+    }
+
+    public float getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(float zoom) {
+        this.zoom = zoom;
+    }
     
-    public void setBundleObjAssetPath(Bundle bund, String assetPath){
-        for (BundleObj bundle : pluginAsset){
-            if(bundle.getBundle().getBundleId() == bund.getBundleId()){
+    
+    
+    public void setBundleObjAssetPath(Bundle bund, String assetPath) {
+        for (BundleObj bundle : pluginAsset) {
+            if (bundle.getBundle().getBundleId() == bund.getBundleId()) {
                 bundle.setAssetPath(assetPath);
             }
         }
     }
-        
-    public String getBundleObjAssetPath(Bundle bund){
-        for (BundleObj bundle : pluginAsset){
-            if(bundle.getBundle().getBundleId() == bund.getBundleId()){
+
+    public String getBundleObjAssetPath(Bundle bund) {
+        for (BundleObj bundle : pluginAsset) {
+            if (bundle.getBundle().getBundleId() == bund.getBundleId()) {
                 return bundle.getAssetPath();
             }
         }
         return null;
     }
-    
+
     /**
      *
      * @param e
@@ -145,34 +175,34 @@ public class GameData {
     public int getDisplayHeight() {
         return displayHeight;
     }
-    
+
     /**
      *
      * @return
      */
-    public int getDifficulty(){
+    public int getDifficulty() {
         return difficulty;
     }
-    
+
     /**
      *
      */
-    public void increaseDifficulty(){
-        this.difficulty ++;
+    public void increaseDifficulty() {
+        this.difficulty++;
     }
-    
+
     /**
      *
      */
-    public void reduceDifficultry(){
-        this.difficulty --;
+    public void reduceDifficultry() {
+        this.difficulty--;
     }
-    
+
     /**
      *
      * @param difficulty
      */
-    public void setDifficulty(int difficulty){
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -193,7 +223,7 @@ public class GameData {
 
         return r;
     }
-    
+
     /**
      *
      * @param <E>
@@ -210,4 +240,5 @@ public class GameData {
 
         return r;
     }
+
 }

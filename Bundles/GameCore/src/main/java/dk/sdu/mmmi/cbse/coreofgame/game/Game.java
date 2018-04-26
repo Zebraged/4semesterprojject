@@ -36,20 +36,20 @@ public class Game implements ApplicationListener {
     public static LwjglApplication getApp(BundleContext context) {
         final LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
-
+        
         cfg.title = "Test";
         cfg.width = 1280;
         cfg.height = 720;
         cfg.useGL30 = false;
         cfg.resizable = true;
-
+        
         Game game = new Game();
         LwjglApplication application = new LwjglApplication(game, cfg);
         game.setContext(context);
-
+        
         return application;
     }
-
+    
     private BundleContext context;
     private AssetManager assetManager;
     private PluginTracker pluginTracker;
@@ -66,22 +66,22 @@ public class Game implements ApplicationListener {
         this.musicCore = new MusicPlayerCore();
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-
+        
         cam.update();
         cam.zoom = 0.5f;
-
+        
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
-
+        
         assetManager = new AssetManager(world, gameData, cam);
-
+        
         pluginTracker = new PluginTracker(context, gameData, world, assetManager);
         pluginTracker.startPluginTracker();
-
+        
         Gdx.input.setInputProcessor(
                 new GameInputProcessor(gameData)
         );
-
+        
     }
 
     /**
@@ -92,11 +92,13 @@ public class Game implements ApplicationListener {
         update();
         draw();
     }
-
+    
     private void update() {
-
+        gameData.setCamX(cam.position.x);
+        gameData.setCamY(cam.position.y);
+        gameData.setZoom(cam.zoom);
         assetManager.loadAllPluginTextures();
-
+        
         ICollisionService processCol;
         if (processCollisionReference() != null) {
             for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
@@ -108,9 +110,9 @@ public class Game implements ApplicationListener {
                 assetManager.loadAllPluginTextures();
                 //gameData.removeBundle(bundle.getBundle());
             }
-
+            
             musicCore.update(gameData.getDelta());
-
+            
             IEntityProcessingService process;
             if (processReference() != null) {
                 for (ServiceReference<IEntityProcessingService> reference : processReference()) {
@@ -120,7 +122,7 @@ public class Game implements ApplicationListener {
             }
         }
     }
-
+    
     private void draw() {
         placeCam();
         assetManager.loadImages(context);
@@ -158,7 +160,7 @@ public class Game implements ApplicationListener {
         context.ungetService(context.getServiceReference(IEntityProcessingService.class.getName()));
         musicCore.dispose();
     }
-
+    
     private void postUpdate() {
     }
 
@@ -183,7 +185,7 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-
+    
     public Collection<ServiceReference<ICollisionService>> processCollisionReference() {
         Collection<ServiceReference<ICollisionService>> collection = null;
         try {
@@ -193,11 +195,11 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-
+    
     public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
         if (reference == null) {
-
+            
         } else {
             IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
             if (playerPosition.getX() > cam.viewportWidth / 2 * cam.zoom) {
@@ -208,5 +210,5 @@ public class Game implements ApplicationListener {
             cam.position.y = (cam.viewportHeight / 2) * cam.zoom;
         }
     }
-
+    
 }

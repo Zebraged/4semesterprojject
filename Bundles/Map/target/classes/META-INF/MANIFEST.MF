@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1524558181302
-Build-Jdk: 1.8.0_161
-Built-By: Mr. Kinder
+Bnd-LastModified: 1524560336831
+Build-Jdk: 1.8.0_151
+Built-By: Guest Account
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
 Bundle-ManifestVersion: 2
 Bundle-Name: Map OSGi Bundle
