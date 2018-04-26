@@ -10,6 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,10 +62,11 @@ public class Collision implements ICollisionService {
     private void CheckPlayerPlatformCollision(HashMap collection1, HashMap collection2, GameData gameData) {
         Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
         Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
-
+        
         while (firstColObj.hasNext()) { // iterate over all players found
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
+            Rectangle checkRange = new Rectangle((int)firstPosObj.getX1(), (int)firstPosObj.getY1(), 200, 200);
 
             ArrayList<Float> yBvalue = new ArrayList();
             ArrayList<Float> yTvalue = new ArrayList();
@@ -74,11 +76,12 @@ public class Collision implements ICollisionService {
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj platformPos = platform.getValue(); // platform obj
-
-                yBvalue.add(checkYBCollision(firstPosObj, platformPos));
-                yTvalue.add(checkYTCollision(firstPosObj, platformPos));
-                xRvalue.add(checkXRCollision(firstPosObj, platformPos));
-                xLvalue.add(checkXLCollision(firstPosObj, platformPos));
+                if (checkRange.contains(platformPos.getX1(), platformPos.getY1())){
+                    yBvalue.add(checkYBCollision(firstPosObj, platformPos));
+                    yTvalue.add(checkYTCollision(firstPosObj, platformPos));
+                    xRvalue.add(checkXRCollision(firstPosObj, platformPos));
+                    xLvalue.add(checkXLCollision(firstPosObj, platformPos));
+                }
                 //       System.out.println(xLvalue);
             }
 

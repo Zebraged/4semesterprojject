@@ -14,6 +14,7 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import dk.sdu.mmmi.cbse.common.music.MusicPlayer;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.ILevelGenerator;
 import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import dk.sdu.mmmi.cbse.coreofgame.sound.MusicPlayerCore;
@@ -89,16 +90,26 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void render() {
-
-        update();
-        draw();
+        ServiceReference ref = context.getServiceReference(ILevelGenerator.class);
+        if(ref != null){
+            ILevelGenerator gen = (ILevelGenerator) context.getService(ref);
+            if(gen.isGenerating() == true){
+                pause();
+            } else {
+                update();
+                draw();
+            }
+        } else {
+            update();
+            draw();
+        }
 
     }
 
     private void update() {
        
             assetManager.loadAllPluginTextures();
-
+            
             ICollisionService processCol;
             if (processCollisionReference() != null) {
                 for (ServiceReference<ICollisionService> reference : processCollisionReference()) {
@@ -140,6 +151,7 @@ public class Game implements ApplicationListener {
      */
     @Override
     public void pause() {
+        assetManager.drawPauseMessage();
     }
 
     /**

@@ -17,4 +17,6 @@ public interface ILevelGenerator {
     public void generate() throws FileNotFoundException, IOException;
 
     public void setPath(String path);
+    
+    public boolean isGenerating();
 }

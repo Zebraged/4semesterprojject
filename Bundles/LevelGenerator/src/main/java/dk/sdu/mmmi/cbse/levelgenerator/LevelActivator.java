@@ -4,10 +4,12 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.services.ILevelGenerator;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 public class LevelActivator implements IGamePluginService, IEntityProcessingService {
 
@@ -21,6 +23,7 @@ public class LevelActivator implements IGamePluginService, IEntityProcessingServ
         System.out.println("Level Generator Started!");
         try {
             generator = new LevelGenerator(context, gameData, world);
+            context.registerService(ILevelGenerator.class.getName(), generator, null);
             generator.generate();
             loaded = true;
         } catch (IOException ex) {

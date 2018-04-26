@@ -8,6 +8,7 @@ package dk.sdu.mmmi.cbse.levelgenerator;
 import dk.sdu.mmmi.cbse.common.music.MusicPlayer;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.services.ILevelGenerator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 

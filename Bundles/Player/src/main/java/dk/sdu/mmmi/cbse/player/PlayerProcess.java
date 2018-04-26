@@ -27,15 +27,27 @@ public class PlayerProcess implements IEntityProcessingService {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
-
+            
+            float x = positionPart.getX();
+            float y = positionPart.getY();
+            
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
 
-
+            
 
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
+            
+            if(positionPart.getX() < x){
+                assetGen.nextImage("Idle", false);
+            } else if(positionPart.getX() > x){
+                assetGen.nextImage("Idle", true);
+            } else if (positionPart.getX() == x && positionPart.getY() == y){
+                assetGen.nextImage("Idle", true);
+            }
+            
             assetGen.process(gameData, player);
 
         }

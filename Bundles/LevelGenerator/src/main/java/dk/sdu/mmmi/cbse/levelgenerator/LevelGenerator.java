@@ -36,8 +36,6 @@ import org.osgi.framework.ServiceReference;
 public class LevelGenerator implements ILevelGenerator {
 
     private String path;
-    private String tileSetPath;
-    private String background;
     private Command currentCommand = Command.NONE;
     private ISpecificParser settingsParser, objectsParser;
     private TilePlacementParser tilePlacementParser;
@@ -46,6 +44,7 @@ public class LevelGenerator implements ILevelGenerator {
     private World world;
     private Collection<IEntityGenerator> generators;
     private Collection<IEntityGenerator> loadedGenerators;
+    private boolean generating = false;
 
     public LevelGenerator(BundleContext context, GameData data, World world) {
         this.context = context;
@@ -78,6 +77,7 @@ public class LevelGenerator implements ILevelGenerator {
         loadedGenerators.addAll(generators);
         prepare();
         inf("Beginning generation!..");
+        generating = true;
         BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -89,6 +89,7 @@ public class LevelGenerator implements ILevelGenerator {
             parse(line);
         }
         inf("Generation done..");
+        generating = false;
         reader.close();
     }
 
@@ -177,6 +178,11 @@ public class LevelGenerator implements ILevelGenerator {
             generate();
         }
     }
+
+    public boolean isGenerating() {
+        return generating;
+    }
+    
 }
 
 enum Command {
