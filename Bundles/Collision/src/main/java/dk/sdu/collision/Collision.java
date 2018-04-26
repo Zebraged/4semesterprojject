@@ -21,11 +21,11 @@ import java.util.Map;
  */
 public class Collision implements ICollisionService {
 
+    /**
+     * If collision is stopped, disable min/max pixels.
+     */
     public void stop() {
-        col.setMaxX(0);
-        col.setMaxY(0);
-        col.setMinX(0);
-        col.setMinY(0);
+        disableMinMax();
     }
 
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
@@ -58,16 +58,24 @@ public class Collision implements ICollisionService {
 
         if (!playerFound) { // removes players if module uninstalled.
             PlayerObj.clear();
-            col.setMaxX(0);
-            col.setMaxY(0);
-            col.setMinX(0);
-            col.setMinY(0);
+            disableMinMax();
         } else if (!platformFound) {
             PlatformObj.clear();
+            disableMinMax();
         }
 
         CheckPlayerPlatformCollision(PlayerObj, PlatformObj, gameData);
 
+    }
+
+    /**
+     * Disables the min/max pixel movement.
+     */
+    private void disableMinMax() {
+        col.setMaxX(0);
+        col.setMaxY(0);
+        col.setMinX(0);
+        col.setMinY(0);
     }
 
     /**
