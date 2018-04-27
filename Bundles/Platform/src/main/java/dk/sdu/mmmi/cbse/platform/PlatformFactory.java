@@ -28,6 +28,7 @@ public class PlatformFactory implements IEntityGenerator {
     private Entity createPlatform(String name, int x, int y) {
         Entity entity = new Platform();
         PlatformObj platobj = null;
+        entity.setConstantPosition(true);
 
         File files = null;
         files = new File("./Bundles/Platform/src/main/resources/image/Idle/");

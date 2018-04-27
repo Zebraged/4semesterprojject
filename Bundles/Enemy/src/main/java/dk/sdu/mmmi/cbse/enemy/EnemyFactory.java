@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.LineMovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
@@ -38,7 +39,7 @@ public class EnemyFactory implements IEntityGenerator {
         entity.add(new PositionPart(x, y, z));
         entity = findImage(entity, "teddy");
         entity.add(new SizePart(64, 64));
-        entity.add(new MovingPart(1, 800, 400));
+        entity.add(new LineMovingPart(5, 600, 400));
         return entity;
     }
 
