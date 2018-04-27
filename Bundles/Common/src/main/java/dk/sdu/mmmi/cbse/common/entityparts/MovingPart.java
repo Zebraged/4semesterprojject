@@ -8,6 +8,7 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
+import java.util.Random;
 
 /**
  *
