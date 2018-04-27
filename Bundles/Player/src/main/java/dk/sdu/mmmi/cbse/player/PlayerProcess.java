@@ -22,22 +22,29 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
  */
 public class PlayerProcess implements IEntityProcessingService {
 
+    private boolean isFacingLeft;
+
     public void process(GameData gameData, World world) {
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
 
+            if (gameData.getKeys().isDown(LEFT)) {
+                isFacingLeft = true;
+            } else if (gameData.getKeys().isDown(RIGHT)) {
+                isFacingLeft = false;
+            }
+
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
 
-
+            assetGen.setMirror(isFacingLeft);
 
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
             assetGen.process(gameData, player);
-
         }
     }
 }

@@ -47,7 +47,6 @@ public class Collision implements ICollisionService {
 
             if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
                 addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
-
             }
 
             if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {

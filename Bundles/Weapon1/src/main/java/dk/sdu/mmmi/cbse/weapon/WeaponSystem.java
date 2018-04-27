@@ -2,6 +2,8 @@ package dk.sdu.mmmi.cbse.weapon;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.LEFT;
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.RIGHT;
 import static dk.sdu.mmmi.cbse.common.data.GameKeys.SHIFT;
 import static dk.sdu.mmmi.cbse.common.data.GameKeys.SPACE;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -28,15 +30,27 @@ public class WeaponSystem implements IEntityProcessingService {
     private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};     // Current InventorySystem, might need a better solution
     private int currentWeaponNum = 0;
 
-    private boolean shiftPressed;       //isPressed() doesn't work properly
-    private boolean spacePressed;
+    private boolean shiftPressed, spacePressed;      //isPressed() doesn't work properly
+    private boolean isFacingLeft;
+    private float xPositionAdder;
 
     public void process(GameData gameData, World world) {
+
+        checkOrientation(gameData);
+
         if (!gotReference) {
             createReference();
         } else {
             processWeapons(gameData, world);
             processProjectiles(gameData, world);
+        }
+    }
+
+    private void checkOrientation(GameData gameData) {
+        if (gameData.getKeys().isDown(LEFT)) {
+            isFacingLeft = true;
+        } else if (gameData.getKeys().isDown(RIGHT)) {
+            isFacingLeft = false;
         }
     }
 
@@ -52,9 +66,18 @@ public class WeaponSystem implements IEntityProcessingService {
     }
 
     private void processWeapons(GameData gameData, World world) {
+
+        if (isFacingLeft) {
+            xPositionAdder = -20;
+        } else {
+            xPositionAdder = 20;
+        }
+
         for (Entity weapon : world.getEntities(Weapon.class)) {
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
+
+            assetGenerator.setMirror(isFacingLeft);
 
             if (gameData.getKeys().isPressed(SHIFT) && !shiftPressed) {
                 currentWeaponNum++;
@@ -66,20 +89,20 @@ public class WeaponSystem implements IEntityProcessingService {
                     createProjectile(weapon, world);
                 } else {
                     assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
-                    positionPart.setX(iPlayerPositionService.getX() + 20);
-                    positionPart.setY(iPlayerPositionService.getY() - 19);
+                    positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
+                    positionPart.setY(iPlayerPositionService.getY() - 18);
                 }
             } else {
                 assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
-                positionPart.setX(iPlayerPositionService.getX() + 20);
-                positionPart.setY(iPlayerPositionService.getY() + 13);
+                positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
+                positionPart.setY(iPlayerPositionService.getY() + 14);
             }
 
             positionPart.process(gameData, weapon);
             assetGenerator.process(gameData, weapon);
 
-            shiftPressed = gameData.getKeys().isPressed(SHIFT);     //isPressed doesn't work properly
-            spacePressed = gameData.getKeys().isPressed(SPACE);
+            shiftPressed = gameData.getKeys().isDown(SHIFT);     //isPressed doesn't work properly
+            spacePressed = gameData.getKeys().isDown(SPACE);
         }
     }
 
@@ -97,7 +120,9 @@ public class WeaponSystem implements IEntityProcessingService {
 
         MovingPart movingPart = projectile.getPart(MovingPart.class);
 
-        movingPart.setRight(true);
+        movingPart.setLeft(isFacingLeft);
+        movingPart.setRight(!isFacingLeft);
+
         world.addEntity(projectile);
     }
 

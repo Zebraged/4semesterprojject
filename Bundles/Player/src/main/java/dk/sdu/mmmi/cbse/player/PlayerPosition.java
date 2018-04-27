@@ -36,5 +36,11 @@ public class PlayerPosition implements IPlayerPositionService{
         }
         return part.getY();
     }
+
+    public boolean getRight() {
+        if(part == null){
+            return true;
+        }return true;
+    }
     
 }
