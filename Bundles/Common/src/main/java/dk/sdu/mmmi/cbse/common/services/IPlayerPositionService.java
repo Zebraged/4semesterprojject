@@ -22,10 +22,5 @@ public interface IPlayerPositionService {
      * @return
      */
     public float getY();
-    
-    /**
-     * get the horizontal orientation of the player
-     * @return
-     */
-    public boolean getRight();
+
 }
