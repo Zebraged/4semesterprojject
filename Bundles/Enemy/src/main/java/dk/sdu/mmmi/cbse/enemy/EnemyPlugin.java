@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.enemy.enemy_ai_k.Pathfinder;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

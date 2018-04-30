@@ -38,6 +38,7 @@ public class PlayerPlugin implements IGamePluginService {
         System.out.println("plugin started");
         gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         player = createPlayer(gameData, world);
+        player.setAlignment(1);
         world.addEntity(player);
         context.registerService(IPlayerPositionService.class.getName(), position, null);
     }

@@ -28,11 +28,11 @@ import org.osgi.framework.ServiceReference;
  */
 public class Collision implements ICollisionService {
 
+    /**
+     * If collision is stopped, disable min/max pixels.
+     */
     public void stop() {
-        col.setMaxX(0);
-        col.setMaxY(0);
-        col.setMinX(0);
-        col.setMinY(0);
+        disableMinMax();
     }
 
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
@@ -71,12 +71,10 @@ public class Collision implements ICollisionService {
             }
         if (!playerFound) { // removes players if module uninstalled.
             PlayerObj.clear();
-            col.setMaxX(0);
-            col.setMaxY(0);
-            col.setMinX(0);
-            col.setMinY(0);
+            disableMinMax();
         } else if (!platformFound) {
             clearMaps();
+            disableMinMax();
         }
             CheckPlayerPlatformCollision(PlayerObj, PlatformObj);
         } else {
@@ -88,6 +86,16 @@ public class Collision implements ICollisionService {
         PlatformObj.clear();
         PlayerObj.clear();
         EnemyObj.clear();
+    }
+
+    /**
+     * Disables the min/max pixel movement.
+     */
+    private void disableMinMax() {
+        col.setMaxX(0);
+        col.setMaxY(0);
+        col.setMinX(0);
+        col.setMinY(0);
     }
 
     /**
