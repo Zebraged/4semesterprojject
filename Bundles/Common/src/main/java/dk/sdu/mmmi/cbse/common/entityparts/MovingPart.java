@@ -7,7 +7,6 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 
 /**
  *
@@ -20,7 +19,7 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
-    private float fallspeed;
+    private float fallspeed = 1;
     private CollisionPart col = CollisionPart.getInstance();
 
     /**
@@ -95,8 +94,8 @@ public class MovingPart implements EntityPart {
         } else if (!isGrounded) {
             jumpTime += dt;
             y += -gravity * jumpTime * jumpTime / 2;
-        }
-
+        } 
+        
         if (maxX > 1 && x > maxX) {
             x = maxX;
         }

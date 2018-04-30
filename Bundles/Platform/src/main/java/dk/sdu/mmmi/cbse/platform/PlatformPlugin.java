@@ -8,15 +8,10 @@ package dk.sdu.mmmi.cbse.platform;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
-import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import java.io.File;
 import java.util.ArrayList;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 /**
  *

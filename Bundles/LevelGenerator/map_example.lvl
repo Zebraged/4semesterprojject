@@ -1,8 +1,8 @@
 map_settings:
-tiles_x=40
-tiles_y=10
+tiles_x=91
+tiles_y=12
 tiles_z=3
-player_start=2,2,3
+player_start=2,1,3
 player_finish=9,2,3
 background_image="Path/to/background.png"
 tile_set="path"

@@ -10,6 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import java.io.File;
 
@@ -45,6 +46,7 @@ public class PlatformFactory implements IEntityGenerator {
             }
         }
         entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos(),platobj.getzPos()));
+        entity.add(new SizePart(32, 32));
         return entity;
     }
 
