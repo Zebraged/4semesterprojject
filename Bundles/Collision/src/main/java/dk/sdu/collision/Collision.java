@@ -37,11 +37,13 @@ public class Collision implements ICollisionService {
 
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
-    private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
-    private CollisionPart col = CollisionPart.getInstance();
+    private final static HashMap<String, PlayerObj> EnemyObj = new HashMap<String, PlayerObj>(); // saves all the enemies..
+    private CollisionPart col;
     private Rectangle checkRange;
+    private World world;
 
     public void process(GameData gameData, World world) {
+        this.world = world;
         boolean playerFound = false;
         boolean platformFound = false;
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
@@ -76,7 +78,9 @@ public class Collision implements ICollisionService {
             clearMaps();
             disableMinMax();
         }
-            CheckPlayerPlatformCollision(PlayerObj, PlatformObj);
+            CheckEntityCollision(PlayerObj, PlatformObj);
+            CheckEntityCollision(EnemyObj, PlatformObj);
+            CheckEnemyCollision(PlayerObj, EnemyObj);
         } else {
             clearMaps();
         } 
@@ -92,10 +96,16 @@ public class Collision implements ICollisionService {
      * Disables the min/max pixel movement.
      */
     private void disableMinMax() {
-        col.setMaxX(0);
-        col.setMaxY(0);
-        col.setMinX(0);
-        col.setMinY(0);
+        for(Entity ent : world.getEntities()){
+            if(ent.containPart(CollisionPart.class)){
+                col = ent.getPart(CollisionPart.class);
+                col.setMaxX(0);
+                col.setMaxY(0);
+                col.setMinX(0);
+                col.setMinY(0);
+            }
+        }
+        
     }
 
     /**
@@ -105,13 +115,13 @@ public class Collision implements ICollisionService {
      * @param collection1 Player or enemy Hashmap
      * @param collection2 Platform Hashmap
      */
-    private void CheckPlayerPlatformCollision(HashMap collection1, HashMap collection2) {
+    private void CheckEntityCollision(HashMap collection1, HashMap collection2) {
         Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
         Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
         while (firstColObj.hasNext()) { // iterate over all players found
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
-
+            col = firstPosObj.getEntity().getPart(CollisionPart.class);
             ArrayList<Float> yBvalue = new ArrayList();
             ArrayList<Float> yTvalue = new ArrayList();
             ArrayList<Float> xRvalue = new ArrayList();
@@ -133,6 +143,30 @@ public class Collision implements ICollisionService {
             SetMaxvalue(xRvalue, "right");
             SetMaxvalue(yTvalue, "top");
 
+        }
+    }
+    
+    private void CheckEnemyCollision(HashMap collection1, HashMap collection2) {
+        Iterator<Map.Entry<String, PosObj>> firstColObj = collection1.entrySet().iterator(); // go through all players found 
+        Iterator<Map.Entry<String, PosObj>> secColObj = collection2.entrySet().iterator(); // go through all platforms
+        while (firstColObj.hasNext()) { // iterate over all players found
+            Map.Entry<String, PosObj> firstObj = firstColObj.next();
+            PosObj firstPosObj = firstObj.getValue(); // player obj
+            PositionPart pos = firstPosObj.getEntity().getPart(PositionPart.class);
+            SizePart size = firstPosObj.getEntity().getPart(SizePart.class);
+            Rectangle player = new Rectangle((int)pos.getX(), (int)pos.getY(), size.getWidth(), size.getHeight());
+            while (secColObj.hasNext()) { // check for collision with all platforms
+                Map.Entry<String, PosObj> platform = secColObj.next();
+                PosObj enemy = platform.getValue(); // platform obj
+
+                PositionPart enemyPos = enemy.getEntity().getPart(PositionPart.class);
+                SizePart enemySize = enemy.getEntity().getPart(SizePart.class);
+                Rectangle enemyRect = new Rectangle((int)enemyPos.getX(), (int)enemyPos.getY(), enemySize.getWidth(), enemySize.getHeight());
+                if(player.intersects(enemyRect)){
+                    System.out.println("Life Lost");
+                    firstPosObj.getEntity();
+                }
+            }
         }
     }
 
@@ -299,9 +333,10 @@ public class Collision implements ICollisionService {
         }
         if (type == ObjTypes.ENEMY) {
             if (!collection.containsKey(id)) {
-
+                collection.put(id, new PlayerObj(e, 23, 29));
             } else {
-
+                PosObj o = (PosObj) collection.get(id);
+                o.updatePos(e); // update pos
             }
         }
     }

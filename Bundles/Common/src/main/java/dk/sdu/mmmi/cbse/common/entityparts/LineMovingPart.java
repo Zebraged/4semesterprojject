@@ -21,6 +21,8 @@ public class LineMovingPart implements EntityPart {
     private boolean isGrounded;
     private boolean up, falling;
     private float lastY;
+    
+    private CollisionPart col;
 
     public LineMovingPart(float speed, float jumpHeight, float jumpLength) {
         this.speed = speed;
@@ -36,6 +38,19 @@ public class LineMovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
+        col = entity.getPart(CollisionPart.class);
+        float minX = 0;
+        float maxX = 0;
+        float minY = 0;
+        float maxY = 0;
+
+        if (col != null) {
+            maxX = col.getMaxX();
+            minY = col.getMinY();
+            minX = col.getMinX();
+            maxY = col.getMaxY();
+        }
+        
         if (pos == null) {
             pos = entity.getPart(PositionPart.class);
         }
@@ -44,11 +59,21 @@ public class LineMovingPart implements EntityPart {
 
             //Move in the direction of x
             if (Math.abs(pos.getX() - goalX) > 3) {
+                float x;
                 if (pos.getX() > goalX) {
-                    pos.setX(pos.getX() - speed * dt);
+                    x = pos.getX() - speed * dt;
                 } else {
-                    pos.setX(pos.getX() + speed * dt);
+                    x = pos.getX() + speed * dt;
                 }
+                
+                if (maxX > 1 && x > maxX) {
+                    x = maxX;
+                }
+
+                if (minX > 1 && x < minX) {
+                    x = minX;
+                }
+                pos.setX(x);
             }
 
             if (goalY != -1) {
@@ -78,9 +103,22 @@ public class LineMovingPart implements EntityPart {
                         y += -gravity * jumpTime * jumpTime / 2;
                     }
                 }
+                
+
+                if (minY > 1 && y < minY) {
+                    y = minY;
+                    jumpTime = 0;
+                }
+
+                if (maxY > 1 && y > maxY) {
+                    y = maxY;
+
+                }
                 pos.setY(y);
             }
-
+            
+            
+            
             //set to done if goal reached
             if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 10 || (lastY > pos.getY() && pos.getY() < goalY))) {
                 pos.setX(Math.round(goalX));

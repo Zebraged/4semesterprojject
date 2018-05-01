@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
@@ -63,6 +64,7 @@ public class PlayerPlugin implements IGamePluginService {
         player.add(posPart);
         player.add(new SizePart(32, 32));
         player.add(new MovingPart(5, 600, 400));
+        player.add(new CollisionPart());
         playPos.addPositionPart(posPart);
         position = playPos;
         return player;

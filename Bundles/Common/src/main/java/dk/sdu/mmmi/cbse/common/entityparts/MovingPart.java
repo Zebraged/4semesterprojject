@@ -20,7 +20,7 @@ public class MovingPart implements EntityPart {
     private boolean isGrounded;
     private float jumpTime;
     private float fallspeed = 1;
-    private CollisionPart col = CollisionPart.getInstance();
+    private CollisionPart col;
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -32,7 +32,7 @@ public class MovingPart implements EntityPart {
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
         this.speed = speed*25;
-
+        
         jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
 
         gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
@@ -58,13 +58,14 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-
+        
+        col = entity.getPart(CollisionPart.class);
         float minX = 0;
         float maxX = 0;
         float minY = 0;
         float maxY = 0;
 
-        if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
+        if (col != null) {
             maxX = col.getMaxX();
             minY = col.getMinY();
             minX = col.getMinX();
