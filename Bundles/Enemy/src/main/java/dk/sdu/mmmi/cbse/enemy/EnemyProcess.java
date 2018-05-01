@@ -7,17 +7,14 @@ package dk.sdu.mmmi.cbse.enemy;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.LineMovingPart;
-import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.enemy.enemy_ai_k.Node;
 import dk.sdu.mmmi.cbse.enemy.enemy_ai_k.Pathfinder;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
-import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
@@ -42,7 +39,7 @@ public class EnemyProcess implements IEntityProcessingService {
             PositionPart position = entity.getPart(PositionPart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
             
-            if(random.nextInt(1000) == 0) {
+            if(random.nextInt(1000) == 0 && nodes != null) {
                 nodes.clear();
             }
             
@@ -68,7 +65,6 @@ public class EnemyProcess implements IEntityProcessingService {
                 if (movingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
                     float yExtra = (nodes.isEmpty()) ? -4 : 28;
-                    System.out.println("Y pos : "+n.getObject().getY());
 
                     movingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
 
@@ -86,8 +82,6 @@ public class EnemyProcess implements IEntityProcessingService {
                 assetGen.nextImage("Idle", true);
             }
             assetGen.process(gameData, entity);
-
-            //gravity.process(gameData, entity);
         }
     }
 

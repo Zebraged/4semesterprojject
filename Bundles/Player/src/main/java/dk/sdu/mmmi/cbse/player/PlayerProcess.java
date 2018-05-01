@@ -40,9 +40,9 @@ public class PlayerProcess implements IEntityProcessingService {
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
             
-            if(positionPart.getX() < x){
+            if(positionPart.getX() > x){
                 assetGen.nextImage("Idle", false);
-            } else if(positionPart.getX() > x){
+            } else if(positionPart.getX() < x){
                 assetGen.nextImage("Idle", true);
             } else if (positionPart.getX() == x && positionPart.getY() == y){
                 assetGen.nextImage("Idle", true);

@@ -24,6 +24,4 @@ tiles:
 objects:
 
 enemy=teddy,8,2,3
-enemy=teddy,18,2,3
-enemy=teddy,28,2,3
 enemy=goal,84,8,3

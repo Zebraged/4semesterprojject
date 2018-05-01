@@ -23,6 +23,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IScoreService;
 import java.io.IOException;
 import java.net.URL;
@@ -107,6 +108,7 @@ public class AssetManager {
             Rectangle rect  = new Rectangle(cam.position.x - (cam.viewportWidth/2), cam.position.y - (cam.viewportHeight/2), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
                 PositionPart pos = entity.getPart(PositionPart.class);
+                SizePart size = entity.getPart(SizePart.class);
                 if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && pos.getZ() == 1){//draw backgrounds no matter what position
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     sprite.setX((int) pos.getX());
@@ -119,6 +121,9 @@ public class AssetManager {
                     }
                     sprite.setX((int) pos.getX()); //change x and y position of image based on position part
                     sprite.setY((int) pos.getY());
+                    if(size != null){
+                        sprite.setSize(size.getWidth(), size.getHeight());
+                    }
 
                     sprite.draw(batch);
 

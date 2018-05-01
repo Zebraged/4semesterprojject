@@ -40,9 +40,8 @@ public class Pathfinder {
         Node s = new Node(start, null);
         updatedMap[(int) goal.getY() / 32][(int) goal.getX() / 32] = goal;
         open.add(s);
-        System.out.println("Beregner ny rute...");
         generate();
-        printRoute();
+        //printRoute();
     }
 
     private void updateMap() {
@@ -196,7 +195,6 @@ public class Pathfinder {
         }
         TILES_X = (int) (heighestX / 32) + 1;
         TILES_Y = (int) (heighestY / 32) + 1;
-        System.out.println("Tiles_Y: " + TILES_Y);
         staticMap = new PositionPart[TILES_Y][TILES_X];
 
         for (Entity ent : parts) {
@@ -208,7 +206,6 @@ public class Pathfinder {
     }
 
     private void printCollisionMap() {
-        System.out.println("CollisionMap:");
         for (int y = TILES_Y - 1; y >= 0; y--) {
             for (int x = 0; x < TILES_X; x++) {
                 System.out.print((updatedMap[y][x] != null) ? "1" : "0");

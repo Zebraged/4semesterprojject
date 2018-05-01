@@ -123,7 +123,6 @@ public class Collision implements ICollisionService {
                 yTvalue.add(checkYTCollision(firstPosObj, platformPos));
                 xRvalue.add(checkXRCollision(firstPosObj, platformPos));
                 xLvalue.add(checkXLCollision(firstPosObj, platformPos));
-                //       System.out.println(xLvalue);
             }
 
             /**
@@ -293,7 +292,6 @@ public class Collision implements ICollisionService {
         if (type == ObjTypes.PLATFORM) {
             if (!collection.containsKey(id)) {
                 collection.put(id, new PlatformObj(e, 32, 32));
-                //   System.out.println("Platform made");
             } else {
                 PosObj o = (PosObj) collection.get(id);
                 o.updatePos(e); // update pos
