@@ -105,7 +105,7 @@ public class AssetManager {
         } else if (data.isGameLost()) {
 
         } else {
-            Rectangle rect  = new Rectangle(cam.position.x - (cam.viewportWidth/2), cam.position.y - (cam.viewportHeight/2), cam.viewportWidth, cam.viewportHeight);
+            Rectangle rect  = new Rectangle((cam.position.x - (cam.viewportWidth/2)), (cam.position.y - (cam.viewportHeight/2)), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
                 PositionPart pos = entity.getPart(PositionPart.class);
                 SizePart size = entity.getPart(SizePart.class);
@@ -114,7 +114,7 @@ public class AssetManager {
                     sprite.setX((int) pos.getX());
                     sprite.setY((int) pos.getY());
                     sprite.draw(batch);
-                } else if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && rect.contains(pos.getX(), pos.getY())) {
+                } else if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && rect.overlaps(new Rectangle(pos.getX(), pos.getY(), 32, 32))) {
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
                         sprite.flip(true, false);
