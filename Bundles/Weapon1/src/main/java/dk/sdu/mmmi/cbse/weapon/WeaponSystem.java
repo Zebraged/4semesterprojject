@@ -68,9 +68,9 @@ public class WeaponSystem implements IEntityProcessingService {
     private void processWeapons(GameData gameData, World world) {
 
         if (isFacingLeft) {
-            xPositionAdder = -20;
+            xPositionAdder = -22;
         } else {
-            xPositionAdder = 20;
+            xPositionAdder = 22;
         }
 
         for (Entity weapon : world.getEntities(Weapon.class)) {
@@ -90,12 +90,12 @@ public class WeaponSystem implements IEntityProcessingService {
                 } else {
                     assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
                     positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
-                    positionPart.setY(iPlayerPositionService.getY() - 18);
+                    positionPart.setY(iPlayerPositionService.getY() - 22);
                 }
             } else {
                 assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
                 positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
-                positionPart.setY(iPlayerPositionService.getY() + 14);
+                positionPart.setY(iPlayerPositionService.getY() + 10);
             }
 
             positionPart.process(gameData, weapon);

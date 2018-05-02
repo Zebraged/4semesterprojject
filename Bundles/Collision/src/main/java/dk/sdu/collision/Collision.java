@@ -31,6 +31,7 @@ public class Collision implements ICollisionService {
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
+    private final static HashMap<String, PosObj> WeaponObj = new HashMap<String, PosObj>();
     private CollisionPart col = CollisionPart.getInstance();
 
     public void process(GameData gameData, World world) {
@@ -51,6 +52,11 @@ public class Collision implements ICollisionService {
 
             if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
                 addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
+                platformFound = true;
+            }
+
+            if (entity.getSource().toString().matches(ObjTypes.WEAPON.url())) {
+                addObj(WeaponObj, entity, ObjTypes.WEAPON);
                 platformFound = true;
             }
         }
