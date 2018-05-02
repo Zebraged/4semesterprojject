@@ -17,11 +17,13 @@ import static com.badlogic.gdx.graphics.g2d.Gdx2DPixmap.GDX2D_FORMAT_RGBA8888;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import dk.sdu.mmmi.cbse.common.data.BundleObj;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IScoreService;
 import java.io.IOException;
 import java.net.URL;
@@ -91,10 +93,6 @@ public class AssetManager {
      * @param context
      */
     public void loadImages() {
-        ServiceReference ref = context.getServiceReference(IScoreService.class);
-        if (ref != null) {
-            score = (IScoreService) context.getService(ref);
-        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         cam.update();
@@ -107,19 +105,29 @@ public class AssetManager {
         } else if (data.isGameLost()) {
 
         } else {
+            Rectangle rect  = new Rectangle(cam.position.x - (cam.viewportWidth/2), cam.position.y - (cam.viewportHeight/2), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
-                if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null) {
+                PositionPart pos = entity.getPart(PositionPart.class);
+                SizePart size = entity.getPart(SizePart.class);
+                if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && pos.getZ() == 1){//draw backgrounds no matter what position
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
-                    PositionPart pos = entity.getPart(PositionPart.class);
+                    sprite.setX((int) pos.getX());
+                    sprite.setY((int) pos.getY());
+                    sprite.draw(batch);
+                } else if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && rect.contains(pos.getX(), pos.getY())) {
+                    Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
                         sprite.flip(true, false);
                     }
                     sprite.setX((int) pos.getX()); //change x and y position of image based on position part
                     sprite.setY((int) pos.getY());
+                    if(size != null){
+                        sprite.setSize(size.getWidth(), size.getHeight());
+                    }
 
                     sprite.draw(batch);
 
-                }
+                } 
             }
             batch.setProjectionMatrix(GUIcam.combined);
             drawHud();
@@ -189,8 +197,25 @@ public class AssetManager {
             font.draw(batch, finalScore, getPositionOffset(font, finalScore), GUIcam.viewportHeight / 2 - 40);
         }
     }
+    
+    public void drawPauseMessage() {
+        batch.begin();
+        font.setColor(Color.RED);
+        String won = "Pause";
+        String finalScore = "Generating new entities";
+        font.draw(batch, won, getPositionOffset(font, won), GUIcam.viewportHeight / 2);
+        if (score != null) {
+            font.draw(batch, finalScore, getPositionOffset(font, finalScore), GUIcam.viewportHeight / 2 - 40);
+        }
+        font.setColor(Color.WHITE);
+        batch.end();
+    }
 
     public void drawHud() {
+        ServiceReference ref = context.getServiceReference(IScoreService.class);
+        if (ref != null) {
+            score = (IScoreService) context.getService(ref);
+        }
         drawTimer();
         drawScore();
     }

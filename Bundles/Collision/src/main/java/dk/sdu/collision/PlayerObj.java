@@ -14,14 +14,9 @@ import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
  */
 public class PlayerObj extends PosObj {
 
-    private CollisionPart col = CollisionPart.getInstance();
   
 
     public PlayerObj(Entity e, int sizex, int sizey) {
         super(e, sizex, sizey);
-    }
-
-    public CollisionPart getCollisionPart(){
-        return col;
     }
 }

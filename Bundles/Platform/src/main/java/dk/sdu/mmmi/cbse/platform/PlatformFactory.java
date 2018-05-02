@@ -10,6 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import java.io.File;
 
@@ -28,6 +29,7 @@ public class PlatformFactory implements IEntityGenerator {
     private Entity createPlatform(String name, int x, int y) {
         Entity entity = new Platform();
         PlatformObj platobj = null;
+        entity.setConstantPosition(true);
 
         File files = null;
         files = new File("./Bundles/Platform/src/main/resources/image/Idle/");
@@ -45,6 +47,7 @@ public class PlatformFactory implements IEntityGenerator {
             }
         }
         entity.add(new PositionPart(platobj.getxPos(), platobj.getyPos(),platobj.getzPos()));
+        entity.add(new SizePart(32, 32));
         return entity;
     }
 

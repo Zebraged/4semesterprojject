@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1525041638679
+=======
+Bnd-LastModified: 1525167567088
+>>>>>>> master
 Build-Jdk: 1.8.0_101
 Built-By: Rasmus BG
 Bundle-ClassPath: .,org.osgi.core-4.3.1.jar,gdx-1.9.6.jar,gdx-platform-1

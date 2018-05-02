@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
@@ -38,6 +39,7 @@ public class PlayerPlugin implements IGamePluginService {
         System.out.println("plugin started");
         gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         player = createPlayer(gameData, world);
+        player.setAlignment(1);
         world.addEntity(player);
         context.registerService(IPlayerPositionService.class.getName(), position, null);
     }
@@ -56,12 +58,13 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
-        PositionPart posPart = new PositionPart(48,125,3);
+        PositionPart posPart = new PositionPart(48, 34,3);
         PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(posPart);
         player.add(new SizePart(16, 16));
         player.add(new MovingPart(5, 600, 400));
+        player.add(new CollisionPart());
         playPos.addPositionPart(posPart);
         position = playPos;
         return player;

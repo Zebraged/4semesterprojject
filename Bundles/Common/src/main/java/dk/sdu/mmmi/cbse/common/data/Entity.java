@@ -18,6 +18,8 @@ public class Entity implements Serializable {
     private Map<Class, EntityPart> parts;
     private int[] color = new int[4];
     private Asset asset = null;
+    private boolean ConstantPosition;
+    private int alignment;
     
     /**
      *
@@ -130,5 +132,36 @@ public class Entity implements Serializable {
      */
     public Entity getSource(){
         return this;
+    }
+
+    /**If the entity has a tendency of moving
+     * @return the ConstantPosition
+     */
+    public boolean isConstantPosition() {
+        return ConstantPosition;
+    }
+
+    /**Set if the entity has a tendency of moving
+     * @param ConstantPosition the ConstantPosition to set
+     */
+    public void setConstantPosition(boolean ConstantPosition) {
+        this.ConstantPosition = ConstantPosition;
+    }
+
+    /**
+     * Is the entity hostile, a player or neutral?
+     * player=1, neutral=0,hostile=-1
+     * @return the alignment
+     */
+    public int getAlignment() {
+        return alignment;
+    }
+
+    /**Is the entity hostile, a player or neutral?
+     * player=1, neutral=0,hostile=-1
+     * @param alignment the alignment to set
+     */
+    public void setAlignment(int alignment) {
+        this.alignment = alignment;
     }
 }

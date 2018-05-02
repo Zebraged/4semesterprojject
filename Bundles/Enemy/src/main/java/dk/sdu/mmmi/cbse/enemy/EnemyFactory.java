@@ -9,11 +9,11 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
-import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
+import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.LineMovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.enemy.type.CloudEnemy;
-import dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy;
 import dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
@@ -37,8 +37,9 @@ public class EnemyFactory implements IEntityGenerator {
         Entity entity = new Enemy();
         entity.add(new PositionPart(x, y, z));
         entity = findImage(entity, "teddy");
-        entity.add(new SizePart(64, 64));
-        entity.add(new MovingPart(1, 800, 400));
+        entity.add(new SizePart(32, 32));
+        entity.add(new CollisionPart());
+        entity.add(new LineMovingPart(5, 600, 400));
         return entity;
     }
 

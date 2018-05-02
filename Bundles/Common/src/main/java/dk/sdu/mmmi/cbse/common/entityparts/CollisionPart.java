@@ -14,22 +14,16 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
  */
 public class CollisionPart implements EntityPart {
 
-    private static CollisionPart instance = null;
     private float minX = 0;
     private float maxX = 0;
     private float minY = 0;
     private float maxY = 0;
 
-    private CollisionPart() {
+    public CollisionPart() {
 
     }
 
-    public static CollisionPart getInstance() {
-        if (instance == null) {
-            instance = new CollisionPart();
-        }
-        return instance;
-    }
+    
 
     @Override
     public void process(GameData gameData, Entity entity) {

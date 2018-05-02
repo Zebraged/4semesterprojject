@@ -10,7 +10,7 @@ import org.osgi.framework.BundleContext;
 public class Activator implements BundleActivator {
 
     private IGamePluginService plugin = new MapPlugin();
-   // private IEntityProcessingService process = new MapProcessor();
+    
 
     /**
      * Starts the mapbundle, first method to be called when the osgi calls the
@@ -22,7 +22,6 @@ public class Activator implements BundleActivator {
     public void start(BundleContext context) throws Exception {
 
         context.registerService(IGamePluginService.class.getName(), plugin, null);
-        //      context.registerService(IEntityProcessingService.class.getName(), process, null);
     }
 
     /**

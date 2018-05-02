@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1525043030418
+=======
+Bnd-LastModified: 1525167567716
+>>>>>>> master
 Build-Jdk: 1.8.0_101
 Built-By: Rasmus BG
 Bundle-Activator: dk.sdu.mmmi.cbse.player.PlayerActivator

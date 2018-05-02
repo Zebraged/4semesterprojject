@@ -7,7 +7,6 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 
 /**
  *
@@ -20,7 +19,12 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
+<<<<<<< HEAD
     private CollisionPart col = CollisionPart.getInstance();
+=======
+    private float fallspeed = 1;
+    private CollisionPart col;
+>>>>>>> master
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -31,9 +35,15 @@ public class MovingPart implements EntityPart {
      * @param jumpLength MovingPart's maximum jump length
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
+<<<<<<< HEAD
         this.speed = speed * 25;
 
         this.jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
+=======
+        this.speed = speed*25;
+        
+        jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
+>>>>>>> master
 
         this.gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
     }
@@ -63,13 +73,14 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-
+        
+        col = entity.getPart(CollisionPart.class);
         float minX = 0;
         float maxX = 0;
         float minY = 0;
         float maxY = 0;
 
-        if (entity.getSource().toString().matches("dk.sdu.mmmi.cbse.player.Player.*")) {
+        if (col != null) {
             maxX = col.getMaxX();
             minY = col.getMinY();
             minX = col.getMinX();
@@ -99,8 +110,8 @@ public class MovingPart implements EntityPart {
         } else if (!isGrounded) {
             jumpTime += dt;
             y += -gravity * jumpTime * jumpTime / 2;
-        }
-
+        } 
+        
         if (maxX > 1 && x > maxX) {
             x = maxX;
         }
