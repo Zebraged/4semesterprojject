@@ -19,12 +19,9 @@ public class MovingPart implements EntityPart {
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
-<<<<<<< HEAD
-    private CollisionPart col = CollisionPart.getInstance();
-=======
+
     private float fallspeed = 1;
     private CollisionPart col;
->>>>>>> master
 
     /**
      * Initializes MovingPart and calculates gravity and initial jump-velocity
@@ -35,15 +32,10 @@ public class MovingPart implements EntityPart {
      * @param jumpLength MovingPart's maximum jump length
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
-<<<<<<< HEAD
+
         this.speed = speed * 25;
 
         this.jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
-=======
-        this.speed = speed*25;
-        
-        jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
->>>>>>> master
 
         this.gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
     }

@@ -29,7 +29,6 @@ public class PlayerProcess implements IEntityProcessingService {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
-<<<<<<< HEAD
 
             if (gameData.getKeys().isDown(LEFT)) {
                 isFacingLeft = true;
@@ -37,33 +36,26 @@ public class PlayerProcess implements IEntityProcessingService {
                 isFacingLeft = false;
             }
 
-=======
-            
             float x = positionPart.getX();
             float y = positionPart.getY();
-            
->>>>>>> master
+
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
 
-<<<<<<< HEAD
             assetGen.setMirror(isFacingLeft);
-=======
-            
->>>>>>> master
 
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
-            
-            if(positionPart.getX() > x){
+
+            if (positionPart.getX() > x) {
                 assetGen.nextImage("Idle", false);
-            } else if(positionPart.getX() < x){
+            } else if (positionPart.getX() < x) {
                 assetGen.nextImage("Idle", true);
-            } else if (positionPart.getX() == x && positionPart.getY() == y){
+            } else if (positionPart.getX() == x && positionPart.getY() == y) {
                 assetGen.nextImage("Idle", true);
             }
-            
+
             assetGen.process(gameData, player);
         }
     }

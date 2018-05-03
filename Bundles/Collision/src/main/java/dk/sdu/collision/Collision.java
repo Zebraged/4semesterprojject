@@ -37,46 +37,15 @@ public class Collision implements ICollisionService {
 
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
-<<<<<<< HEAD
-    private final static HashMap<String, PosObj> EnemyObj = new HashMap<String, PosObj>(); // saves all the enemies..
-    private final static HashMap<String, PosObj> WeaponObj = new HashMap<String, PosObj>();
-    private CollisionPart col = CollisionPart.getInstance();
-=======
     private final static HashMap<String, PlayerObj> EnemyObj = new HashMap<String, PlayerObj>(); // saves all the enemies..
     private CollisionPart col;
     private Rectangle checkRange;
     private World world;
->>>>>>> master
 
     public void process(GameData gameData, World world) {
         this.world = world;
         boolean playerFound = false;
         boolean platformFound = false;
-<<<<<<< HEAD
-
-        for (Entity entity : world.getEntities()) {
-
-            if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
-                addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
-                playerFound = true;
-            }
-
-            if (entity.getSource().toString().matches(ObjTypes.ENEMY.url())) {
-                addObj(EnemyObj, entity, ObjTypes.ENEMY); // ads the Enemy as an position obj.
-            }
-
-            if (entity.getSource().toString().matches(ObjTypes.PLATFORM.url())) {
-                addObj(PlatformObj, entity, ObjTypes.PLATFORM); // adds the player as an position obj.
-                platformFound = true;
-            }
-
-            if (entity.getSource().toString().matches(ObjTypes.WEAPON.url())) {
-                addObj(WeaponObj, entity, ObjTypes.WEAPON);
-                platformFound = true;
-            }
-        }
-
-=======
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         ServiceReference ref = context.getServiceReference(IPlayerPositionService.class);
         
@@ -102,7 +71,6 @@ public class Collision implements ICollisionService {
                     }
                 }
             }
->>>>>>> master
         if (!playerFound) { // removes players if module uninstalled.
             PlayerObj.clear();
             disableMinMax();

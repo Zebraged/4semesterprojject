@@ -1,9 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Bnd-LastModified: 1525041601881
-=======
-Bnd-LastModified: 1525167557057
->>>>>>> master
+Bnd-LastModified: 1525299209969
 Build-Jdk: 1.8.0_101
 Built-By: Rasmus BG
 Bundle-Activator: dk.sdu.mmmi.cbse.map.Activator
