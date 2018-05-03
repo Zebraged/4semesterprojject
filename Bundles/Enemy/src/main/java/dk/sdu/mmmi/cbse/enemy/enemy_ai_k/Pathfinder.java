@@ -29,7 +29,7 @@ public class Pathfinder {
 
     public Pathfinder(PositionPart start, PositionPart goal, World world) {
         this.start = start;
-        this.goal = goal;
+        this.goal = new PositionPart(goal.getX(), goal.getY(), 0);
         open = new ArrayList();
         closed = new ArrayList();
         h = getH();
@@ -38,10 +38,20 @@ public class Pathfinder {
         }
         updateMap();
         Node s = new Node(start, null);
-        updatedMap[(int) goal.getY() / 32][(int) goal.getX() / 32] = goal;
+        updatedMap[(int) this.goal.getY() / 32][(int) this.goal.getX() / 32] = this.goal;
         open.add(s);
-        generate();
+        if (Math.abs(goal.getX() - start.getX()) < 32) {
+            makeSimpleRoute();
+        } else {
+            generate();
+        }
         //printRoute();
+    }
+
+    private void makeSimpleRoute() {
+        int dir = ((goal.getX() - start.getX()) < 0) ? -1 : 1;
+        Node<PositionPart> end = new Node(new PositionPart(start.getX() + dir * 32, 0, 0), new Node<PositionPart>(start, null));
+        makeLinkedList(end);
     }
 
     private void updateMap() {
@@ -119,39 +129,44 @@ public class Pathfinder {
 
         if (parent.getObject() != start) {
             //Negative
-            addIfExists(successors, parent, x - 1, y + 1);
-            addIfExists(successors, parent, x - 1, y + 2);
-            addIfExists(successors, parent, x - 1, y + 3);
-            addIfExists(successors, parent, x - 1, y + 4);
-            addIfExists(successors, parent, x - 2, y + 1);
-            addIfExists(successors, parent, x - 2, y + 2);
-            addIfExists(successors, parent, x - 2, y + 3);
-            addIfExists(successors, parent, x - 2, y + 4);
+            addIfValid(successors, parent, x - 1, y + 1);
+            addIfValid(successors, parent, x - 1, y + 2);
+            addIfValid(successors, parent, x - 1, y + 3);
+            addIfValid(successors, parent, x - 1, y + 4);
+            addIfValid(successors, parent, x - 2, y + 1);
+            addIfValid(successors, parent, x - 2, y + 2);
+            addIfValid(successors, parent, x - 2, y + 3);
+            addIfValid(successors, parent, x - 2, y + 4);
 
             //Positive
-            addIfExists(successors, parent, x + 1, y + 1);
-            addIfExists(successors, parent, x + 1, y + 2);
-            addIfExists(successors, parent, x + 1, y + 3);
-            addIfExists(successors, parent, x + 1, y + 4);
-            addIfExists(successors, parent, x + 2, y + 1);
-            addIfExists(successors, parent, x + 2, y + 2);
-            addIfExists(successors, parent, x + 2, y + 3);
-            addIfExists(successors, parent, x + 2, y + 4);
+            addIfValid(successors, parent, x + 1, y + 1);
+            addIfValid(successors, parent, x + 1, y + 2);
+            addIfValid(successors, parent, x + 1, y + 3);
+            addIfValid(successors, parent, x + 1, y + 4);
+            addIfValid(successors, parent, x + 2, y + 1);
+            addIfValid(successors, parent, x + 2, y + 2);
+            addIfValid(successors, parent, x + 2, y + 3);
+            addIfValid(successors, parent, x + 2, y + 4);
         }
-        addIfExists(successors, parent, x, y);
-        addIfExists(successors, parent, x, 0);
+        addIfValid(successors, parent, x, y);
+        addIfValid(successors, parent, x, 0);
 
-        addIfExists(successors, parent, x + 1, y - 1);
-        addIfExists(successors, parent, x + 1, y);
-        addIfExists(successors, parent, x - 1, y - 1);
-        addIfExists(successors, parent, x - 1, y);
-        addIfExists(successors, parent, x, y + 1);
+        addIfValid(successors, parent, x + 1, y - 1);
+        addIfValid(successors, parent, x + 1, y);
+        addIfValid(successors, parent, x - 1, y - 1);
+        addIfValid(successors, parent, x - 1, y);
+        addIfValid(successors, parent, x, y + 1);
 
         return successors;
     }
 
-    private void addIfExists(List<Node<PositionPart>> list, Node parent, int x, int y) {
+    private void addIfValid(List<Node<PositionPart>> list, Node parent, int x, int y) {
+        //If out of array size.
         if (x < 0 || y < 0 || x >= TILES_X || y >= TILES_Y) {
+            return;
+        }
+        //if a platform is directly above it.
+        if (updatedMap.length <= y + 1 || updatedMap[y + 1][x] != null) {
             return;
         }
         PositionPart p = updatedMap[y][x];

@@ -64,7 +64,7 @@ public class EnemyProcess implements IEntityProcessingService {
             } else {
                 if (movingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
-                    float yExtra = (nodes.isEmpty()) ? -4 : 28;
+                    float yExtra = (nodes.isEmpty()) ? 0 : 32;
 
                     movingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
 

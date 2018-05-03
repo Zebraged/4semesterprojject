@@ -22,32 +22,34 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
  */
 public class PlayerProcess implements IEntityProcessingService {
 
+    private boolean lastDir;
+
     public void process(GameData gameData, World world) {
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
-            
+
             float x = positionPart.getX();
             float y = positionPart.getY();
-            
+
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
 
-            
-
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
-            
-            if(positionPart.getX() > x){
+
+            if (positionPart.getX() > x) {
                 assetGen.nextImage("Idle", false);
-            } else if(positionPart.getX() < x){
+                lastDir = false;
+            } else if (positionPart.getX() < x) {
                 assetGen.nextImage("Idle", true);
-            } else if (positionPart.getX() == x && positionPart.getY() == y){
-                assetGen.nextImage("Idle", true);
+                lastDir = true;
+            } else if (positionPart.getX() == x && positionPart.getY() == y) {
+                assetGen.nextImage("Idle", lastDir);
             }
-            
+
             assetGen.process(gameData, player);
 
         }

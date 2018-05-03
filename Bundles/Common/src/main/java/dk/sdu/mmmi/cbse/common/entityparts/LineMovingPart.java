@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.data.GameKeys;
 
 /**
  *
@@ -21,7 +22,7 @@ public class LineMovingPart implements EntityPart {
     private boolean isGrounded;
     private boolean up, falling;
     private float lastY;
-    
+
     private CollisionPart col;
 
     public LineMovingPart(float speed, float jumpHeight, float jumpLength) {
@@ -49,8 +50,9 @@ public class LineMovingPart implements EntityPart {
             minY = col.getMinY();
             minX = col.getMinX();
             maxY = col.getMaxY();
+
         }
-        
+
         if (pos == null) {
             pos = entity.getPart(PositionPart.class);
         }
@@ -65,7 +67,7 @@ public class LineMovingPart implements EntityPart {
                 } else {
                     x = pos.getX() + speed * dt;
                 }
-                
+
                 if (maxX > 1 && x > maxX) {
                     x = maxX;
                 }
@@ -82,12 +84,8 @@ public class LineMovingPart implements EntityPart {
 
                 if (goalY > y) {
                     up = true;
-                } else if (goalY < y) {
+                } else if (goalY + 100 < y) { //if position is 100 pixels over goalY
                     up = false;
-                    isGrounded = false;
-                } else {
-                    up = false;
-                    isGrounded = false;
                 }
 
                 if (up) {
@@ -98,36 +96,35 @@ public class LineMovingPart implements EntityPart {
                     isGrounded = false;
                     y += -gravity * jumpTime * jumpTime / 2 + jumpVelocity * dt;
                 } else if (!isGrounded) {
-                    if (y > goalY) {
-                        jumpTime += dt;
-                        y += -gravity * jumpTime * jumpTime / 2;
-                    }
-                }
-                
 
-                if (minY > 1 && y < minY) {
-                    y = minY;
-                    jumpTime = 0;
-                }
-
-                if (maxY > 1 && y > maxY) {
-                    y = maxY;
+                    jumpTime += dt;
+                    y += -gravity * jumpTime * jumpTime / 2;
 
                 }
+
                 pos.setY(y);
             }
-            
-            
-            
-            //set to done if goal reached
-            if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 10 || (lastY > pos.getY() && pos.getY() < goalY))) {
-                pos.setX(Math.round(goalX));
-                pos.setY(Math.round(goalY));
-                goalX = -1;
-                goalY = -1;
+
+            if (minY > 1 && pos.getY() < minY) {
+                pos.setY(minY);
                 jumpTime = 0;
                 isGrounded = true;
             }
+
+            if (maxY > 1 && pos.getY() > maxY) {
+                pos.setY(maxX);
+            }
+
+            //set to done if goal reached
+            if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 10 || isGrounded)) {
+                goalX = -1;
+                goalY = -1;
+                jumpTime = 0;
+            }
+        }
+        
+        if(gameData.getKeys().isDown(GameKeys.ENTER)) {
+            System.out.println("Current Position: "+pos.getX()+"    "+pos.getY());
         }
     }
 
@@ -136,6 +133,8 @@ public class LineMovingPart implements EntityPart {
     }
 
     public void setGoal(float x, float y) {
+        y = (y < 32) ? 32 : y;
+        System.out.println("Goal set: " + x + "    " + y);
         this.goalX = x;
         this.goalY = y;
     }

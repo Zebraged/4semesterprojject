@@ -39,7 +39,7 @@ public class EnemyFactory implements IEntityGenerator {
         entity = findImage(entity, "teddy");
         entity.add(new SizePart(32, 32));
         entity.add(new CollisionPart());
-        entity.add(new LineMovingPart(5, 600, 400));
+        entity.add(new LineMovingPart(3, 600, 400));
         return entity;
     }
 
