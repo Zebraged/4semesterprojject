@@ -7,9 +7,9 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
@@ -21,7 +21,7 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private BundleContext bundleContext;
 
-    private IPlayerPositionService iPlayerPositionService;
+    private IPlayerInfoService iPlayerPositionService;
 
     public void process(GameData gameData, World world) {
         try {
@@ -55,7 +55,7 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private void createReference() {
         bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+        iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerInfoService.class));
 
 gotReference = true;
     }

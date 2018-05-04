@@ -9,10 +9,10 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +21,7 @@ import java.util.Map;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
@@ -47,10 +48,10 @@ public class Collision implements ICollisionService {
         boolean playerFound = false;
         boolean platformFound = false;
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        ServiceReference ref = context.getServiceReference(IPlayerPositionService.class);
+        ServiceReference ref = context.getServiceReference(IPlayerInfoService.class);
         
         if (ref != null) {
-            IPlayerPositionService playerPos = (IPlayerPositionService) context.getService(ref);
+            IPlayerInfoService playerPos = (IPlayerInfoService) context.getService(ref);
             checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), gameData.getDisplayWidth(), gameData.getDisplayHeight());
             for (Entity entity : world.getEntities()) {
                 PositionPart part = entity.getPart(PositionPart.class);
@@ -153,8 +154,7 @@ public class Collision implements ICollisionService {
             Map.Entry<String, PosObj> firstObj = firstColObj.next();
             PosObj firstPosObj = firstObj.getValue(); // player obj
             PositionPart pos = firstPosObj.getEntity().getPart(PositionPart.class);
-            SizePart size = firstPosObj.getEntity().getPart(SizePart.class);
-            Rectangle player = new Rectangle((int)pos.getX(), (int)pos.getY(), size.getWidth(), size.getHeight());
+            Rectangle player = new Rectangle((int)pos.getX(), (int)pos.getY(), 23, 29);
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
                 PosObj enemy = platform.getValue(); // platform obj
@@ -163,8 +163,10 @@ public class Collision implements ICollisionService {
                 SizePart enemySize = enemy.getEntity().getPart(SizePart.class);
                 Rectangle enemyRect = new Rectangle((int)enemyPos.getX(), (int)enemyPos.getY(), enemySize.getWidth(), enemySize.getHeight());
                 if(player.intersects(enemyRect)){
-                    System.out.println("Life Lost");
-                    firstPosObj.getEntity();
+                    LifePart life = firstPosObj.getEntity().getPart(LifePart.class);
+                    if(life != null){
+                        life.updateLife(-1);
+                    }
                 }
             }
         }

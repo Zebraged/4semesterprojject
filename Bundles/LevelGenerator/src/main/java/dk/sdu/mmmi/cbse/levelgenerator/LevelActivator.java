@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 
 public class LevelActivator implements IGamePluginService, IEntityProcessingService {
 

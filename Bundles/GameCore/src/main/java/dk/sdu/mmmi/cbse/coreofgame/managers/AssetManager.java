@@ -24,6 +24,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 import dk.sdu.mmmi.cbse.common.services.IScoreService;
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +56,7 @@ public class AssetManager {
     private BitmapFont font;
     private BundleContext context;
     private IScoreService score = null;
+    private IPlayerInfoService playerInfo = null;
 
     private Map<String, Texture> textureMap;
 
@@ -213,11 +215,18 @@ public class AssetManager {
 
     public void drawHud() {
         ServiceReference ref = context.getServiceReference(IScoreService.class);
+        ServiceReference playerRef = context.getServiceReference(IPlayerInfoService.class);
         if (ref != null) {
             score = (IScoreService) context.getService(ref);
+            drawTimer();
+            drawScore();
         }
-        drawTimer();
-        drawScore();
+        
+        if (playerRef != null){
+            playerInfo = (IPlayerInfoService) context.getService(playerRef);
+            drawLife();
+        }
+        
     }
 
     public void drawTimer() {
@@ -238,5 +247,19 @@ public class AssetManager {
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(bitmapFont, value);
         return (GUIcam.viewportWidth / 2) - (glyphLayout.width/2);
+    }
+    
+    private void drawLife(){
+        if(textureMap.containsKey("heart.png")){
+            int xoffset = 50;
+            for(int i = 0; i < playerInfo.getLife(); i++){
+                Sprite sprite = new Sprite(textureMap.get("heart.png"));
+                sprite.setSize(32, 32);
+                sprite.setX(xoffset);
+                sprite.setY(GUIcam.viewportHeight - 80);
+                sprite.draw(batch);
+                xoffset = xoffset + 40;
+            }
+        }
     }
 }

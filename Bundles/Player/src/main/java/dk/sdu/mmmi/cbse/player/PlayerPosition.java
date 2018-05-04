@@ -5,16 +5,18 @@
  */
 package dk.sdu.mmmi.cbse.player;
 
+import dk.sdu.mmmi.cbse.common.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
  * @author Marcg
  */
-public class PlayerPosition implements IPlayerPositionService{
+public class PlayerPosition implements IPlayerInfoService{
 
     private PositionPart part;
+    private LifePart life;
     
     public PlayerPosition(){
     }
@@ -22,6 +24,11 @@ public class PlayerPosition implements IPlayerPositionService{
     public void addPositionPart(PositionPart part){
         this.part = part;
     }
+
+    public void setLifePart(LifePart life) {
+        this.life = life;
+    }
+    
     
     public float getX() {
         if(part == null){
@@ -35,6 +42,14 @@ public class PlayerPosition implements IPlayerPositionService{
             return 0;
         }
         return part.getY();
+    }
+
+    public int getLife() {
+        return life.getLife();
+    }
+
+    public void updateLife(int life) {
+        this.life.updateLife(life);
     }
     
 }
