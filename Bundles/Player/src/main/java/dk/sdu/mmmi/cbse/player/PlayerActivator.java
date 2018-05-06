@@ -2,10 +2,10 @@ package dk.sdu.mmmi.cbse.player;
 
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 public class PlayerActivator implements BundleActivator {
 
@@ -20,7 +20,7 @@ public class PlayerActivator implements BundleActivator {
 
     public void stop(BundleContext context) throws Exception {
         plugin.stop();
-        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         context.ungetService(reference);
     }
 

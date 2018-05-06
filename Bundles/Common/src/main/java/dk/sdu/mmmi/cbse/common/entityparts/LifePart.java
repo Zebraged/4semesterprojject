@@ -7,6 +7,10 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +19,9 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 public class LifePart implements EntityPart{
 
     int Life;
-    boolean invurnable = false;
+    boolean invulnerable = false;
     int InvurnableTime;
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public LifePart(int Life, int InvurnableTime) {
         this.Life = Life;
@@ -26,9 +31,12 @@ public class LifePart implements EntityPart{
     public int getLife() {
         return Life;
     }
-
-    public void setLife(int Life) {
-        this.Life = Life;
+    
+    public void updateLife(int life) {
+        if(invulnerable != true){
+            this.Life += life;
+            setInvulnerable();
+        }
     }
 
     public void setInvurnableTime(int InvurnableTime) {
@@ -36,18 +44,28 @@ public class LifePart implements EntityPart{
     }
 
     public boolean isInvurnable() {
-        return invurnable;
-    }
-
-    public void setInvurnable(boolean invurnable) {
-        this.invurnable = invurnable;
+        return invulnerable;
     }
     
-    
+    private void setInvulnerable(){
+        executor.execute(new Runnable(){
+            @Override
+            public void run() {
+                invulnerable = true;
+                try {
+                    Thread.sleep(InvurnableTime);
+                } catch (InterruptedException ex) {
+                    System.out.println("invulnerable failed");
+                }
+                invulnerable = false;
+            }
+        
+        });
+    }
     
     @Override
     public void process(GameData gameData, Entity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

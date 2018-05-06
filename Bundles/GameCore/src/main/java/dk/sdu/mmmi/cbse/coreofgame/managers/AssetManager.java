@@ -24,6 +24,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 import dk.sdu.mmmi.cbse.common.services.IScoreService;
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +56,7 @@ public class AssetManager {
     private BitmapFont font;
     private BundleContext context;
     private IScoreService score = null;
+    private IPlayerInfoService playerInfo = null;
 
     private Map<String, Texture> textureMap;
 
@@ -105,7 +107,7 @@ public class AssetManager {
         } else if (data.isGameLost()) {
 
         } else {
-            Rectangle rect  = new Rectangle(cam.position.x - (cam.viewportWidth/2), cam.position.y - (cam.viewportHeight/2), cam.viewportWidth, cam.viewportHeight);
+            Rectangle rect  = new Rectangle((cam.position.x - (cam.viewportWidth/2)), (cam.position.y - (cam.viewportHeight/2)), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
                 PositionPart pos = entity.getPart(PositionPart.class);
                 SizePart size = entity.getPart(SizePart.class);
@@ -114,7 +116,7 @@ public class AssetManager {
                     sprite.setX((int) pos.getX());
                     sprite.setY((int) pos.getY());
                     sprite.draw(batch);
-                } else if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && rect.contains(pos.getX(), pos.getY())) {
+                } else if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && rect.overlaps(new Rectangle(pos.getX(), pos.getY(), 32, 32))) {
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
                         sprite.flip(true, false);
@@ -213,11 +215,18 @@ public class AssetManager {
 
     public void drawHud() {
         ServiceReference ref = context.getServiceReference(IScoreService.class);
+        ServiceReference playerRef = context.getServiceReference(IPlayerInfoService.class);
         if (ref != null) {
             score = (IScoreService) context.getService(ref);
+            drawTimer();
+            drawScore();
         }
-        drawTimer();
-        drawScore();
+        
+        if (playerRef != null){
+            playerInfo = (IPlayerInfoService) context.getService(playerRef);
+            drawLife();
+        }
+        
     }
 
     public void drawTimer() {
@@ -238,5 +247,19 @@ public class AssetManager {
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(bitmapFont, value);
         return (GUIcam.viewportWidth / 2) - (glyphLayout.width/2);
+    }
+    
+    private void drawLife(){
+        if(textureMap.containsKey("heart.png")){
+            int xoffset = 50;
+            for(int i = 0; i < playerInfo.getLife(); i++){
+                Sprite sprite = new Sprite(textureMap.get("heart.png"));
+                sprite.setSize(32, 32);
+                sprite.setX(xoffset);
+                sprite.setY(GUIcam.viewportHeight - 80);
+                sprite.draw(batch);
+                xoffset = xoffset + 40;
+            }
+        }
     }
 }

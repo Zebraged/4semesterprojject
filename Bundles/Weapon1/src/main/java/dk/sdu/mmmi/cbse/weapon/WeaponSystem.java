@@ -12,9 +12,9 @@ import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.TimerPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
@@ -24,7 +24,7 @@ public class WeaponSystem implements IEntityProcessingService {
 
     private BundleContext bundleContext;
 
-    private IPlayerPositionService iPlayerPositionService;
+    private IPlayerInfoService iPlayerInfoService;
     private boolean gotReference = false;   // For checking if a IPlayerPositionService-reference is registered 
 
     private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};     // Current InventorySystem, might need a better solution
@@ -57,7 +57,7 @@ public class WeaponSystem implements IEntityProcessingService {
     private void createReference() {
         try {
             bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-            iPlayerPositionService = bundleContext.getService(bundleContext.getServiceReference(IPlayerPositionService.class));
+            iPlayerInfoService = bundleContext.getService(bundleContext.getServiceReference(IPlayerInfoService.class));
             gotReference = true;
         } catch (NullPointerException ex) {
             // IPlayerPostionService is not registered
@@ -89,13 +89,13 @@ public class WeaponSystem implements IEntityProcessingService {
                     createProjectile(weapon, world);
                 } else {
                     assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
-                    positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
-                    positionPart.setY(iPlayerPositionService.getY() - 22);
+                    positionPart.setX(iPlayerInfoService.getX() + xPositionAdder);
+                    positionPart.setY(iPlayerInfoService.getY() - 22);
                 }
             } else {
                 assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
-                positionPart.setX(iPlayerPositionService.getX() + xPositionAdder);
-                positionPart.setY(iPlayerPositionService.getY() + 10);
+                positionPart.setX(iPlayerInfoService.getX() + xPositionAdder);
+                positionPart.setY(iPlayerInfoService.getY() + 10);
             }
 
             positionPart.process(gameData, weapon);

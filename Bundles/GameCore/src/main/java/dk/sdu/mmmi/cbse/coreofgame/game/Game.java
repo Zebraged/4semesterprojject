@@ -12,13 +12,13 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.ICollisionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.ILevelGenerator;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import dk.sdu.mmmi.cbse.coreofgame.managers.GameInputProcessor;
 import dk.sdu.mmmi.cbse.coreofgame.sound.MusicPlayerCore;
 import java.util.Collection;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
@@ -196,11 +196,11 @@ public class Game implements ApplicationListener {
 
 
     public void placeCam() {
-        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         if (reference == null) {
 
         } else {
-            IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
+            IPlayerInfoService playerPosition = (IPlayerInfoService) context.getService(reference);
             if (playerPosition.getX() > cam.viewportWidth / 2 * cam.zoom) {
                 cam.position.x = playerPosition.getX();
             } else {

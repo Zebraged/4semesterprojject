@@ -11,11 +11,11 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IPlayerPositionService;
 import java.awt.Rectangle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 
 /**
  *
@@ -25,14 +25,14 @@ public class GoalProcess implements IEntityProcessingService{
 
     public void process(GameData gameData, World world) {
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);
+        ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         
         for(Entity ent : world.getEntities(Goal.class)){
             PositionPart pos = ent.getPart(PositionPart.class);
             SizePart size = ent.getPart(SizePart.class);
             Rectangle rect = new Rectangle((int)pos.getX(), (int)pos.getY(), size.getWidth(), size.getHeight());
             if(reference != null){
-                IPlayerPositionService playerPosition = (IPlayerPositionService) context.getService(reference);
+                IPlayerInfoService playerPosition = (IPlayerInfoService) context.getService(reference);
                 if(rect.contains(playerPosition.getX(), playerPosition.getY())){
                     gameData.setGameWon(true);
                 }
