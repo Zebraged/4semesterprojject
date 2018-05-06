@@ -18,8 +18,7 @@ public enum ObjTypes {
     TEDDY("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*"),
     CLOUD("dk.sdu.mmmi.cbse.enemy.type.CloudEnemy.*"),
     UNICORN("dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy.*"),
-    WEAPON("dk.sdu.mmmi.cbse.weapon.Weapon"),
-    PROJECTILE("dk.sdu.mmmi.cbse.weapon.Projectile");
+    WEAPON("dk.sdu.mmmi.cbse.weapon.Weapon");
 
     private String url;
 

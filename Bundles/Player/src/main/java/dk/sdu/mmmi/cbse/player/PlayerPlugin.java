@@ -25,12 +25,12 @@ import org.osgi.framework.ServiceReference;
  */
 public class PlayerPlugin implements IGamePluginService {
 
-    
     private IPlayerPositionService position;
+
     Boolean status = false;
     Entity player;
-    BundleContext context;
     World world;
+    BundleContext context;
 
     public void start(GameData gameData, World world, BundleContext context) {
         this.world = world;
@@ -58,15 +58,18 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
-        PositionPart posPart = new PositionPart(48, 34,3);
-        PlayerPosition playPos = new PlayerPosition();
+
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
-        player.add(posPart);
         player.add(new SizePart(16, 16));
         player.add(new MovingPart(5, 600, 400));
         player.add(new CollisionPart());
-        playPos.addPositionPart(posPart);
-        position = playPos;
+
+        PositionPart positionPart = new PositionPart(48, 34, 3);
+        PlayerPosition playPosition = new PlayerPosition();
+        player.add(positionPart);
+        playPosition.addPositionPart(positionPart);
+        position = playPosition;
+
         return player;
     }
 
