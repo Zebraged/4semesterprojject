@@ -39,7 +39,7 @@ public class WeaponPlugin implements IGamePluginService {
 
         weaponObject.add(new AssetGenerator(weaponObject, "image/", "Stick_Idle.png"));
         weaponObject.add(new PositionPart(0, 0, 3));
-        weaponObject.add(new SizePart(16, 16));
+        weaponObject.add(new SizePart(32, 32));
         weaponObject.add(new CollisionPart());
         
         return weaponObject;

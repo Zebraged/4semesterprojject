@@ -39,7 +39,8 @@ public class Collision implements ICollisionService {
     private final static HashMap<String, PlatformObj> PlatformObj = new HashMap<String, PlatformObj>(); //saves all platforms for collision detection.
     private final static HashMap<String, PlayerObj> PlayerObj = new HashMap<String, PlayerObj>(); // saves all players for collision detection.
     private final static HashMap<String, PlayerObj> EnemyObj = new HashMap<String, PlayerObj>(); // saves all the enemies.
-    private final static HashMap<String, PlayerObj> WeaponObj = new HashMap<String, PlayerObj>(); // saves all the enemies.
+    private final static HashMap<String, PlayerObj> WeaponObj = new HashMap<String, PlayerObj>(); // saves all the weapons.
+
     private CollisionPart col;
     private Rectangle checkRange;
     private World world;
@@ -51,7 +52,7 @@ public class Collision implements ICollisionService {
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
         ServiceReference ref = context.getServiceReference(IPlayerInfoService.class);
-        
+
         if (ref != null) {
             IPlayerInfoService playerPos = (IPlayerInfoService) context.getService(ref);
             checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), gameData.getDisplayWidth(), gameData.getDisplayHeight());
@@ -163,7 +164,7 @@ public class Collision implements ICollisionService {
             PosObj firstPosObj = firstObj.getValue(); // player obj
             PositionPart pos = firstPosObj.getEntity().getPart(PositionPart.class);
 
-            Rectangle player = new Rectangle((int)pos.getX(), (int)pos.getY(), 23, 29);
+            Rectangle player = new Rectangle((int) pos.getX(), (int) pos.getY(), 23, 29);
 
             while (secColObj.hasNext()) { // check for collision with all platforms
                 Map.Entry<String, PosObj> platform = secColObj.next();
@@ -172,12 +173,13 @@ public class Collision implements ICollisionService {
                 PositionPart enemyPos = enemy.getEntity().getPart(PositionPart.class);
                 SizePart enemySize = enemy.getEntity().getPart(SizePart.class);
 
-                Rectangle enemyRect = new Rectangle((int)enemyPos.getX(), (int)enemyPos.getY(), enemySize.getWidth(), enemySize.getHeight());
-                if(player.intersects(enemyRect)){
-                    LifePart life = firstPosObj.getEntity().getPart(LifePart.class);
-                    if(life != null){
-                        life.updateLife(-1);
-                    }
+                Rectangle enemyRect = new Rectangle((int) enemyPos.getX(), (int) enemyPos.getY(), enemySize.getWidth(), enemySize.getHeight());
+                if (player.intersects(enemyRect)) {
+//                    LifePart life = firstPosObj.getEntity().getPart(LifePart.class);
+//                    if(life != null){
+//                        life.updateLife(-1);
+//                    }
+                    System.out.println("hit");
                 }
             }
         }
