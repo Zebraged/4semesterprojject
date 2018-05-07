@@ -61,6 +61,7 @@ public class EnemyProcess implements IEntityProcessingService {
                     nodeMap.clear();
                     nodeMap.put(entity, p.getResult());
                 }
+                movingPart.setGoal(position.getX(), 0);
             } else {
                 if (movingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();

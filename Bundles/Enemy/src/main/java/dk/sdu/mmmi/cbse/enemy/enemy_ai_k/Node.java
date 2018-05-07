@@ -57,11 +57,11 @@ public class Node<T extends PositionPart> {
     public T getObject() {
         return object;
     }
-    
+
     private float getDistanceFromStart() {
         return (float) Math.sqrt((float) getAOrB());
     }
-    
+
     private float getAOrB() {
         return (float) (Math.pow((double) parent.getObject().getX() - (double) object.getX(), 2) + (Math.pow((double) parent.getObject().getY() - (double) object.getY(), 2)));
     }
@@ -82,15 +82,15 @@ public class Node<T extends PositionPart> {
 
     /**
      * Returns true if the position object is the same.
+     *
      * @param obj
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object obj) {
         Node<T> node = (Node<T>) obj;
-        return ((int) node.getObject().getX()/32 == (int) this.getObject().getX()/32 &&
-                (int) node.getObject().getY()/32 == (int) this.getObject().getY() / 32);
+        return ((int) node.getObject().getX() / 32 == (int) this.getObject().getX() / 32
+                && (int) node.getObject().getY() / 32 == (int) this.getObject().getY() / 32);
     }
-    
-    
+
 }
