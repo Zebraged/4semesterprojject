@@ -6,7 +6,6 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.CollisionPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -39,7 +38,6 @@ public class WeaponPlugin implements IGamePluginService {
 
         weaponObject.add(new AssetGenerator(weaponObject, "image/", "Stick_Idle.png"));
         weaponObject.add(new PositionPart(0, 0, 3));
-        weaponObject.add(new SizePart(32, 32));
         weaponObject.add(new CollisionPart());
         
         return weaponObject;

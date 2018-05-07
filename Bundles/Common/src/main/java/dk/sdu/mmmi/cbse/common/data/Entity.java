@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.common.data;
 
-
 import dk.sdu.mmmi.cbse.common.entityparts.EntityPart;
 import java.io.Serializable;
 import java.util.Map;
@@ -12,22 +11,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Marcg
  */
 public class Entity implements Serializable {
+
     private final UUID ID = UUID.randomUUID();
-    
+
     private float radius;
     private Map<Class, EntityPart> parts;
     private int[] color = new int[4];
     private Asset asset = null;
     private boolean ConstantPosition;
     private int alignment;
-    
+
     /**
      *
      */
     public Entity() {
         parts = new ConcurrentHashMap<>();
     }
-    
+
     /**
      *
      * @param part
@@ -35,15 +35,17 @@ public class Entity implements Serializable {
     public void add(EntityPart part) {
         parts.put(part.getClass(), part);
     }
-    
+
     /**
      *
      * @param partClass
      */
     public void remove(Class partClass) {
-        parts.remove(partClass);
+        if (parts.containsValue(partClass)) {
+            parts.remove(partClass);
+        }
     }
-    
+
     /**
      *
      * @param <E>
@@ -53,16 +55,16 @@ public class Entity implements Serializable {
     public <E extends EntityPart> E getPart(Class partClass) {
         return (E) parts.get(partClass);
     }
-    
+
     /**
      *
      * @param partClass
      * @return
      */
-    public boolean containPart(Class partClass){
+    public boolean containPart(Class partClass) {
         boolean check = false;
-        for(Class c : parts.keySet()){
-            if(partClass.equals(c)){
+        for (Class c : parts.keySet()) {
+            if (partClass.equals(c)) {
                 check = true;
                 break;
             }
@@ -74,47 +76,47 @@ public class Entity implements Serializable {
      *
      * @param asset
      */
-    public void setAsset(Asset asset){
+    public void setAsset(Asset asset) {
         this.asset = asset;
     }
-    
+
     /**
      *
      * @return
      */
-    public Asset getAsset(){
+    public Asset getAsset() {
         return this.asset;
     }
-    
+
     /**
      *
      * @param color
      */
-    public void setColor(int[] color){
+    public void setColor(int[] color) {
         this.color = color;
     }
-    
+
     /**
      *
      * @return
      */
-    public int[] getColor(){
+    public int[] getColor() {
         return this.color;
     }
-    
+
     /**
      *
      * @param r
      */
-    public void setRadius(float r){
+    public void setRadius(float r) {
         this.radius = r;
     }
-    
+
     /**
      *
      * @return
      */
-    public float getRadius(){
+    public float getRadius() {
         return radius;
     }
 
@@ -125,23 +127,27 @@ public class Entity implements Serializable {
     public String getID() {
         return ID.toString();
     }
-    
+
     /**
      *
      * @return
      */
-    public Entity getSource(){
+    public Entity getSource() {
         return this;
     }
 
-    /**If the entity has a tendency of moving
+    /**
+     * If the entity has a tendency of moving
+     *
      * @return the ConstantPosition
      */
     public boolean isConstantPosition() {
         return ConstantPosition;
     }
 
-    /**Set if the entity has a tendency of moving
+    /**
+     * Set if the entity has a tendency of moving
+     *
      * @param ConstantPosition the ConstantPosition to set
      */
     public void setConstantPosition(boolean ConstantPosition) {
@@ -149,16 +155,19 @@ public class Entity implements Serializable {
     }
 
     /**
-     * Is the entity hostile, a player or neutral?
-     * player=1, neutral=0,hostile=-1
+     * Is the entity hostile, a player or neutral? player=1,
+     * neutral=0,hostile=-1
+     *
      * @return the alignment
      */
     public int getAlignment() {
         return alignment;
     }
 
-    /**Is the entity hostile, a player or neutral?
-     * player=1, neutral=0,hostile=-1
+    /**
+     * Is the entity hostile, a player or neutral? player=1,
+     * neutral=0,hostile=-1
+     *
      * @param alignment the alignment to set
      */
     public void setAlignment(int alignment) {

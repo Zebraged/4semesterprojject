@@ -15,7 +15,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 public class MovingPart implements EntityPart {
 
     private float speed;
-    private float gravity, jumpVelocity;
+    private float gravityAcceleration, jumpVelocity;
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
@@ -33,19 +33,18 @@ public class MovingPart implements EntityPart {
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
 
-        this.speed = speed * 25;
+        this.speed = speed;
 
-        this.jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
+        this.jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-        this.gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
+        this.gravityAcceleration = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
     }
 
     public MovingPart(float speed) {
         this.speed = speed;
-        this.gravity = 0;
+        this.gravityAcceleration = 0;
         this.jumpVelocity = 0;
     }
-    
 
     public void setLeft(boolean left) {
         this.left = left;
@@ -65,7 +64,7 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-        
+
         col = entity.getPart(CollisionPart.class);
         float minX = 0;
         float maxX = 0;
@@ -98,12 +97,12 @@ public class MovingPart implements EntityPart {
             }
             jumpTime += dt;
             isGrounded = false;
-            y += -gravity * jumpTime * jumpTime / 2 + jumpVelocity * dt;
+            y += -gravityAcceleration * jumpTime * jumpTime / 2 + jumpVelocity * dt;
         } else if (!isGrounded) {
             jumpTime += dt;
-            y += -gravity * jumpTime * jumpTime / 2;
-        } 
-        
+            y += -gravityAcceleration * jumpTime * jumpTime / 2;
+        }
+
         if (maxX > 1 && x > maxX) {
             x = maxX;
         }
@@ -132,7 +131,7 @@ public class MovingPart implements EntityPart {
     }
 
     public float getGravity() {
-        return gravity;
+        return gravityAcceleration;
     }
 
     public float getJumpVelocity() {

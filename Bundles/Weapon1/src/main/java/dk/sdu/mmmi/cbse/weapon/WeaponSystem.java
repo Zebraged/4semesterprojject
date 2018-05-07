@@ -10,6 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
 import dk.sdu.mmmi.cbse.common.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.entityparts.TimerPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import org.osgi.framework.BundleContext;
@@ -33,6 +34,7 @@ public class WeaponSystem implements IEntityProcessingService {
     private boolean shiftPressed, spacePressed;      //isPressed() doesn't work properly
     private boolean isFacingLeft;
     private float xPositionAdder;
+    private float attackTime;
 
     public void process(GameData gameData, World world) {
 
@@ -91,11 +93,21 @@ public class WeaponSystem implements IEntityProcessingService {
                     assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Attack.png");
                     positionPart.setX(iPlayerInfoService.getX() + xPositionAdder);
                     positionPart.setY(iPlayerInfoService.getY() - 22);
+
+                    attackTime = 0.05f;
+                    weapon.add(new SizePart(18, 32));
                 }
+
             } else {
                 assetGenerator.changeImage(weaponNames[currentWeaponNum] + "_Idle.png");
                 positionPart.setX(iPlayerInfoService.getX() + xPositionAdder);
                 positionPart.setY(iPlayerInfoService.getY() + 10);
+            }
+            
+            attackTime -= gameData.getDelta();
+            
+            if(attackTime <= 0){
+                weapon.remove(SizePart.class);
             }
 
             positionPart.process(gameData, weapon);
@@ -117,6 +129,7 @@ public class WeaponSystem implements IEntityProcessingService {
         projectile.add(new PositionPart(x, y, 3));
         projectile.add(new MovingPart(350));
         projectile.add(new TimerPart(2));
+        projectile.add(new SizePart(8, 6));
 
         MovingPart movingPart = projectile.getPart(MovingPart.class);
 

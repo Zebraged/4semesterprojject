@@ -9,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.entityparts.LineMovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
@@ -33,16 +34,17 @@ public class EnemyProcess implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(Enemy.class)) {
-            
-            LineMovingPart movingPart = entity.getPart(LineMovingPart.class);
-            AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
-            PositionPart position = entity.getPart(PositionPart.class);
+
+            LineMovingPart lineMovingPart = entity.getPart(LineMovingPart.class);
+            AssetGenerator assetGenerator = entity.getPart(AssetGenerator.class);
+            PositionPart positionPart = entity.getPart(PositionPart.class);
+            LifePart lifePart = entity.getPart(LifePart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
-            
-            if(random.nextInt(1000) == 0 && nodes != null) {
+
+            if (random.nextInt(1000) == 0 && nodes != null) {
                 nodes.clear();
             }
-            
+
             if (nodes == null || nodes.isEmpty()) {
                 boolean playerFound = false;
                 if (player == null) {
@@ -57,32 +59,36 @@ public class EnemyProcess implements IEntityProcessingService {
                     playerFound = true;
                 }
                 if (playerFound) {
-                    p = new Pathfinder(position, player.getPart(PositionPart.class), world);
+                    p = new Pathfinder(positionPart, player.getPart(PositionPart.class), world);
                     nodeMap.clear();
                     nodeMap.put(entity, p.getResult());
                 }
             } else {
-                if (movingPart.reachedGoal()) {
+                if (lineMovingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
                     float yExtra = (nodes.isEmpty()) ? -4 : 28;
 
-                    movingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
+                    lineMovingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
 
                 }
             }
-            float x = position.getX();
-            float y = position.getY();
+            float x = positionPart.getX();
+            float y = positionPart.getY();
 
-            movingPart.process(gameData, entity);
-            if (position.getX() < x) {
-                assetGen.nextImage("Walk", false);
-            } else if (position.getX() > x) {
-                assetGen.nextImage("Walk", true);
-            } else if (position.getX() == x && position.getY() == y) {
-                assetGen.nextImage("Idle", true);
+            lineMovingPart.process(gameData, entity);
+            if (positionPart.getX() < x) {
+                assetGenerator.nextImage("Walk", false);
+            } else if (positionPart.getX() > x) {
+                assetGenerator.nextImage("Walk", true);
+            } else if (positionPart.getX() == x && positionPart.getY() == y) {
+                assetGenerator.nextImage("Idle", true);
             }
-            assetGen.process(gameData, entity);
+            assetGenerator.process(gameData, entity);
+            
+            System.out.println(lifePart.getLife());
+            if (lifePart.getLife() <= 0) {
+                world.removeEntity(entity);
+            }
         }
     }
-
 }
