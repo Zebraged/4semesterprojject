@@ -84,8 +84,7 @@ public class EnemyProcess implements IEntityProcessingService {
                 assetGenerator.nextImage("Idle", true);
             }
             assetGenerator.process(gameData, entity);
-            
-            System.out.println(lifePart.getLife());
+
             if (lifePart.getLife() <= 0) {
                 world.removeEntity(entity);
             }
