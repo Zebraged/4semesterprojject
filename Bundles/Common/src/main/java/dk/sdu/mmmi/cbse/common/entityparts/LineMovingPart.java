@@ -26,8 +26,6 @@ public class LineMovingPart implements EntityPart {
     private CollisionPart col;
 
     public LineMovingPart(float speed, float jumpHeight, float jumpLength) {
-        this.speed = speed;
-
         this.speed = speed * 25;
 
         jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
@@ -82,7 +80,7 @@ public class LineMovingPart implements EntityPart {
                 float y = pos.getY();
                 lastY = y;
 
-                if (goalY > y) {
+                if (goalY > y+5) {
                     up = true;
                 } else if (goalY + 100 < y) { //if position is 100 pixels over goalY
                     up = false;
@@ -109,14 +107,16 @@ public class LineMovingPart implements EntityPart {
                 pos.setY(minY);
                 jumpTime = 0;
                 isGrounded = true;
+                System.out.println("Min Exceeded");
             }
 
             if (maxY > 1 && pos.getY() > maxY) {
                 pos.setY(maxX);
+                System.out.println("Max Exceeded");
             }
 
             //set to done if goal reached
-            if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 10 || isGrounded)) {
+            if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 5)) {
                 goalX = -1;
                 goalY = -1;
                 jumpTime = 0;
@@ -133,8 +133,7 @@ public class LineMovingPart implements EntityPart {
     }
 
     public void setGoal(float x, float y) {
-        y = (y < 32) ? 32 : y;
-        System.out.println("Goal set: " + x + "    " + y);
+        y = (y < 33) ? 33 : y;
         this.goalX = x;
         this.goalY = y;
     }

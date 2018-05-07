@@ -45,12 +45,12 @@ public class Pathfinder {
         } else {
             generate();
         }
-        //printRoute();
+        printRoute();
     }
 
     private void makeSimpleRoute() {
         int dir = ((goal.getX() - start.getX()) < 0) ? -1 : 1;
-        Node<PositionPart> end = new Node(new PositionPart(start.getX() + dir * 32, 0, 0), new Node<PositionPart>(start, null));
+        Node<PositionPart> end = new Node(new PositionPart(start.getX() + dir * 32, 0, 0), new Node(start, null));
         makeLinkedList(end);
     }
 
@@ -72,6 +72,9 @@ public class Pathfinder {
         Node current = last;
 
         while (current.getParent() != null) {
+            if (current.getParent().getParent() == null) {
+                break;
+            }
             this.result.addFirst(current);
             current = current.getParent();
         }
