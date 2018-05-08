@@ -40,9 +40,9 @@ public class EnemyProcess implements IEntityProcessingService {
         for (Entity entity : world.getEntities(Enemy.class)) {
 
             
-            LineMovingPart movingPart = entity.getPart(LineMovingPart.class);
+            LineMovingPart lineMovingPart = entity.getPart(LineMovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
-            PositionPart position = entity.getPart(PositionPart.class);
+            PositionPart positionPart = entity.getPart(PositionPart.class);
             LifePart life = entity.getPart(LifePart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
             
@@ -53,6 +53,7 @@ public class EnemyProcess implements IEntityProcessingService {
                     IScoreService score = (IScoreService)context.getService(ref);
                     score.addScore(200);
                 }
+                world.removeEntity(entity);
             }
             if(random.nextInt(1000) == 0 && nodes != null) {
 
@@ -86,35 +87,19 @@ public class EnemyProcess implements IEntityProcessingService {
 
                 }
             }
-<<<<<<< HEAD
-            float x = position.getX();
-            float y = position.getY();
-            
-            movingPart.process(gameData, entity);
-            if (position.getX() < x) {
-                assetGen.nextImage("Walk", false);
-            } else if (position.getX() > x) {
-                assetGen.nextImage("Walk", true);
-            } else if (position.getX() == x && position.getY() == y) {
-                assetGen.nextImage("Idle", true);
-=======
             float x = positionPart.getX();
             float y = positionPart.getY();
-
+            
             lineMovingPart.process(gameData, entity);
             if (positionPart.getX() < x) {
-                assetGenerator.nextImage("Walk", false);
+                assetGen.nextImage("Walk", false);
             } else if (positionPart.getX() > x) {
-                assetGenerator.nextImage("Walk", true);
+                assetGen.nextImage("Walk", true);
             } else if (positionPart.getX() == x && positionPart.getY() == y) {
-                assetGenerator.nextImage("Idle", true);
-            }
-            assetGenerator.process(gameData, entity);
+                assetGen.nextImage("Idle", true);
 
-            if (lifePart.getLife() <= 0) {
-                world.removeEntity(entity);
->>>>>>> master
-            }
         }
     }
+    }
 }
+

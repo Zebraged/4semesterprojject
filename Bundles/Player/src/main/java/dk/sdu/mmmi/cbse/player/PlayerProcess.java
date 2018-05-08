@@ -23,20 +23,16 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
  */
 public class PlayerProcess implements IEntityProcessingService {
 
-<<<<<<< HEAD
     private int oldLife = 0;
-    
-=======
     private boolean isFacingLeft;
-
->>>>>>> master
+    
     public void process(GameData gameData, World world) {
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
             MovingPart movingPart = player.getPart(MovingPart.class);
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
-<<<<<<< HEAD
             LifePart life = player.getPart(LifePart.class);
+            
             if(life.getLife() <= 0){
                 gameData.setGameLost(true);
             }
@@ -61,8 +57,6 @@ public class PlayerProcess implements IEntityProcessingService {
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
             oldLife = life.getLife();
-            if(positionPart.getX() > x){
-=======
 
             if (gameData.getKeys().isDown(LEFT)) {
                 isFacingLeft = true;
@@ -70,34 +64,16 @@ public class PlayerProcess implements IEntityProcessingService {
                 isFacingLeft = false;
             }
 
-            float x = positionPart.getX();
-            float y = positionPart.getY();
-
-            movingPart.setLeft(gameData.getKeys().isDown(LEFT));
-            movingPart.setRight(gameData.getKeys().isDown(RIGHT));
-            movingPart.setUp(gameData.getKeys().isDown(UP));
-
-            assetGen.setMirror(isFacingLeft);
-
-            movingPart.process(gameData, player);
-            positionPart.process(gameData, player);
-
             if (positionPart.getX() > x) {
->>>>>>> master
                 assetGen.nextImage("Idle", false);
             } else if (positionPart.getX() < x) {
                 assetGen.nextImage("Idle", true);
             } else if (positionPart.getX() == x && positionPart.getY() == y) {
                 assetGen.nextImage("Idle", true);
             }
-<<<<<<< HEAD
-            
-            assetGen.process(gameData, player);
-            
-=======
+
 
             assetGen.process(gameData, player);
->>>>>>> master
         }
     }
 }
