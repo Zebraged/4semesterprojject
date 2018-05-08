@@ -17,23 +17,21 @@ public class LineMovingPart implements EntityPart {
     private float goalX = -1, goalY = -1;
     private PositionPart pos;
     private float speed;
-    private float jumpVelocity, jumpHeight, fallspeed, gravity, jumpTime;
+    private float jumpVelocity, jumpHeight, gravityAcceleration, jumpTime;
     private boolean isGrounded;
     private boolean up, falling;
     private float lastY;
-    
+
     private CollisionPart col;
 
     public LineMovingPart(float speed, float jumpHeight, float jumpLength) {
+
         this.speed = speed;
 
-        this.speed = speed * 25;
+        jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-        jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
+        gravityAcceleration = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
 
-        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
-
-        fallspeed = gravity - (gravity / 7) * 25;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class LineMovingPart implements EntityPart {
             minX = col.getMinX();
             maxY = col.getMaxY();
         }
-        
+
         if (pos == null) {
             pos = entity.getPart(PositionPart.class);
         }
@@ -65,7 +63,7 @@ public class LineMovingPart implements EntityPart {
                 } else {
                     x = pos.getX() + speed * dt;
                 }
-                
+
                 if (maxX > 1 && x > maxX) {
                     x = maxX;
                 }
@@ -96,14 +94,13 @@ public class LineMovingPart implements EntityPart {
                     }
                     jumpTime += dt;
                     isGrounded = false;
-                    y += -gravity * jumpTime * jumpTime / 2 + jumpVelocity * dt;
+                    y += -gravityAcceleration * jumpTime * jumpTime / 2 + jumpVelocity * dt;
                 } else if (!isGrounded) {
                     if (y > goalY) {
                         jumpTime += dt;
-                        y += -gravity * jumpTime * jumpTime / 2;
+                        y += -gravityAcceleration * jumpTime * jumpTime / 2;
                     }
                 }
-                
 
                 if (minY > 1 && y < minY) {
                     y = minY;
@@ -116,9 +113,7 @@ public class LineMovingPart implements EntityPart {
                 }
                 pos.setY(y);
             }
-            
-            
-            
+
             //set to done if goal reached
             if (Math.abs(pos.getX() - goalX) <= 5 && (Math.abs(pos.getY() - goalY) <= 10 || (lastY > pos.getY() && pos.getY() < goalY))) {
                 pos.setX(Math.round(goalX));

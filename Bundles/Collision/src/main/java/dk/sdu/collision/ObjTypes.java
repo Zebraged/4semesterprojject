@@ -6,7 +6,9 @@
 package dk.sdu.collision;
 
 /**
- * Enum class that contains all urls to the modules that collision uses to locate each module, objects also used to create objects in collision class.
+ * Enum class that contains all urls to the modules that collision uses to
+ * locate each module, objects also used to create objects in collision class.
+ *
  * @author Jesper
  */
 public enum ObjTypes {
@@ -15,7 +17,8 @@ public enum ObjTypes {
     PLATFORM("dk.sdu.mmmi.cbse.platform.Platform.*"),
     TEDDY("dk.sdu.mmmi.cbse.enemy.type.TeddyEnemy.*"),
     CLOUD("dk.sdu.mmmi.cbse.enemy.type.CloudEnemy.*"),
-    UNICORN("dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy.*");
+    UNICORN("dk.sdu.mmmi.cbse.enemy.type.UnicornEnemy.*"),
+    WEAPON("dk.sdu.mmmi.cbse.weapon.Weapon.*");
 
     private String url;
 

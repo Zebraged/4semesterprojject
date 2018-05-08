@@ -26,12 +26,12 @@ import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
  */
 public class PlayerPlugin implements IGamePluginService {
 
-    
     private IPlayerInfoService position;
+
     Boolean status = false;
     Entity player;
-    BundleContext context;
     World world;
+    BundleContext context;
 
     public void start(GameData gameData, World world, BundleContext context) {
         this.world = world;
@@ -59,18 +59,20 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayer(GameData gameData, World world) {
         Entity player = new Player();
-        PositionPart posPart = new PositionPart(48, 34,3);
+
+        PositionPart posPart = new PositionPart(48, 34, 3);
         LifePart lifePart = new LifePart(5, 5000);
         PlayerPosition playPos = new PlayerPosition();
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(lifePart);
         player.add(posPart);
-        player.add(new SizePart(32, 32));
-        player.add(new MovingPart(5, 600, 400));
+        player.add(new SizePart(16, 16));
+        player.add(new MovingPart(150, 800, 550));
         player.add(new CollisionPart());
         playPos.addPositionPart(posPart);
         playPos.setLifePart(lifePart);
         position = playPos;
+
         return player;
     }
 

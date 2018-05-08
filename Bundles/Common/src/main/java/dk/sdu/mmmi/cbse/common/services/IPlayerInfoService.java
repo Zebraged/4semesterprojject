@@ -13,16 +13,19 @@ public interface IPlayerInfoService {
 
     /**
      * get the x position of the player
+     *
      * @return
      */
     public float getX();
 
     /**
      * get the y position of the player
+     *
      * @return
      */
     public float getY();
-    
+
     public int getLife();
+
     public void updateLife(int amount);
 }

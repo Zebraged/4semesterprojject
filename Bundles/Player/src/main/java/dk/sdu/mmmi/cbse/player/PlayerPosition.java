@@ -13,32 +13,31 @@ import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
  *
  * @author Marcg
  */
-public class PlayerPosition implements IPlayerInfoService{
+public class PlayerPosition implements IPlayerInfoService {
 
     private PositionPart part;
     private LifePart life;
-    
-    public PlayerPosition(){
+
+    public PlayerPosition() {
     }
-    
-    public void addPositionPart(PositionPart part){
+
+    public void addPositionPart(PositionPart part) {
         this.part = part;
     }
 
     public void setLifePart(LifePart life) {
         this.life = life;
     }
-    
-    
+
     public float getX() {
-        if(part == null){
+        if (part == null) {
             return 0;
         }
         return part.getX();
     }
 
     public float getY() {
-        if(part == null){
+        if (part == null) {
             return 0;
         }
         return part.getY();
@@ -51,5 +50,5 @@ public class PlayerPosition implements IPlayerInfoService{
     public void updateLife(int life) {
         this.life.updateLife(life);
     }
-    
+
 }

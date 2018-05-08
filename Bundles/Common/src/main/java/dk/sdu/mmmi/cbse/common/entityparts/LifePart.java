@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Marcg
  */
-public class LifePart implements EntityPart{
+public class LifePart implements EntityPart {
 
     int Life;
     boolean invulnerable = false;
@@ -31,9 +31,9 @@ public class LifePart implements EntityPart{
     public int getLife() {
         return Life;
     }
-    
+
     public void updateLife(int life) {
-        if(invulnerable != true){
+        if (invulnerable != true) {
             this.Life += life;
             setInvulnerable();
         }
@@ -46,9 +46,9 @@ public class LifePart implements EntityPart{
     public boolean isInvurnable() {
         return invulnerable;
     }
-    
-    private void setInvulnerable(){
-        executor.execute(new Runnable(){
+
+    private void setInvulnerable() {
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 invulnerable = true;
@@ -59,13 +59,13 @@ public class LifePart implements EntityPart{
                 }
                 invulnerable = false;
             }
-        
+
         });
     }
-    
+
     @Override
     public void process(GameData gameData, Entity entity) {
-        
+
     }
-    
+
 }

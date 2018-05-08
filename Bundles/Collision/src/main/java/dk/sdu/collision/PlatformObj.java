@@ -11,7 +11,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  *
  * @author Jesper
  */
-public class PlatformObj extends PosObj {
+public class PlatformObj extends PositionObj {
     
     public PlatformObj(Entity e, int sizex, int sizey) {
         super(e, sizex, sizey);

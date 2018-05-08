@@ -38,6 +38,7 @@ public class EnemyProcess implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(Enemy.class)) {
+
             
             LineMovingPart movingPart = entity.getPart(LineMovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
@@ -54,9 +55,10 @@ public class EnemyProcess implements IEntityProcessingService {
                 }
             }
             if(random.nextInt(1000) == 0 && nodes != null) {
+
                 nodes.clear();
             }
-            
+
             if (nodes == null || nodes.isEmpty()) {
                 boolean playerFound = false;
                 if (player == null) {
@@ -71,19 +73,20 @@ public class EnemyProcess implements IEntityProcessingService {
                     playerFound = true;
                 }
                 if (playerFound) {
-                    p = new Pathfinder(position, player.getPart(PositionPart.class), world);
+                    p = new Pathfinder(positionPart, player.getPart(PositionPart.class), world);
                     nodeMap.clear();
                     nodeMap.put(entity, p.getResult());
                 }
             } else {
-                if (movingPart.reachedGoal()) {
+                if (lineMovingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
                     float yExtra = (nodes.isEmpty()) ? -4 : 28;
 
-                    movingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
+                    lineMovingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
 
                 }
             }
+<<<<<<< HEAD
             float x = position.getX();
             float y = position.getY();
             
@@ -94,9 +97,24 @@ public class EnemyProcess implements IEntityProcessingService {
                 assetGen.nextImage("Walk", true);
             } else if (position.getX() == x && position.getY() == y) {
                 assetGen.nextImage("Idle", true);
+=======
+            float x = positionPart.getX();
+            float y = positionPart.getY();
+
+            lineMovingPart.process(gameData, entity);
+            if (positionPart.getX() < x) {
+                assetGenerator.nextImage("Walk", false);
+            } else if (positionPart.getX() > x) {
+                assetGenerator.nextImage("Walk", true);
+            } else if (positionPart.getX() == x && positionPart.getY() == y) {
+                assetGenerator.nextImage("Idle", true);
             }
-            assetGen.process(gameData, entity);
+            assetGenerator.process(gameData, entity);
+
+            if (lifePart.getLife() <= 0) {
+                world.removeEntity(entity);
+>>>>>>> master
+            }
         }
     }
-
 }

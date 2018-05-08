@@ -54,7 +54,10 @@ public class AssetGenerator implements EntityPart{
     public boolean getMirror(){
         return this.mirror;
     }
-    
+
+    public void setMirror(boolean mirror) {
+        this.mirror = mirror;
+    }
     
     /**
      * process the generator loading the next image
