@@ -104,14 +104,16 @@ public class AssetManager {
         if (data.isGameWon() == true) {
             batch.setProjectionMatrix(GUIcam.combined);
             drawWinMessage();
-        } else if (data.isGameLost()) {
-
+        } else if (data.isGameLost() == true) {
+            batch.setProjectionMatrix(GUIcam.combined);
+            drawLoseMessage();
         } else {
             Rectangle rect  = new Rectangle((cam.position.x - (cam.viewportWidth/2)), (cam.position.y - (cam.viewportHeight/2)), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
                 PositionPart pos = entity.getPart(PositionPart.class);
                 
                 if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && pos.getZ() == 1){//draw backgrounds no matter what position
+                    
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     sprite.setX((int) pos.getX());
                     sprite.setY((int) pos.getY());
@@ -208,14 +210,13 @@ public class AssetManager {
     
     public void drawPauseMessage() {
         batch.begin();
-        font.setColor(Color.RED);
+        font.setColor(Color.WHITE);
         String won = "Pause";
         String finalScore = "Generating new entities";
         font.draw(batch, won, getPositionOffset(font, won), GUIcam.viewportHeight / 2);
         if (score != null) {
             font.draw(batch, finalScore, getPositionOffset(font, finalScore), GUIcam.viewportHeight / 2 - 40);
         }
-        font.setColor(Color.WHITE);
         batch.end();
     }
 

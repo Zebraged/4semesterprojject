@@ -49,9 +49,8 @@ public class LineMovingPart implements EntityPart {
             maxY = col.getMaxY();
         }
 
-        if (pos == null) {
-            pos = entity.getPart(PositionPart.class);
-        }
+        pos = entity.getPart(PositionPart.class);
+        
         if (goalX != -1 || goalY != -1) {
             float dt = gameData.getDelta();
 

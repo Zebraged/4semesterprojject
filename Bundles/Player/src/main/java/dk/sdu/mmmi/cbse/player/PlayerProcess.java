@@ -35,6 +35,8 @@ public class PlayerProcess implements IEntityProcessingService {
             
             if(life.getLife() <= 0){
                 gameData.setGameLost(true);
+            } else if (positionPart.getY() < 0){
+                gameData.setGameLost(true);
             }
             
             float x = positionPart.getX();

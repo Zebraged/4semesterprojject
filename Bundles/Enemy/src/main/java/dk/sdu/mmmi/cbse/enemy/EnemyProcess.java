@@ -46,6 +46,10 @@ public class EnemyProcess implements IEntityProcessingService {
             LifePart life = entity.getPart(LifePart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
             
+            
+            float x = positionPart.getX();
+            float y = positionPart.getY();
+            
             if(life.getLife() <= 0){
                 BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
                 ServiceReference ref = context.getServiceReference(IScoreService.class);
@@ -87,8 +91,6 @@ public class EnemyProcess implements IEntityProcessingService {
 
                 }
             }
-            float x = positionPart.getX();
-            float y = positionPart.getY();
             
             lineMovingPart.process(gameData, entity);
             if (positionPart.getX() < x) {
@@ -97,8 +99,8 @@ public class EnemyProcess implements IEntityProcessingService {
                 assetGen.nextImage("Walk", true);
             } else if (positionPart.getX() == x && positionPart.getY() == y) {
                 assetGen.nextImage("Idle", true);
-
-        }
+            }
+            assetGen.process(gameData, entity);
     }
     }
 }
