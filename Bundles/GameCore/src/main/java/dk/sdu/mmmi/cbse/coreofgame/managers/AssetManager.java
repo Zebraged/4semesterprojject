@@ -200,6 +200,15 @@ public class AssetManager {
         }
     }
     
+    public void drawLoseMessage() {
+        String won = "Game Lost!!!";
+        String finalScore = "Final score: " + score.getFinalScore();
+        font.draw(batch, won, getPositionOffset(font, won), GUIcam.viewportHeight / 2);
+        if (score != null) {
+            font.draw(batch, finalScore, getPositionOffset(font, finalScore), GUIcam.viewportHeight / 2 - 40);
+        }
+    }
+    
     public void drawPauseMessage() {
         batch.begin();
         font.setColor(Color.RED);
@@ -260,6 +269,8 @@ public class AssetManager {
                 sprite.draw(batch);
                 xoffset = xoffset + 40;
             }
+        } else {
+            font.draw(batch, "life: " + playerInfo.getLife(), 0 + 50, GUIcam.viewportHeight - 80);
         }
     }
 }

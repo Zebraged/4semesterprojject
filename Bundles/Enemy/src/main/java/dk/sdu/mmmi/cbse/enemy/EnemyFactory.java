@@ -83,14 +83,6 @@ public class EnemyFactory implements IEntityGenerator {
                 enemy = createTeddy(x, y, z);
                 world.addEntity(enemy);
                 break;
-            case "cloud":
-                enemy = createCloud(x, y, z);
-                world.addEntity(enemy);
-                break;
-            case "unicorn":
-                enemy = createUnicorn(x, y, z);
-                world.addEntity(enemy);
-                break;
             default:
                 break;
         }

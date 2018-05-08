@@ -9,15 +9,20 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.entityparts.AssetGenerator;
+import dk.sdu.mmmi.cbse.common.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.entityparts.LineMovingPart;
 import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IScoreService;
 import dk.sdu.mmmi.cbse.enemy.enemy_ai_k.Node;
 import dk.sdu.mmmi.cbse.enemy.enemy_ai_k.Pathfinder;
 import dk.sdu.mmmi.cbse.enemy.type.Enemy;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -37,8 +42,17 @@ public class EnemyProcess implements IEntityProcessingService {
             LineMovingPart movingPart = entity.getPart(LineMovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
             PositionPart position = entity.getPart(PositionPart.class);
+            LifePart life = entity.getPart(LifePart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
             
+            if(life.getLife() <= 0){
+                BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+                ServiceReference ref = context.getServiceReference(IScoreService.class);
+                if(ref != null){
+                    IScoreService score = (IScoreService)context.getService(ref);
+                    score.addScore(200);
+                }
+            }
             if(random.nextInt(1000) == 0 && nodes != null) {
                 nodes.clear();
             }
@@ -72,7 +86,7 @@ public class EnemyProcess implements IEntityProcessingService {
             }
             float x = position.getX();
             float y = position.getY();
-
+            
             movingPart.process(gameData, entity);
             if (position.getX() < x) {
                 assetGen.nextImage("Walk", false);

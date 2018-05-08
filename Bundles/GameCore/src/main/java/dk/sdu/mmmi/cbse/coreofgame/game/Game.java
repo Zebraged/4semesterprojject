@@ -52,7 +52,7 @@ public class Game implements ApplicationListener {
     private AssetManager assetManager;
     private PluginTracker pluginTracker;
     private static OrthographicCamera cam;
-    private final GameData gameData = new GameData();
+    private static final GameData gameData = GameData.getGameData();
     private World world = new World();
     private MusicPlayerCore musicCore;
 
@@ -169,8 +169,7 @@ public class Game implements ApplicationListener {
         musicCore.dispose();
     }
 
-    private void postUpdate() {
-    }
+    
 
     /**
      *

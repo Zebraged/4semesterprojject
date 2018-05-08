@@ -52,7 +52,7 @@ public class Collision implements ICollisionService {
         
         if (ref != null) {
             IPlayerInfoService playerPos = (IPlayerInfoService) context.getService(ref);
-            checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), gameData.getDisplayWidth(), gameData.getDisplayHeight());
+            checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), 200, 200);
             for (Entity entity : world.getEntities()) {
                 PositionPart part = entity.getPart(PositionPart.class);
                 SizePart size = entity.getPart(SizePart.class);

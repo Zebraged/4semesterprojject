@@ -5,6 +5,7 @@
  */
 package dk.sdu.mmmi.cbse.goalbundle.score;
 
+import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.services.IScoreService;
 
 /**
@@ -16,7 +17,7 @@ public class ScoreService implements IScoreService{
     int score = 0;
     int time = 300;
     float timecount = 0;
-    
+    GameData data = GameData.getGameData();
     
     public ScoreService(){
         
@@ -27,7 +28,10 @@ public class ScoreService implements IScoreService{
     }
 
     public int getFinalScore() {
-        return (score + time);
+        if(data.isGameWon() == true){
+            return (score + time);
+        }
+        return score;
     }
 
     public int getTimer(float deltaTime) {

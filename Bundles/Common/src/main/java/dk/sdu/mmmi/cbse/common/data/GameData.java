@@ -12,6 +12,8 @@ import org.osgi.framework.Bundle;
  */
 public class GameData {
 
+    private static GameData gameData;
+    
     private float delta = 1.0f;
     private int displayWidth;
     private int displayHeight;
@@ -22,6 +24,15 @@ public class GameData {
     private boolean gameWon = false;
     private boolean gameLost = false;
 
+    
+    public static GameData getGameData(){
+        if(gameData == null){
+            return new GameData();
+        }
+        return gameData;
+    }
+    
+    
     /**
      *
      * @param b
@@ -52,6 +63,7 @@ public class GameData {
     }
     
     public void setBundleObjAssetPath(Bundle bund, String assetPath){
+        
         for (BundleObj bundle : pluginAsset){
             if(bundle.getBundle().getBundleId() == bund.getBundleId()){
                 bundle.setAssetPath(assetPath);
