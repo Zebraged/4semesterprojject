@@ -117,13 +117,17 @@ public class Game implements ApplicationListener {
             IEntityProcessingService process;
             if (processReference() != null) {
                 for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                    process = (IEntityProcessingService) context.getService(reference);
-                    process.process(gameData, world);
+                    if(reference != null){
+                        process = (IEntityProcessingService) context.getService(reference);
+                        process.process(gameData, world);
+                    }
                 }
             }
-
-            processCol = (ICollisionService) context.getService(ref);
-            processCol.process(gameData, world);
+            
+            if(ref != null){
+                processCol = (ICollisionService) context.getService(ref);
+                processCol.process(gameData, world);
+            }
         }
     }
 

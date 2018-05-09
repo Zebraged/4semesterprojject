@@ -92,7 +92,7 @@ public class Collision implements ICollisionService {
         } else {
             clearMaps();
         }
-
+        clearMaps();
     }
 
     public void clearMaps() {
