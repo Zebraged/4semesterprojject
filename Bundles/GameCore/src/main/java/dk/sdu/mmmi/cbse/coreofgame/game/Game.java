@@ -88,9 +88,9 @@ public class Game implements ApplicationListener {
     @Override
     public void render() {
         ServiceReference ref = context.getServiceReference(ILevelGenerator.class);
-        if(ref != null){
+        if (ref != null) {
             ILevelGenerator gen = (ILevelGenerator) context.getService(ref);
-            if(gen.isGenerating() == true){
+            if (gen.isGenerating() == true) {
                 pause();
             } else {
                 update();
@@ -104,30 +104,26 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-       
-            assetManager.loadAllPluginTextures();
-            
-            ServiceReference ref = context.getServiceReference(ICollisionService.class);
-            ICollisionService processCol;
-            if (ref != null) {
+        gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-                
-                
-                gameData.setDelta(Gdx.graphics.getDeltaTime());
+        musicCore.update(gameData.getDelta());
+        assetManager.loadAllPluginTextures();
 
-                musicCore.update(gameData.getDelta());
+        ServiceReference ref = context.getServiceReference(ICollisionService.class);
+        ICollisionService processCol;
+        if (ref != null) {
 
-                IEntityProcessingService process;
-                if (processReference() != null) {
-                    for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                        process = (IEntityProcessingService) context.getService(reference);
-                        process.process(gameData, world);
-                    }
+            IEntityProcessingService process;
+            if (processReference() != null) {
+                for (ServiceReference<IEntityProcessingService> reference : processReference()) {
+                    process = (IEntityProcessingService) context.getService(reference);
+                    process.process(gameData, world);
                 }
-                
-                processCol = (ICollisionService) context.getService(ref);
-                processCol.process(gameData, world);
             }
+
+            processCol = (ICollisionService) context.getService(ref);
+            processCol.process(gameData, world);
+        }
     }
 
     private void draw() {
@@ -193,7 +189,6 @@ public class Game implements ApplicationListener {
         }
         return collection;
     }
-
 
     public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerPositionService.class);

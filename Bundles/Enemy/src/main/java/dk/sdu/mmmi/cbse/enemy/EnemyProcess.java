@@ -33,16 +33,21 @@ public class EnemyProcess implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(Enemy.class)) {
-            
+
             LineMovingPart movingPart = entity.getPart(LineMovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
             PositionPart position = entity.getPart(PositionPart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
             
-            if(random.nextInt(1000) == 0 && nodes != null) {
+            /*
+            if (random.nextInt(300) == 0 && nodes != null) {
                 nodes.clear();
-            }
-            
+                
+                System.out.println("Generated randomly");
+                //Reset goal.
+                movingPart.setGoal(-1, -1);
+            }*/
+
             if (nodes == null || nodes.isEmpty()) {
                 boolean playerFound = false;
                 if (player == null) {
@@ -61,7 +66,6 @@ public class EnemyProcess implements IEntityProcessingService {
                     nodeMap.clear();
                     nodeMap.put(entity, p.getResult());
                 }
-                movingPart.setGoal(position.getX(), 0);
             } else {
                 if (movingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();

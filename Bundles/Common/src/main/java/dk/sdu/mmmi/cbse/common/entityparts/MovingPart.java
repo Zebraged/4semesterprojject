@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.other.ExpandedMath;
 
 /**
  *
@@ -31,13 +32,13 @@ public class MovingPart implements EntityPart {
      * @param jumpLength MovingPart's maximum jump length
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
-        this.speed = speed*25;
-        
-        jumpVelocity = 2 * jumpHeight * speed / jumpLength * 10;
+        this.speed = speed * 25;
 
-        gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength * 25;
-        
-        fallspeed = gravity - (gravity/7)*25;
+        jumpVelocity = jumpHeight;
+
+        gravity = 2;
+
+        fallspeed = gravity - (gravity / 7) * 25;
     }
 
     public void setLeft(boolean left) {
@@ -58,7 +59,7 @@ public class MovingPart implements EntityPart {
 
     @Override
     public void process(GameData gameData, Entity entity) {
-        
+
         col = entity.getPart(CollisionPart.class);
         float minX = 0;
         float maxX = 0;
@@ -86,17 +87,15 @@ public class MovingPart implements EntityPart {
         }
 
         if (up) {
-            if (isGrounded) {
-                jumpTime = 0;
-            }
-            jumpTime += dt;
-            isGrounded = false;
-            y += -gravity * jumpTime * jumpTime / 2 + jumpVelocity * dt;
+            jumpTime += dt*200;
+            float fallingDir = ExpandedMath.clamp((jumpVelocity - gravity - jumpTime) * dt, -30, 30);
+            y += fallingDir;
         } else if (!isGrounded) {
-            jumpTime += dt;
-            y += -gravity * jumpTime * jumpTime / 2;
-        } 
-        
+            jumpTime += dt*200;
+            float fallingDir = ExpandedMath.clamp((- gravity - jumpTime) * dt, -30, 30);
+            y += fallingDir;
+        }
+
         if (maxX > 1 && x > maxX) {
             x = maxX;
         }
@@ -135,8 +134,5 @@ public class MovingPart implements EntityPart {
     public float getFallspeed() {
         return fallspeed;
     }
-    
-    
-    
-    
+
 }

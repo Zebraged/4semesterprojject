@@ -51,12 +51,11 @@ public class Collision implements ICollisionService {
         
         if (ref != null) {
             IPlayerPositionService playerPos = (IPlayerPositionService) context.getService(ref);
-            checkRange = new Rectangle((int) playerPos.getX(), (int) playerPos.getY(), gameData.getDisplayWidth(), gameData.getDisplayHeight());
             for (Entity entity : world.getEntities()) {
                 PositionPart part = entity.getPart(PositionPart.class);
                 SizePart size = entity.getPart(SizePart.class);
                 
-                if (size != null && checkRange.intersects(new Rectangle((int)part.getX(), (int)part.getY(), size.getHeight(), size.getWidth()))) {
+                if (size != null) {
                     if (entity.getSource().toString().matches(ObjTypes.PLAYER.url())) {
                         addObj(PlayerObj, entity, ObjTypes.PLAYER); // ads the player as an position obj.
                         playerFound = true;
