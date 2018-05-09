@@ -40,7 +40,7 @@ public class EnemyFactory implements IEntityGenerator {
         entity.add(new LifePart(1, 1));
         entity.add(new SizePart(24, 24));
         entity.add(new CollisionPart());
-        entity.add(new LineMovingPart(120, 640, 440));
+        entity.add(new LineMovingPart(3, 200, 400));
         return entity;
     }
 

@@ -39,7 +39,6 @@ public class EnemyProcess implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(Enemy.class)) {
 
-            
             LineMovingPart lineMovingPart = entity.getPart(LineMovingPart.class);
             AssetGenerator assetGen = entity.getPart(AssetGenerator.class);
             PositionPart positionPart = entity.getPart(PositionPart.class);
@@ -63,7 +62,14 @@ public class EnemyProcess implements IEntityProcessingService {
 
                 nodes.clear();
             }
-
+            /*
+            if (random.nextInt(300) == 0 && nodes != null) {
+                nodes.clear();
+                
+                System.out.println("Generated randomly");
+                //Reset goal.
+                movingPart.setGoal(-1, -1);
+            }*/
             if (nodes == null || nodes.isEmpty()) {
                 boolean playerFound = false;
                 if (player == null) {
@@ -85,7 +91,7 @@ public class EnemyProcess implements IEntityProcessingService {
             } else {
                 if (lineMovingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
-                    float yExtra = (nodes.isEmpty()) ? -4 : 28;
+                    float yExtra = (nodes.isEmpty()) ? 0 : 32;
 
                     lineMovingPart.setGoal(n.getObject().getX(), n.getObject().getY() + yExtra);
 

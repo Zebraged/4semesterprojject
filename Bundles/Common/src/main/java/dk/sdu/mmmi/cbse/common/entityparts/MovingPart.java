@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.common.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.other.ExpandedMath;
 
 /**
  *
@@ -15,7 +16,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 public class MovingPart implements EntityPart {
 
     private float speed;
-    private float gravityAcceleration, jumpVelocity;
+    private float gravity, jumpVelocity;
     private boolean left, right, up;
     private boolean isGrounded;
     private float jumpTime;
@@ -32,17 +33,16 @@ public class MovingPart implements EntityPart {
      * @param jumpLength MovingPart's maximum jump length
      */
     public MovingPart(float speed, float jumpHeight, float jumpLength) {
-
         this.speed = speed;
 
         this.jumpVelocity = 2 * jumpHeight * speed / jumpLength;
 
-        this.gravityAcceleration = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
+        this.gravity = 2 * jumpHeight * speed * speed / jumpLength / jumpLength;
     }
 
     public MovingPart(float speed) {
         this.speed = speed;
-        this.gravityAcceleration = 0;
+        this.gravity = 0;
         this.jumpVelocity = 0;
     }
 
@@ -92,15 +92,13 @@ public class MovingPart implements EntityPart {
         }
 
         if (up) {
-            if (isGrounded) {
-                jumpTime = 0;
-            }
-            jumpTime += dt;
-            isGrounded = false;
-            y += -gravityAcceleration * jumpTime * jumpTime / 2 + jumpVelocity * dt;
+            jumpTime += dt*200;
+            float fallingDir = ExpandedMath.clamp((jumpVelocity - gravity - jumpTime) * dt, -30, 30);
+            y += fallingDir;
         } else if (!isGrounded) {
-            jumpTime += dt;
-            y += -gravityAcceleration * jumpTime * jumpTime / 2;
+            jumpTime += dt*200;
+            float fallingDir = ExpandedMath.clamp((- gravity - jumpTime) * dt, -30, 30);
+            y += fallingDir;
         }
 
         if (maxX > 1 && x > maxX) {
@@ -131,10 +129,14 @@ public class MovingPart implements EntityPart {
     }
 
     public float getGravity() {
-        return gravityAcceleration;
+        return gravity;
     }
 
     public float getJumpVelocity() {
         return jumpVelocity;
     }
+    public float getFallspeed() {
+        return fallspeed;
+    }
+
 }

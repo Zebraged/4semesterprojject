@@ -23,9 +23,12 @@ import dk.sdu.mmmi.cbse.common.entityparts.PositionPart;
  */
 public class PlayerProcess implements IEntityProcessingService {
 
+    
     private int oldLife = 0;
     private boolean isFacingLeft;
     
+    private boolean lastDir;
+
     public void process(GameData gameData, World world) {
         for (Entity player : world.getEntities(Player.class)) {
             PositionPart positionPart = player.getPart(PositionPart.class);
@@ -71,7 +74,11 @@ public class PlayerProcess implements IEntityProcessingService {
             } else if (positionPart.getX() < x) {
                 assetGen.nextImage("Idle", true);
             } else if (positionPart.getX() == x && positionPart.getY() == y) {
+
                 assetGen.nextImage("Idle", true);
+                lastDir = true;
+            } else if (positionPart.getX() == x && positionPart.getY() == y) {
+                assetGen.nextImage("Idle", lastDir);
             }
 
 

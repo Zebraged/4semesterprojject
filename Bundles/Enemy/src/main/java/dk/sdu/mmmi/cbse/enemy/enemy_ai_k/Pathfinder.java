@@ -22,26 +22,52 @@ public class Pathfinder {
     private List<Node<PositionPart>> open, closed; //list of the open and closed map.
     private static PositionPart[][] updatedMap; //list of the tiles etc.
     private static PositionPart[][] staticMap; //list of the tiles etc.
+    private boolean[][] addedBefore;
     private LinkedList<Node<PositionPart>> result;
     private PositionPart start, goal;
     private static int TILES_X, TILES_Y;
     private float h;
+    private static boolean reachable = true;
+    private static float lastGoalY, lastGoalX;
+    private final int RIGHT = 1;
+    private final int CENTER = 0;
+    private final int LEFT = -1;
 
     public Pathfinder(PositionPart start, PositionPart goal, World world) {
         this.start = start;
-        this.goal = goal;
-        open = new ArrayList();
-        closed = new ArrayList();
-        h = getH();
-        if (TILES_X == 0 || TILES_Y == 0) {
-            generateNodeMap(world);
+        this.goal = new PositionPart(goal.getX(), goal.getY(), 0);
+        //If the last was reachable
+        //Or the last was unreachable but the Y value has gotten lower
+        if (reachable || (!reachable && lastGoalY != goal.getY() && lastGoalX != goal.getX())) {
+            lastGoalY = goal.getY();
+            lastGoalX = goal.getX();
+            open = new ArrayList();
+            closed = new ArrayList();
+            h = getH();
+            if (TILES_X == 0 || TILES_Y == 0) {
+                generateNodeMap(world);
+            }
+            updateMap();
+            Node s = new Node(start, null);
+            updatedMap[(int) this.goal.getY() / 32][(int) this.goal.getX() / 32] = this.goal;
+            open.add(s);
+            reachable = false;
+            if (Math.abs(goal.getX() - start.getX()) < 32) {
+                System.out.println("Making simple route..");
+                makeSimpleRoute();
+            } else {
+                generate();
+            }
+            //printRoute();
+
         }
-        updateMap();
-        Node s = new Node(start, null);
-        updatedMap[(int) goal.getY() / 32][(int) goal.getX() / 32] = goal;
-        open.add(s);
-        generate();
-        //printRoute();
+
+    }
+
+    private void makeSimpleRoute() {
+        int dir = ((goal.getX() - start.getX()) < 0) ? -1 : 1;
+        Node<PositionPart> end = new Node(new PositionPart(goal.getX() + dir * 32, start.getY(), 0), new Node(start, null));
+        makeLinkedList(end);
     }
 
     private void updateMap() {
@@ -54,9 +80,11 @@ public class Pathfinder {
                 }
             }
         }
+        addedBefore = new boolean[updatedMap.length][updatedMap[1].length];
     }
 
     private void makeLinkedList(Node<PositionPart> last) {
+        reachable = true;
         this.result = new LinkedList();
 
         Node current = last;
@@ -64,6 +92,9 @@ public class Pathfinder {
         while (current.getParent() != null) {
             this.result.addFirst(current);
             current = current.getParent();
+        }
+        if (!this.result.isEmpty()) {
+            this.result.remove(0); //Remove the initial position.
         }
     }
 
@@ -105,9 +136,9 @@ public class Pathfinder {
                 if (!shouldSkip) {
                     open.add(successor);
                 }
+                closed.add(n);
             }
 
-            closed.add(n);
         }
     }
 
@@ -119,45 +150,52 @@ public class Pathfinder {
 
         if (parent.getObject() != start) {
             //Negative
-            addIfExists(successors, parent, x - 1, y + 1);
-            addIfExists(successors, parent, x - 1, y + 2);
-            addIfExists(successors, parent, x - 1, y + 3);
-            addIfExists(successors, parent, x - 1, y + 4);
-            addIfExists(successors, parent, x - 2, y + 1);
-            addIfExists(successors, parent, x - 2, y + 2);
-            addIfExists(successors, parent, x - 2, y + 3);
-            addIfExists(successors, parent, x - 2, y + 4);
+            addIfValid(successors, parent, x - 1, y + 1, LEFT);
+            addIfValid(successors, parent, x - 1, y + 2, LEFT);
+            addIfValid(successors, parent, x - 1, y + 3, LEFT);
+            addIfValid(successors, parent, x - 2, y + 1, LEFT);
 
             //Positive
-            addIfExists(successors, parent, x + 1, y + 1);
-            addIfExists(successors, parent, x + 1, y + 2);
-            addIfExists(successors, parent, x + 1, y + 3);
-            addIfExists(successors, parent, x + 1, y + 4);
-            addIfExists(successors, parent, x + 2, y + 1);
-            addIfExists(successors, parent, x + 2, y + 2);
-            addIfExists(successors, parent, x + 2, y + 3);
-            addIfExists(successors, parent, x + 2, y + 4);
+            addIfValid(successors, parent, x + 1, y + 1, RIGHT);
+            addIfValid(successors, parent, x + 1, y + 2, RIGHT);
+            addIfValid(successors, parent, x + 1, y + 3, RIGHT);
+            addIfValid(successors, parent, x + 2, y + 1, RIGHT);
         }
-        addIfExists(successors, parent, x, y);
-        addIfExists(successors, parent, x, 0);
+        addIfValid(successors, parent, x, 0, CENTER);
 
-        addIfExists(successors, parent, x + 1, y - 1);
-        addIfExists(successors, parent, x + 1, y);
-        addIfExists(successors, parent, x - 1, y - 1);
-        addIfExists(successors, parent, x - 1, y);
-        addIfExists(successors, parent, x, y + 1);
+        addIfValid(successors, parent, x + 1, y - 1, CENTER);
+        addIfValid(successors, parent, x + 1, y, CENTER);
+        addIfValid(successors, parent, x - 1, y, CENTER);
+        addIfValid(successors, parent, x - 1, y, CENTER);
+        addIfValid(successors, parent, x, y + 1, CENTER);
 
         return successors;
     }
 
-    private void addIfExists(List<Node<PositionPart>> list, Node parent, int x, int y) {
+    private void addIfValid(List<Node<PositionPart>> list, Node parent, int x, int y, int dir) {
+        //If out of array size.
         if (x < 0 || y < 0 || x >= TILES_X || y >= TILES_Y) {
             return;
         }
+        //if a platform is directly above it.
+        if (updatedMap.length <= y + 1 || updatedMap[y + 1][x] != null && updatedMap[y][x] != goal) {
+            return;
+        }
+
+        if (dir == LEFT && updatedMap[y][x+1] != null) {
+            return;
+        }
+        if (dir == RIGHT && updatedMap[y][x-1] != null) {
+            return;
+        }
+
         PositionPart p = updatedMap[y][x];
         if (p != null) {
             Node<PositionPart> node = new Node(p, parent);
-            list.add(node);
+            if (!closed.contains(node) && !addedBefore[y][x]) {
+                list.add(node);
+                addedBefore[y][x] = true;
+            }
         } else {
         }
     }
@@ -229,10 +267,19 @@ public class Pathfinder {
     private void printRoute() {
         printCollisionMap();
         System.out.println("---------------------------");
-        System.out.println("Start: " + start.getX() + "   " + start.getY());
-        for (Node<PositionPart> nod : result) {
-            System.out.println("Node: " + nod.getObject().getX() + "   " + nod.getObject().getY());
+        if (result != null) {
+            for (Node<PositionPart> nod : result) {
+                System.out.println("Node: " + nod.getObject().getX() + "   " + nod.getObject().getY());
+            }
+        } else {
+            System.out.println("Impossible route to goal.");
         }
-        System.out.println("End: " + goal.getX() + "   " + goal.getY());
+    }
+
+    /**
+     * @return the reachable
+     */
+    public static boolean isReachable() {
+        return reachable;
     }
 }
