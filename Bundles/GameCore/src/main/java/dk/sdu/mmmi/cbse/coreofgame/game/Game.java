@@ -96,6 +96,7 @@ public class Game implements ApplicationListener {
                 update();
                 draw();
             }
+            context.ungetService(ref);
         } else {
             update();
             draw();
@@ -197,7 +198,7 @@ public class Game implements ApplicationListener {
     public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         if (reference == null) {
-
+            
         } else {
             IPlayerInfoService playerPosition = (IPlayerInfoService) context.getService(reference);
             if (playerPosition.getX() > cam.viewportWidth / 2 * cam.zoom) {
@@ -210,6 +211,7 @@ public class Game implements ApplicationListener {
             } else {
                 cam.position.y = cam.viewportHeight / 2 * cam.zoom;
             }
+            context.ungetService(reference);
         }
     }
 
