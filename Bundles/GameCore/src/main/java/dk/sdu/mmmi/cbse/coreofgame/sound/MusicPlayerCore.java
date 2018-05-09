@@ -156,8 +156,9 @@ public class MusicPlayerCore {
     }
 
     public void dispose() {
-        this.music.stop();
-        this.music.dispose();
+        if(music != null){
+            this.music.dispose();
+        }
     }
 
     private Music getMusic(String path) {

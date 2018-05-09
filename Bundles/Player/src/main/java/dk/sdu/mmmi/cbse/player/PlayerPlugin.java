@@ -19,6 +19,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  *
@@ -32,6 +33,7 @@ public class PlayerPlugin implements IGamePluginService {
     Entity player;
     World world;
     BundleContext context;
+    ServiceRegistration reg;
 
     public void start(GameData gameData, World world, BundleContext context) {
         this.world = world;
@@ -42,14 +44,13 @@ public class PlayerPlugin implements IGamePluginService {
         player = createPlayer(gameData, world);
         player.setAlignment(1);
         world.addEntity(player);
-        context.registerService(IPlayerInfoService.class.getName(), position, null);
+        reg = context.registerService(IPlayerInfoService.class.getName(), position, null);
     }
 
     public void stop() {
         status = false;
-        ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
-        context.ungetService(reference);
         world.removeEntity(player);
+        reg.unregister();
         System.out.println("plugin stopped");
     }
 
@@ -66,7 +67,7 @@ public class PlayerPlugin implements IGamePluginService {
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(lifePart);
         player.add(posPart);
-        player.add(new SizePart(32, 32));
+        player.add(new SizePart(16, 16));
         player.add(new MovingPart(150, 800, 550));
         player.add(new CollisionPart());
         playPos.addPositionPart(posPart);
