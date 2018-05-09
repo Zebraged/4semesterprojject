@@ -109,7 +109,6 @@ public class MusicPlayerCore {
                 } else {
                     currentSong = nextSong;
                 }
-                System.out.println(nextSong.getPath());
                 this.music = this.getMusic(nextSong.getPath());
                 this.music.setVolume(0);
                 this.fadeDirection = 1;

@@ -7,6 +7,7 @@ package dk.sdu.mmmi.cbse.levelgenerator;
 
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.music.MusicPlayer;
 import dk.sdu.mmmi.cbse.common.services.IEntityGenerator;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.ILevelGenerator;
@@ -50,7 +51,7 @@ public class LevelGenerator implements ILevelGenerator {
         this.context = context;
         generators = getGenerators();
         loadedGenerators = new ArrayList();
-        
+        //MusicPlayer.getMusicPlayer().queueSong("./Bundles/LevelGenerator/src/main/resources/music/Tiffanys Adventure Theme.ogg", true);
 
         path="./Bundles/LevelGenerator/map_example.lvl";
         this.context = context;

@@ -38,8 +38,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>dk.sdu.mmmi.cbse.common.data,dk.sdu.mmmi.cbse.common.entityparts,dk.sdu.mmmi.cbse.common.events,dk.sdu.mmmi.cbse.common.music,dk.sdu.mmmi.cbse.common.services</Export-Package>
-                        <Private-Package>dk.sdu.mmmi.cbse.common.data.*,dk.sdu.mmmi.cbse.common.entityparts.*,dk.sdu.mmmi.cbse.common.events.*,dk.sdu.mmmi.cbse.common.music.*,dk.sdu.mmmi.cbse.common.services.*</Private-Package>
+                        <Export-Package>dk.sdu.mmmi.cbse.common.data,dk.sdu.mmmi.cbse.common.entityparts,dk.sdu.mmmi.cbse.common.events,dk.sdu.mmmi.cbse.common.music,dk.sdu.mmmi.cbse.common.other,dk.sdu.mmmi.cbse.common.services</Export-Package>
+                        <Private-Package>dk.sdu.mmmi.cbse.common.data.*,dk.sdu.mmmi.cbse.common.entityparts.*,dk.sdu.mmmi.cbse.common.events.*,dk.sdu.mmmi.cbse.common.music.*,dk.sdu.mmmi.cbse.common.other.*,dk.sdu.mmmi.cbse.common.services.*</Private-Package>
                     </instructions>
                 </configuration>
             </plugin>

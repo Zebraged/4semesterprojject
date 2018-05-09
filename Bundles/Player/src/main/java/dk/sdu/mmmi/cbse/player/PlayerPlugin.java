@@ -66,7 +66,7 @@ public class PlayerPlugin implements IGamePluginService {
         player.add(new AssetGenerator(player, "image/", "Player_idle1.png"));
         player.add(lifePart);
         player.add(posPart);
-        player.add(new SizePart(16, 16));
+        player.add(new SizePart(32, 32));
         player.add(new MovingPart(150, 800, 550));
         player.add(new CollisionPart());
         playPos.addPositionPart(posPart);
