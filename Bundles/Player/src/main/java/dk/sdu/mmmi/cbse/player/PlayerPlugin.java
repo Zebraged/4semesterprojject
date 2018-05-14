@@ -17,7 +17,6 @@ import dk.sdu.mmmi.cbse.common.entityparts.SizePart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
 import org.osgi.framework.ServiceRegistration;
 

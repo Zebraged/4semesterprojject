@@ -73,7 +73,7 @@ public class Game implements ApplicationListener {
 
         assetManager = new AssetManager(world, gameData, cam);
 
-        pluginTracker = new PluginTracker(context, gameData, world, assetManager);
+        pluginTracker = new PluginTracker(context, gameData, world);
         pluginTracker.startPluginTracker();
 
         Gdx.input.setInputProcessor(

@@ -31,7 +31,7 @@ public class WeaponSystem implements IEntityProcessingService {
     private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};     // Current InventorySystem, might need a better solution
     private int currentWeaponNum = 0;
     private ServiceReference ref;
-    private boolean shiftPressed, spacePressed;      //isPressed() doesn't work properly
+    private boolean shiftPressed, spacePressed;      //to avoid multiple checks
     private boolean isFacingLeft;
     private float xPositionAdder;
     private float attackTime;
@@ -108,7 +108,7 @@ public class WeaponSystem implements IEntityProcessingService {
             positionPart.process(gameData, weapon);
             assetGenerator.process(gameData, weapon);
 
-            shiftPressed = gameData.getKeys().isDown(SHIFT);     //isPressed doesn't work properly
+            shiftPressed = gameData.getKeys().isDown(SHIFT);     
             spacePressed = gameData.getKeys().isDown(SPACE);
         }
     }

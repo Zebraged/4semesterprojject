@@ -9,3 +9,6 @@ target/
 felix-cache/
 >>>>>>> master
 *.jar
+/Bundles/DM507Proj3/nbproject/private/
+/Bundles/DM507Proj3/build/
+/Bundles/DM507Proj3/dist/
