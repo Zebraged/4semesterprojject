@@ -51,9 +51,9 @@ public class LevelGenerator implements ILevelGenerator {
         this.context = context;
         generators = getGenerators();
         loadedGenerators = new ArrayList();
-        //MusicPlayer.getMusicPlayer().queueSong("./Bundles/LevelGenerator/src/main/resources/music/Tiffanys Adventure Theme.ogg", true);
+        MusicPlayer.getMusicPlayer().queueSong("./Bundles/LevelGenerator/src/main/resources/music/Tiffanys Adventure Theme.ogg", true);
 
-        path="map_example.lvl";
+        path="./Bundles/LevelGenerator/map_example.lvl";
         this.context = context;
         this.data = data;
         this.world = world;

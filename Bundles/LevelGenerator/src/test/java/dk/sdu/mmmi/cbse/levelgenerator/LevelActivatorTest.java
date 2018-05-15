@@ -42,47 +42,47 @@ public class LevelActivatorTest {
     @After
     public void tearDown() {
     }
-
-    /**
-     * Test of start method, of class LevelActivator.
-     */
-    @Test
-    public void testStart() {
-        System.out.println("start");
-        GameData gameData = mock(GameData.class);
-        World world = mock(World.class);
-        BundleContext context = mock(BundleContext.class);
-        LevelActivator instance = new LevelActivator();
-        instance.start(gameData, world, context);
-        assertEquals(instance.getStatus(), true);
-        // TODO review the generated test code and remove the default call to fail.
-    }
-
-    /**
-     * Test of stop method, of class LevelActivator.
-     */
-    @Test
-    public void testStop() {
-        System.out.println("stop");
-        LevelActivator instance = new LevelActivator();
-        instance.stop();
-        
-        //Checks whether the flag has been set.
-        assertEquals(instance.getStatus(), false);
-    }
-
-    /**
-     * Test of getStatus method, of class LevelActivator.
-     */
-    @Test
-    public void testGetStatus() {
-        System.out.println("getStatus");
-        LevelActivator instance = new LevelActivator();
-        boolean expResult = false;
-        boolean result = instance.getStatus();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-    }
+//
+//    /**
+//     * Test of start method, of class LevelActivator.
+//     */
+//    @Test
+//    public void testStart() {
+//        System.out.println("start");
+//        GameData gameData = mock(GameData.class);
+//        World world = mock(World.class);
+//        BundleContext context = mock(BundleContext.class);
+//        LevelActivator instance = new LevelActivator();
+//        instance.start(gameData, world, context);
+//        assertEquals(instance.getStatus(), true);
+//        // TODO review the generated test code and remove the default call to fail.
+//    }
+//
+//    /**
+//     * Test of stop method, of class LevelActivator.
+//     */
+//    @Test
+//    public void testStop() {
+//        System.out.println("stop");
+//        LevelActivator instance = new LevelActivator();
+//        instance.stop();
+//        
+//        //Checks whether the flag has been set.
+//        assertEquals(instance.getStatus(), false);
+//    }
+//
+//    /**
+//     * Test of getStatus method, of class LevelActivator.
+//     */
+//    @Test
+//    public void testGetStatus() {
+//        System.out.println("getStatus");
+//        LevelActivator instance = new LevelActivator();
+//        boolean expResult = false;
+//        boolean result = instance.getStatus();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//    }
 
     
 }
