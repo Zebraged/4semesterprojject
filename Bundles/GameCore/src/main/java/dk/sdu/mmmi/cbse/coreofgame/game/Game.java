@@ -73,7 +73,7 @@ public class Game implements ApplicationListener {
 
         assetManager = new AssetManager(world, gameData, cam);
 
-        pluginTracker = new PluginTracker(context, gameData, world, assetManager);
+        pluginTracker = new PluginTracker(context, gameData, world);
         pluginTracker.startPluginTracker();
 
         Gdx.input.setInputProcessor(
@@ -96,6 +96,7 @@ public class Game implements ApplicationListener {
                 update();
                 draw();
             }
+            context.ungetService(ref);
         } else {
             update();
             draw();
@@ -116,13 +117,17 @@ public class Game implements ApplicationListener {
             IEntityProcessingService process;
             if (processReference() != null) {
                 for (ServiceReference<IEntityProcessingService> reference : processReference()) {
-                    process = (IEntityProcessingService) context.getService(reference);
-                    process.process(gameData, world);
+                    if(reference != null){
+                        process = (IEntityProcessingService) context.getService(reference);
+                        process.process(gameData, world);
+                    }
                 }
             }
-
-            processCol = (ICollisionService) context.getService(ref);
-            processCol.process(gameData, world);
+            
+            if(ref != null){
+                processCol = (ICollisionService) context.getService(ref);
+                processCol.process(gameData, world);
+            }
         }
     }
 
@@ -192,7 +197,6 @@ public class Game implements ApplicationListener {
     public void placeCam() {
         ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         if (reference == null) {
-
         } else {
             IPlayerInfoService playerPosition = (IPlayerInfoService) context.getService(reference);
             if (playerPosition.getX() > cam.viewportWidth / 2 * cam.zoom) {

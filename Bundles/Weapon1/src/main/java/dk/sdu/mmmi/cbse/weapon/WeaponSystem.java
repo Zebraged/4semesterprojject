@@ -16,6 +16,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import dk.sdu.mmmi.cbse.common.services.IPlayerInfoService;
+import org.osgi.framework.ServiceReference;
 
 /**
  *
@@ -26,12 +27,11 @@ public class WeaponSystem implements IEntityProcessingService {
     private BundleContext bundleContext;
 
     private IPlayerInfoService iPlayerInfoService;
-    private boolean gotReference = false;   // For checking if a IPlayerPositionService-reference is registered 
 
     private final String[] weaponNames = {"Stick", "Sword", "Cupcake"};     // Current InventorySystem, might need a better solution
     private int currentWeaponNum = 0;
-
-    private boolean shiftPressed, spacePressed;      //isPressed() doesn't work properly
+    private ServiceReference ref;
+    private boolean shiftPressed, spacePressed;      //to avoid multiple checks
     private boolean isFacingLeft;
     private float xPositionAdder;
     private float attackTime;
@@ -40,11 +40,11 @@ public class WeaponSystem implements IEntityProcessingService {
 
         checkOrientation(gameData);
 
-        if (!gotReference) {
-            createReference();
-        } else {
+        createReference();
+        if(ref != null){
+            iPlayerInfoService = (IPlayerInfoService) bundleContext.getService(ref);
             processWeapons(gameData, world);
-            processProjectiles(gameData, world);
+            processProjectiles(gameData, world);   
         }
     }
 
@@ -57,14 +57,9 @@ public class WeaponSystem implements IEntityProcessingService {
     }
 
     private void createReference() {
-        try {
             bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-            iPlayerInfoService = bundleContext.getService(bundleContext.getServiceReference(IPlayerInfoService.class));
-            gotReference = true;
-        } catch (NullPointerException ex) {
-            // IPlayerPostionService is not registered
-            // no exception message for now
-        }
+            ref = bundleContext.getServiceReference(IPlayerInfoService.class);
+           
     }
 
     private void processWeapons(GameData gameData, World world) {
@@ -113,7 +108,7 @@ public class WeaponSystem implements IEntityProcessingService {
             positionPart.process(gameData, weapon);
             assetGenerator.process(gameData, weapon);
 
-            shiftPressed = gameData.getKeys().isDown(SHIFT);     //isPressed doesn't work properly
+            shiftPressed = gameData.getKeys().isDown(SHIFT);     
             spacePressed = gameData.getKeys().isDown(SPACE);
         }
     }

@@ -26,7 +26,6 @@ public class PluginTracker {
     BundleContext context;
     GameData gameData;
     World world;
-    AssetManager assetManager;
     ExecutorService executor = Executors.newSingleThreadExecutor();
     
     /**
@@ -36,11 +35,10 @@ public class PluginTracker {
      * @param world
      * @param assetManager
      */
-    public PluginTracker(BundleContext context, GameData data, World world, AssetManager assetManager){
+    public PluginTracker(BundleContext context, GameData data, World world){
         this.context = context;
         this.gameData = data;
         this.world = world;
-        this.assetManager = assetManager;
     }
     
     //starts any new plugin that have been loaded

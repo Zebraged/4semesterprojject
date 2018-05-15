@@ -26,7 +26,6 @@ public class MusicPlayerCore {
     private MusicData nextSong;
     private Music music;
     private boolean switchingSong;
-    private boolean isChangingSong;
     private final float FADE_SPEED = 0.2f;
 
     //Fade in = 1, Fade out = -1
@@ -157,7 +156,9 @@ public class MusicPlayerCore {
     }
 
     public void dispose() {
-        this.music.dispose();
+        if(music != null){
+            this.music.dispose();
+        }
     }
 
     private Music getMusic(String path) {
