@@ -22,10 +22,11 @@ public class LevelActivator implements IGamePluginService, IEntityProcessingServ
         System.out.println("Level Generator Started!");
         try {
             generator = new LevelGenerator(context, gameData, world);
-            context.registerService(ILevelGenerator.class.getName(), generator, null);
-            generator.generate();
+            context.registerService(ILevelGenerator.class.getName(), getGenerator(), null);
+            getGenerator().generate();
             loaded = true;
         } catch (IOException ex) {
+            System.out.println(ex);
             Logger.getLogger(LevelActivator.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -43,20 +44,28 @@ public class LevelActivator implements IGamePluginService, IEntityProcessingServ
     }
 
     public void process(GameData gameData, World world) {
-        if (generator == null) {
+        if (getGenerator() == null) {
             return;
         }
+        System.out.println("Delta: "+gameData.getDelta());
         timer += gameData.getDelta();
         if (timer > timerMax) {
             timer = 0;
             try {
-                generator.checkNewGeneratorsAndGenerate();
+                getGenerator().checkNewGeneratorsAndGenerate();
             } catch (InterruptedException ex) {
                 Logger.getLogger(LevelActivator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(LevelActivator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    /**
+     * @return the generator
+     */
+    public LevelGenerator getGenerator() {
+        return generator;
     }
 
 }

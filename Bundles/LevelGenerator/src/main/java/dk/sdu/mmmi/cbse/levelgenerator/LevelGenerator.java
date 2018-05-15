@@ -53,7 +53,7 @@ public class LevelGenerator implements ILevelGenerator {
         loadedGenerators = new ArrayList();
         //MusicPlayer.getMusicPlayer().queueSong("./Bundles/LevelGenerator/src/main/resources/music/Tiffanys Adventure Theme.ogg", true);
 
-        path="./Bundles/LevelGenerator/map_example.lvl";
+        path="map_example.lvl";
         this.context = context;
         this.data = data;
         this.world = world;
@@ -178,12 +178,16 @@ public class LevelGenerator implements ILevelGenerator {
             generators = newGens;
             generate();
         }
+        
     }
 
     public boolean isGenerating() {
         return generating;
     }
     
+    public int getGeneratorAmount() {
+        return this.loadedGenerators.size();
+    }
 }
 
 enum Command {
