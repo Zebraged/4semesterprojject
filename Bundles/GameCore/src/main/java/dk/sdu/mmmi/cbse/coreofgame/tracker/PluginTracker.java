@@ -61,7 +61,7 @@ public class PluginTracker {
         try {
             collection = this.context.getServiceReferences(IGamePluginService.class, null);
         } catch (InvalidSyntaxException ex) {
-            System.out.println("Service not availlable!");
+            System.out.println("Service not available!");
             active = false; //stop thread if service is unavailable
         }
         return collection;
@@ -78,8 +78,7 @@ public class PluginTracker {
                     loadPlugins();
                     Thread.sleep(5000);
                 } catch (InterruptedException ex) {
-                    System.out.println("Thread failed");
-                    System.out.println(ex);
+                    System.out.println("Plugin Tracker unexpectically stopped!\n"+ex);
                 } 
             }
         });

@@ -15,7 +15,11 @@ import org.osgi.framework.BundleContext;
  */
 public class SettingsParser implements ISpecificParser {
     
-
+    /**
+     * Line expected: setting=arg1,arg2,arg3
+     * @param generators
+     * @param line 
+     */
     public void parse(Collection<IEntityGenerator> generators, String line) {
     }
     

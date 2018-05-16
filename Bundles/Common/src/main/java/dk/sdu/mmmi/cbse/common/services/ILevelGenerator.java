@@ -14,9 +14,22 @@ import java.io.IOException;
  */
 public interface ILevelGenerator {
 
+    /**
+     * Generates the .lvl-file found on the given path.
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void generate() throws FileNotFoundException, IOException;
 
+    /**
+     * Sets the path to the .lvl-file wished to be generated.
+     * @param path 
+     */
     public void setPath(String path);
     
+    /**
+     * 
+     * @return true if generation is in process.
+     */
     public boolean isGenerating();
 }

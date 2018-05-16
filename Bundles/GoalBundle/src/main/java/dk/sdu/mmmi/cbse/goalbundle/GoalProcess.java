@@ -27,6 +27,8 @@ public class GoalProcess implements IEntityProcessingService{
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         ServiceReference reference = context.getServiceReference(IPlayerInfoService.class);
         
+        //Checks if the player is within the invisible rectangle of the player.
+        //If so, make the player win the level.
         for(Entity ent : world.getEntities(Goal.class)){
             PositionPart pos = ent.getPart(PositionPart.class);
             SizePart size = ent.getPart(SizePart.class);

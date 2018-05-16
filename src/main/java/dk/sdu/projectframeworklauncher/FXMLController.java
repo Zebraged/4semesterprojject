@@ -146,7 +146,6 @@ public class FXMLController implements Initializable {
     private void deleteFelixCache() {
         File dir = new File("./felix-cache/");
         System.out.println("Wipe Felix cache Folder!");
-        System.out.println("");
         try {
             FileUtils.cleanDirectory(dir);
 

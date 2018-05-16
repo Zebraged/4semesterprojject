@@ -12,11 +12,11 @@ package dk.sdu.mmmi.cbse.common.other;
 public class ExpandedMath {
 
     /**
-     * If the value is not within the range of x1 and x2, it will return the heighest/lowest of those two.
+     * If the value is not within the range of x1 and x2, it will return the highest/lowest of those two.
      * @param value
      * @param x1
      * @param x2
-     * @return 
+     * @return a clamped value between x1 and x2
      */
     public static float clamp(float value, float x1, float x2) {
         //Find the heighest value

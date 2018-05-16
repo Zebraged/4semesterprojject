@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1526384608443
+Bnd-LastModified: 1526395579466
 Build-Jdk: 1.8.0_161
 Built-By: Mr. Kinder
 Bundle-Activator: dk.sdu.mmmi.cbse.player.PlayerActivator

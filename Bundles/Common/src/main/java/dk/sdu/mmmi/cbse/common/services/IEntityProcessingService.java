@@ -10,7 +10,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 public interface IEntityProcessingService {
 
     /**
-     *  process the plugin, running the functions of each entity are created.
+     * process the plugin, running the functions of each entity are created.
      * @param gameData
      * @param world
      */

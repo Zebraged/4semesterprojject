@@ -24,7 +24,7 @@ public class GameInputProcessor extends InputAdapter {
     /**
      *
      * @param k
-     * @return
+     * @return true if the key is down. Otherwise false.
      */
     public boolean keyDown(int k) {
 		if(k == Keys.UP) {
@@ -57,7 +57,7 @@ public class GameInputProcessor extends InputAdapter {
     /**
      *
      * @param k
-     * @return
+     * @return true if the key has just been released
      */
     public boolean keyUp(int k) {
 		if(k == Keys.UP) {

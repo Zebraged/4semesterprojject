@@ -19,7 +19,6 @@ public class LevelActivator implements IGamePluginService, IEntityProcessingServ
 
     @Override
     public void start(GameData gameData, World world, BundleContext context) {
-        System.out.println("Level Generator Started!");
         try {
             generator = new LevelGenerator(context, gameData, world);
             context.registerService(ILevelGenerator.class.getName(), getGenerator(), null);
@@ -47,7 +46,6 @@ public class LevelActivator implements IGamePluginService, IEntityProcessingServ
         if (getGenerator() == null) {
             return;
         }
-        System.out.println("Delta: "+gameData.getDelta());
         timer += gameData.getDelta();
         if (timer > timerMax) {
             timer = 0;

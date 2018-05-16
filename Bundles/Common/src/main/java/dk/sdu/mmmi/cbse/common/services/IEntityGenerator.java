@@ -19,7 +19,7 @@ public interface IEntityGenerator {
      * @param identifier Enemy: "teddy", "cloud", "unicorn"
      * @param x start position for entity
      * @param y start position for entity
-     * @param z
+     * @param z start position for entity
      * @param world
      * @param data
      */

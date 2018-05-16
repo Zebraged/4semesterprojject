@@ -25,7 +25,15 @@ public interface IPlayerInfoService {
      */
     public float getY();
 
+    /**
+     * 
+     * @return the remaining lives of the player.
+     */
     public int getLife();
 
+    /**
+     * Change the amount of lives.
+     * @param amount The new amount of lives.
+     */
     public void updateLife(int amount);
 }

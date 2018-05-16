@@ -38,7 +38,6 @@ public class PlayerPlugin implements IGamePluginService {
         this.world = world;
         this.context = context;
         status = true;
-        System.out.println("plugin started");
         gameData.setBundleObjAssetPath(FrameworkUtil.getBundle(this.getClass()), "image/");
         player = createPlayer(gameData, world);
         player.setAlignment(1);
@@ -50,7 +49,6 @@ public class PlayerPlugin implements IGamePluginService {
         status = false;
         world.removeEntity(player);
         reg.unregister();
-        System.out.println("plugin stopped");
     }
 
     public boolean getStatus() {

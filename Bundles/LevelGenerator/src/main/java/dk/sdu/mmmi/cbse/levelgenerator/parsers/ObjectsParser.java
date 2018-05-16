@@ -26,7 +26,11 @@ public class ObjectsParser implements ISpecificParser {
         this.world = world;
         this.data = data;
     }
-
+    
+    /**
+     * Line expected: object=arg1,arg2,arg3
+     * @param line 
+     */
     public void parse(String line) {
         if (this.gen != null) {
             String[] keypair = line.split("=");
@@ -44,6 +48,10 @@ public class ObjectsParser implements ISpecificParser {
         }
     }
 
+    /**
+     * Line expected: object=arg1,arg2,arg3
+     * @param line 
+     */
     public void parse(Collection<IEntityGenerator> generators, String line) {
         for(IEntityGenerator gens : generators) {
             this.gen = gens;

@@ -55,7 +55,7 @@ public class LifePart implements EntityPart {
                 try {
                     Thread.sleep(InvurnableTime);
                 } catch (InterruptedException ex) {
-                    System.out.println("invulnerable failed");
+                    System.out.println(ex);
                 }
                 invulnerable = false;
             }

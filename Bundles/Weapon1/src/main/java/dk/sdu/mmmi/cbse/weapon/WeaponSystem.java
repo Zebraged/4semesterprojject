@@ -38,12 +38,17 @@ public class WeaponSystem implements IEntityProcessingService {
 
     public void process(GameData gameData, World world) {
 
+        //Makes sure the orientation matches the player.
         checkOrientation(gameData);
 
         createReference();
         if(ref != null){
             iPlayerInfoService = (IPlayerInfoService) bundleContext.getService(ref);
+            
+            //Processes the melee weapons.
             processWeapons(gameData, world);
+            
+            //Processes the ranged weapons.
             processProjectiles(gameData, world);   
         }
     }
@@ -70,6 +75,9 @@ public class WeaponSystem implements IEntityProcessingService {
             xPositionAdder = 22;
         }
 
+        //Iterates through all the weapons finding the one used.
+        //Plays attack animation if 'space' is pressed, otherwise just
+        //Show default sprite.
         for (Entity weapon : world.getEntities(Weapon.class)) {
             PositionPart positionPart = weapon.getPart(PositionPart.class);
             AssetGenerator assetGenerator = weapon.getPart(AssetGenerator.class);
@@ -120,6 +128,7 @@ public class WeaponSystem implements IEntityProcessingService {
 
         Entity projectile = new Projectile();
 
+        //Instantiates a new projectile with the information of the current weapon.
         projectile.add(new AssetGenerator(projectile, "image/", weaponNames[currentWeaponNum] + "_Idle.png"));
         projectile.add(new PositionPart(x, y, 3));
         projectile.add(new MovingPart(350));
@@ -139,11 +148,13 @@ public class WeaponSystem implements IEntityProcessingService {
             MovingPart movingPart = projectile.getPart(MovingPart.class);
             TimerPart timerPart = projectile.getPart(TimerPart.class);
 
+            //Despawns the projectile after a while.
             timerPart.reduceExpiration(gameData.getDelta());
             if (timerPart.getExpiration() <= 0) {
                 world.removeEntity(projectile);
             }
-
+            
+            //Makes the projectile move and be affected by gravity.
             movingPart.process(gameData, projectile);
         }
     }

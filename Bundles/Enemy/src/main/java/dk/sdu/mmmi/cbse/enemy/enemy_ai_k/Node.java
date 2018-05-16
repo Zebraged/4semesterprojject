@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author Mr. Kinder
  */
 public class Node<T extends PositionPart> {
@@ -21,6 +21,12 @@ public class Node<T extends PositionPart> {
     private T object;
     private float fValue = -1;
 
+    /**
+     * Instantiates a new node-object. 
+     * @param object The object that the node is representing
+     * @param parent The node before. Null is accepted, which makes it the root
+     * of the node-tree.
+     */
     public Node(T object, Node parent) {
         this.parent = parent;
         this.successors = new ArrayList();
@@ -33,6 +39,7 @@ public class Node<T extends PositionPart> {
         }
     }
 
+    
     public void addSuccessor(Node successor) {
         successors.add(successor);
     }

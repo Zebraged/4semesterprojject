@@ -35,13 +35,19 @@ public class TilePlacementParser implements ISpecificParser {
         this.world = world;
     }
 
+    /**
+     * expects string of 1's and 0's. Example: 1001001 1001001 0000000 1111111
+     * Where 1's are platforms and 0's are empty air.
+     *
+     * @param line
+     */
     public void parse(String line) {
         if (this.gen != null) {
             char[] chars = line.toCharArray();
             int x = 0;
             for (char c : chars) {
                 //If the char is not a number:
-                this.gen.generate("" + c, x,currentPosY,3, world, data);
+                this.gen.generate("" + c, x, currentPosY, 3, world, data);
                 x++;
             }
         } else {
@@ -49,6 +55,12 @@ public class TilePlacementParser implements ISpecificParser {
         }
     }
 
+    /**
+     * expects string of 1's and 0's. Example: 1001001 1001001 0000000 1111111
+     * Where 1's are platforms and 0's are empty air.
+     *
+     * @param line
+     */
     public void parse(Collection<IEntityGenerator> generators, String line) {
         for (IEntityGenerator gens : generators) {
             this.gen = gens;

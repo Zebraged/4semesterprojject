@@ -19,7 +19,7 @@ public class MusicData {
     }
 
     /**
-     * @return the loop
+     * @return if the music is looping.
      */
     public boolean isLooping() {
         return loop;

@@ -18,14 +18,6 @@ public class MapProcessor implements IEntityProcessingService {
 
     
     public void process(GameData gameData, World world) {
-//        for (Entity entity : world.getEntities(Map.class)) {
-//
-//            /*PositionPart positionPart = entity.getPart(PositionPart.class);
-//            positionPart.process(gameData, entity);
-//             */
-//            updateSprite(entity);
-
-        //}
     }
 
 }

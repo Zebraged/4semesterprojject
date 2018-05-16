@@ -37,6 +37,11 @@ public class MusicPlayerCore {
         System.out.println("MusicPlayer Active");
     }
 
+    /**
+     * Analyses the music data in the Common-Bundle.
+     * Either plays, pauses or stops the music, matching the enumeration.
+     * @param dt 
+     */
     public void update(float dt) {
         switch (player.getState()) {
             case PAUSE:
@@ -155,6 +160,9 @@ public class MusicPlayerCore {
         });
     }
 
+    /**
+     * Disposes of the instantiated music-object.
+     */
     public void dispose() {
         if(music != null){
             this.music.dispose();

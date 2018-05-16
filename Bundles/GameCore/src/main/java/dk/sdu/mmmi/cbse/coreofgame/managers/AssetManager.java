@@ -111,7 +111,6 @@ public class AssetManager {
             Rectangle rect  = new Rectangle((cam.position.x - (cam.viewportWidth/2)), (cam.position.y - (cam.viewportHeight/2)), cam.viewportWidth, cam.viewportHeight);
             for (Entity entity : sortEntities()) {
                 PositionPart pos = entity.getPart(PositionPart.class);
-                SizePart size = entity.getPart(SizePart.class);
                 if (entity.getAsset() != null && textureMap.get(entity.getAsset().getImage()) != null && pos.getZ() == 1){//draw backgrounds no matter what position
                     
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
@@ -122,10 +121,6 @@ public class AssetManager {
                     Sprite sprite = new Sprite(textureMap.get(entity.getAsset().getImage()));
                     if (entity.getAsset().getMirror() == true) {//Mirror the image if the value is true
                         sprite.flip(true, false);
-                    }
-                    
-                    if(size != null){
-                        sprite.setSize(size.getWidth(), size.getHeight());
                     }
                     
                     sprite.setX((int) pos.getX()); //change x and y position of image based on position part
@@ -159,10 +154,9 @@ public class AssetManager {
                         pixmap = new Pixmap(new Gdx2DPixmap(url.openStream(), GDX2D_FORMAT_RGBA8888));
                         Texture texture = new Texture(pixmap);
                         textureMap.put(url.getPath().substring(url.getPath().lastIndexOf('/') + 1, url.getPath().length()), texture);
-                        System.out.println(url.getPath().substring(url.getPath().lastIndexOf('/') + 1, url.getPath().length()) + " loaded!");
                         loadedBundles.add(obj.getBundle());
                     } catch (IOException ex) {
-                        System.out.println("input not avaiable");
+                        System.out.println(ex);
                     }
                 }
             }

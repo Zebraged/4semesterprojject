@@ -18,11 +18,19 @@ public class BundleObj {
     public BundleObj(Bundle bundle) {
         this.bundle = bundle;
     }
-
+    
+    /**
+     * 
+     * @return the bundle underneath. Null if no bundle.
+     */
     public Bundle getBundle() {
         return bundle;
     }
 
+    /**
+     * Sets the bundle underneath
+     * @param bundle 
+     */
     public void setBundle(Bundle bundle) {
         this.bundle = bundle;
     }

@@ -30,6 +30,7 @@ import org.osgi.framework.ServiceReference;
  */
 public class EnemyProcess implements IEntityProcessingService {
 
+    //A nodemap for each enemy instantiated.
     private HashMap<Entity, LinkedList<Node<PositionPart>>> nodeMap = new HashMap();
     private Pathfinder p;
     private Entity player;
@@ -44,32 +45,29 @@ public class EnemyProcess implements IEntityProcessingService {
             PositionPart positionPart = entity.getPart(PositionPart.class);
             LifePart life = entity.getPart(LifePart.class);
             LinkedList<Node<PositionPart>> nodes = nodeMap.get(entity);
-            
-            
+
             float x = positionPart.getX();
             float y = positionPart.getY();
-            
-            if(life.getLife() <= 0){
+
+            //Remove the enemy if life is below or equal to 0.
+            if (life.getLife() <= 0) {
                 BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
                 ServiceReference ref = context.getServiceReference(IScoreService.class);
-                if(ref != null){
-                    IScoreService score = (IScoreService)context.getService(ref);
+                if (ref != null) {
+                    IScoreService score = (IScoreService) context.getService(ref);
                     score.addScore(200);
                 }
                 world.removeEntity(entity);
             }
-            if(random.nextInt(1000) == 0 && nodes != null) {
+
+            //Randomly selects a new route for the enemy.
+            //Adding some unpredictableness to the enemies.
+            if (random.nextInt(1000) == 0 && nodes != null) {
 
                 nodes.clear();
             }
-            /*
-            if (random.nextInt(300) == 0 && nodes != null) {
-                nodes.clear();
-                
-                System.out.println("Generated randomly");
-                //Reset goal.
-                movingPart.setGoal(-1, -1);
-            }*/
+
+            //If theres no existing nodes, generate new.
             if (nodes == null || nodes.isEmpty()) {
                 boolean playerFound = false;
                 if (player == null) {
@@ -88,7 +86,7 @@ public class EnemyProcess implements IEntityProcessingService {
                     nodeMap.clear();
                     nodeMap.put(entity, p.getResult());
                 }
-            } else {
+            } else { //Updates the coordinates the enemy should move towards.
                 if (lineMovingPart.reachedGoal()) {
                     Node<PositionPart> n = nodes.pollFirst();
                     float yExtra = (nodes.isEmpty()) ? 0 : 32;
@@ -97,7 +95,8 @@ public class EnemyProcess implements IEntityProcessingService {
 
                 }
             }
-            
+
+            //Mirrors the sprite if the enemy is walking to the left.
             lineMovingPart.process(gameData, entity);
             if (positionPart.getX() < x) {
                 assetGen.nextImage("Walk", false);
@@ -107,7 +106,6 @@ public class EnemyProcess implements IEntityProcessingService {
                 assetGen.nextImage("Idle", true);
             }
             assetGen.process(gameData, entity);
-    }
+        }
     }
 }
-

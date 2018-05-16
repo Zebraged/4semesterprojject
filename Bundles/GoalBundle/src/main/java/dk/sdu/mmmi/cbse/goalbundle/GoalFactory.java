@@ -36,7 +36,6 @@ public class GoalFactory implements IEntityGenerator{
         goal.add(new PositionPart(x, y, 3));
         goal.add(new SizePart(32, 32));
         goal = findImage(goal);
-        System.out.println("goal created");
         world.addEntity(goal);
     }
     
@@ -49,7 +48,6 @@ public class GoalFactory implements IEntityGenerator{
             for (File file : fileslist) {
                 if (file.getName().endsWith(".png")) {
                     if (!foundImage) { // only load first image to entity
-                        System.out.println("found: " + file.getName());
                         entity.add(new AssetGenerator(entity, "image/", file.getName()));
                         foundImage = true;
                     }

@@ -36,6 +36,7 @@ public class PlayerProcess implements IEntityProcessingService {
             AssetGenerator assetGen = player.getPart(AssetGenerator.class);
             LifePart life = player.getPart(LifePart.class);
             
+            //Lost condition if no lives are left
             if(life.getLife() <= 0){
                 gameData.setGameLost(true);
             } else if (positionPart.getY() < 0){
@@ -45,7 +46,7 @@ public class PlayerProcess implements IEntityProcessingService {
             float x = positionPart.getX();
             float y = positionPart.getY();
             
-            
+            //Sets moving direction by user input.
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP)); 
@@ -63,12 +64,14 @@ public class PlayerProcess implements IEntityProcessingService {
             positionPart.process(gameData, player);
             oldLife = life.getLife();
 
+            //Makes sure the player will stay the same direction after movement.
             if (gameData.getKeys().isDown(LEFT)) {
                 isFacingLeft = true;
             } else if (gameData.getKeys().isDown(RIGHT)) {
                 isFacingLeft = false;
             }
 
+            //Mirrors the sprite direction if moving in a negative x-direction.
             if (positionPart.getX() > x) {
                 assetGen.nextImage("Idle", false);
             } else if (positionPart.getX() < x) {

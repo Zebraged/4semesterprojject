@@ -43,17 +43,23 @@ public class Pathfinder {
             lastGoalX = goal.getX();
             open = new ArrayList();
             closed = new ArrayList();
+            reachable = false;
             h = getH();
             if (TILES_X == 0 || TILES_Y == 0) {
                 generateNodeMap(world);
             }
+            //Stops the algorith if the player is not 
+            if (!(lastGoalX / 32 + 1 >= 0 && lastGoalX / 32 + 1 < staticMap[0].length
+                    && lastGoalY / 32 + 1 >= 0 && lastGoalY / 32 + 1 < staticMap.length)) {
+                return;
+            }
             updateMap();
+
             Node s = new Node(start, null);
             updatedMap[(int) this.goal.getY() / 32][(int) this.goal.getX() / 32] = this.goal;
             open.add(s);
-            reachable = false;
+            
             if (Math.abs(goal.getX() - start.getX()) < 32) {
-                System.out.println("Making simple route..");
                 makeSimpleRoute();
             } else {
                 generate();
@@ -182,10 +188,10 @@ public class Pathfinder {
             return;
         }
 
-        if (dir == LEFT && updatedMap[y][x+1] != null) {
+        if (dir == LEFT && updatedMap[y][x + 1] != null) {
             return;
         }
-        if (dir == RIGHT && updatedMap[y][x-1] != null) {
+        if (dir == RIGHT && updatedMap[y][x - 1] != null) {
             return;
         }
 
@@ -252,6 +258,11 @@ public class Pathfinder {
         }
     }
 
+    /**
+     *
+     * @return linkedlist with the nodes in order. Pop the first node, then add
+     * to route
+     */
     public LinkedList<Node<PositionPart>> getResult() {
         return result;
     }
@@ -277,7 +288,7 @@ public class Pathfinder {
     }
 
     /**
-     * @return the reachable
+     * @return true if the route is reachable
      */
     public static boolean isReachable() {
         return reachable;

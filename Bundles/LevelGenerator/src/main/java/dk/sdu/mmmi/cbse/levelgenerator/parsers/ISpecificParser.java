@@ -14,6 +14,11 @@ import org.osgi.framework.BundleContext;
  * @author Kristian
  */
 public interface ISpecificParser {
-
+    /**
+     * Parses the data as implemented in the classes that implement this
+     * interface.
+     * @param generators
+     * @param line 
+     */
     public void parse(Collection<IEntityGenerator> generators, String line);
 }
